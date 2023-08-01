@@ -1,4 +1,7 @@
-# Xilion
+# ![icon](https://github.com/TLB1/Xilion/assets/105983271/2d957375-fdda-4be5-940f-9b5631b2292c) Xilion
+
+![afbeelding](https://github.com/TLB1/Xilion/assets/105983271/4cc2ec88-0eb8-48fb-8eb5-478e0770672f)
+![md2](https://github.com/TLB1/Xilion/assets/105983271/e6372ab5-9cd9-458f-9715-3a08c9620b41)
 
 A Java Mindustry mod that will add a new capaign.
 ```diff
