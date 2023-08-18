@@ -63,7 +63,6 @@ public class XBullets {
              drawSize = 35f;
              splashDamageRadius = 24f;
              splashDamage = 50f;
-             buildingDamageMultiplier = 0.2f;
              hitSound = Sounds.explosion;
              hitEffect = new Effect(50f, 30f, e -> {
                  float rad = 16f;

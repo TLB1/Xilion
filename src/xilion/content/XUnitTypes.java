@@ -11,12 +11,11 @@ import mindustry.ai.types.FlyingFollowAI;
 import mindustry.content.Fx;
 import mindustry.content.StatusEffects;
 import mindustry.entities.Effect;
-import mindustry.entities.bullet.ArtilleryBulletType;
-import mindustry.entities.bullet.BulletType;
-import mindustry.entities.bullet.ContinuousLaserBulletType;
-import mindustry.entities.bullet.MissileBulletType;
+import mindustry.entities.abilities.MoveEffectAbility;
+import mindustry.entities.bullet.*;
 import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.effect.WaveEffect;
+import mindustry.entities.part.HoverPart;
 import mindustry.entities.part.RegionPart;
 import mindustry.entities.pattern.ShootAlternate;
 import mindustry.entities.pattern.ShootPattern;
@@ -56,7 +55,7 @@ public class XUnitTypes {
     //Quick class units:
     quick, dash, leap, supersonic,hypersonic, leaptest,
 
-            ember, cerberus;
+           blaze, ember, cerberus, annihilate;
 
 
     public XUnitTypes() {
@@ -123,6 +122,73 @@ public class XUnitTypes {
 
         }};
         */
+        blaze = new ErekirUnitType("blaze"){
+            {
+                constructor = (Prov<Unit>) ElevationMoveUnit::create;
+                hovering = true;
+                shadowElevation = 0.1f;
+
+                drag = 0.07f;
+                speed = 1.2f;
+                rotateSpeed = 3f;
+
+                accel = 0.09f;
+                health = 750f;
+                armor = 2f;
+                hitSize = 12f;
+                engineOffset = 7f;
+                engineSize = 2f;
+                itemCapacity = 0;
+                useEngineElevation = false;
+                researchCostMultiplier = 0f;
+                faceTarget = false;
+
+                abilities.add(new MoveEffectAbility(0f, -8f, XColors.ember1, Fx.missileTrailShort, 5f){{
+                    teamColor = true;
+                }});
+                immunities.add(StatusEffects.burning);
+                for(float f : new float[]{-4f, 4f}){
+                    parts.add(new HoverPart(){{
+                        x = 4f;
+                        y = f;
+                        mirror = true;
+                        radius = 8f;
+                        phase = 90f;
+                        stroke = 2f;
+                        layerOffset = -0.001f;
+                        color = XColors.ember2;
+                    }});
+                }
+
+                weapons.add(new Weapon(XilionJavaMod.name("blaze-flamethrower")){{
+                    heatColor = Color.valueOf("f9350f");
+                    y = 0;
+                    x = 0;
+                    top = true;
+                    layerOffset = 0.001f;
+                    rotate = true;
+                    rotateSpeed = 1.5f;
+                    shootSound = Sounds.flame;
+                    shootY = 5f;
+                    reload = 12f;
+                    recoil = 1f;
+                    mirror = false;
+                    ejectEffect = Fx.none;
+                    bullet = new BulletType(4.5f, 10f){{
+                        ammoMultiplier = 3f;
+                        hitSize = 7f;
+                        lifetime = 20f;
+                        pierce = true;
+                        pierceBuilding = true;
+                        pierceCap = 2;
+                        shootEffect = Fx.shootSmallFlame;
+                        hitEffect = Fx.hitFlameSmall;
+                        despawnEffect = Fx.none;
+                        keepVelocity = false;
+                        hittable = false;
+                    }};
+                }});
+            }};
         ember = new ErekirUnitType("ember"){{
             constructor = (Prov<Unit>) UnitEntity::create;
             lowAltitude = false;
@@ -174,7 +240,7 @@ public class XUnitTypes {
                 speed = 1.0f;
                 rotateSpeed = 1.5f;
                 accel = 0.1f;
-                health = 7500f;
+                health = 8000f;
                 armor = 12f;
                 hitSize = 36f;
                 payloadCapacity = Mathf.sqr(3f) * tilePayload;
@@ -183,7 +249,9 @@ public class XUnitTypes {
 
                 engineSize = 4.8f;
                 engineOffset = 61 / 4f;
+
                 weapons.add(new Weapon(XilionJavaMod.name("cerberus-swarm-cannon")){{
+
                     heatColor = Color.valueOf("f9350f");
                     x = 0f;
                     y = -8f;
@@ -195,7 +263,7 @@ public class XUnitTypes {
 
                     shootY = 4.5f;
                     recoil = 3f;
-                    reload = 45f;
+                    reload = 60f;
                     velocityRnd = 0.4f;
                     inaccuracy = 7f;
                     ejectEffect = Fx.none;
@@ -209,7 +277,7 @@ public class XUnitTypes {
                         barrels = 3;
                     }};
 
-                    bullet = new MissileBulletType(4f, 20){{
+                    bullet = new MissileBulletType(4f, 25){{
                         layer = Layer.flyingUnit + 0.01f;
                         homingPower = 0.12f;
                         width = 8f;
@@ -249,7 +317,7 @@ public class XUnitTypes {
                     targetSwitchInterval = 35f;
 
                     rotateSpeed = 3.5f;
-                    reload = 100f;
+                    reload = 50f;
                     recoil = 1f;
                     shootSound = Sounds.beam;
                     continuous = true;
@@ -258,7 +326,7 @@ public class XUnitTypes {
 
                     bullet = new ContinuousLaserBulletType(){{
                         maxRange = 70f;
-                        damage = 10f;
+                        damage = 15f;
                         length = 95f;
                         hitEffect = Fx.hitMeltdown;
                         drawSize = 200f;
@@ -280,6 +348,57 @@ public class XUnitTypes {
                     }};
                 }});
             }};
+        annihilate = new ErekirUnitType("annihilate"){{
+            constructor = (Prov<Unit>) UnitEntity::create;
+            envDisabled = 0;
+
+            lowAltitude = false;
+            flying = true;
+            drag = 0.06f;
+            speed = 1.4f;
+            rotateSpeed = 3.2f;
+            accel = 0.1f;
+            health = 2700f;
+            armor = 4f;
+            hitSize = 28f;
+            payloadCapacity = Mathf.sqr(3f) * tilePayload;
+            researchCostMultiplier = 0f;
+            targetAir = true;
+
+            engineSize = 4.5f;
+            engineOffset = 61 / 4f;
+            setEnginesMirror(
+                    new UnitEngine(44 / 4f, -52 / 4f, 3f, 315f)
+            );
+            weapons.add(
+            new Weapon(XilionJavaMod.name("annihilate-lazer")){{
+                heatColor = Pal.sapBulletBack;
+                shootSound = Sounds.lasershoot;
+                ejectEffect = new Effect();
+
+                reload = 20f;
+                mirror = true;
+                alternate = true;
+                x = 29/4f;
+                y = 39/4f;
+                rotate = false;
+                layerOffset = -0.001f;
+                cooldownTime = 30f;
+                recoil = 1.5f;
+                bullet = new LaserBoltBulletType(5f, 120){{
+                    ejectEffect= new Effect();
+                    lifetime = 30f;
+                    width = width *3;
+                    height = height * 1.5f;
+                    pierce = true;
+                    pierceArmor = true;
+                    pierceCap = 2;
+                    backColor = Pal.sapBulletBack;
+                    frontColor = Pal.sapBullet;
+                    hitEffect =  new Effect();
+                }};
+            }});
+        }};
         acari = new ErekirUnitType("acari"){
             {
                 constructor = (Prov<Unit>) LegsUnit::create;

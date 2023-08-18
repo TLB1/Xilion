@@ -1,6 +1,6 @@
 apply plugin: "java"
 
-version '0.1.20test'
+version '0.1.21test'
 
 //compile java 16 code, targeting java 8
 targetCompatibility = 8
@@ -48,16 +48,18 @@ task jarAndroid{
 
         //collect dependencies needed for desugaring
         def dependencies = (configurations.compileClasspath.asList() + configurations.runtimeClasspath.asList() + [new File(platformRoot, "android.jar")]).collect{ "--classpath $it.path" }.join(" ")
-
+        def d8command = isWindows() ? "d8.bat" : "d8"
         //dex and desugar files - this requires d8 in your PATH
-        "d8 $dependencies --min-api 14 --output ${project.archivesBaseName}Android.jar ${project.archivesBaseName}Desktop.jar"
+        "$d8command $dependencies --min-api 14 --output ${project.archivesBaseName}Android.jar ${project.archivesBaseName}Desktop.jar"
             .execute(null, new File("$buildDir/libs")).waitForProcessOutput(System.out, System.err)
     }
 }
-
+def isWindows() {
+    return System.properties['os.name'].toLowerCase().contains('win')
+}
 jar{
     //archiveFileName = "${project.archivesBaseName}${project.version}Desktop-${mindustryVersion}.jar"
-    archiveFileName = "Xilion-${project.version}-Desktop-${mindustryVersion}.jar"
+    archiveFileName = "XilionDesktop.jar"
 
     from{
         configurations.runtimeClasspath.collect{ it.isDirectory() ? it : zipTree(it) }
@@ -75,7 +77,7 @@ jar{
 task deploy(type: Jar){
     dependsOn jarAndroid
     dependsOn jar
-    archiveFileName = "${project.archivesBaseName}.jar"
+    archiveFileName = "${project.archivesBaseName}-${project.version}-${mindustryVersion}.jar"
 
     from{ [zipTree("$buildDir/libs/${project.archivesBaseName}Desktop.jar"), zipTree("$buildDir/libs/${project.archivesBaseName}Android.jar")] }
 

@@ -3,9 +3,12 @@ package xilion.content;
 import arc.graphics.Color;
 import arc.math.Interp;
 import arc.math.Mathf;
+import arc.math.geom.Point2;
 import mindustry.content.*;
 import mindustry.entities.UnitSorts;
 import mindustry.entities.bullet.BasicBulletType;
+import mindustry.entities.bullet.BulletType;
+import mindustry.entities.bullet.LightningBulletType;
 import mindustry.entities.bullet.PointLaserBulletType;
 import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.effect.RadialEffect;
@@ -17,15 +20,24 @@ import mindustry.graphics.Pal;
 import mindustry.type.Category;
 import mindustry.type.ItemStack;
 import mindustry.type.LiquidStack;
+import mindustry.world.Block;
 import mindustry.world.blocks.defense.Wall;
 import mindustry.world.blocks.defense.turrets.ContinuousTurret;
 import mindustry.world.blocks.defense.turrets.ItemTurret;
+import mindustry.world.blocks.defense.turrets.PowerTurret;
+import mindustry.world.blocks.distribution.Duct;
+import mindustry.world.blocks.distribution.DuctBridge;
+import mindustry.world.blocks.distribution.DuctRouter;
 import mindustry.world.blocks.environment.Floor;
+import mindustry.world.blocks.environment.OreBlock;
+import mindustry.world.blocks.environment.SteamVent;
 import mindustry.world.blocks.environment.TallBlock;
 import mindustry.world.blocks.heat.HeatProducer;
 import mindustry.world.blocks.liquid.ArmoredConduit;
 import mindustry.world.blocks.liquid.LiquidRouter;
 import mindustry.world.blocks.power.*;
+import mindustry.world.blocks.production.BeamDrill;
+import mindustry.world.blocks.production.BurstDrill;
 import mindustry.world.blocks.production.GenericCrafter;
 import mindustry.world.blocks.production.HeatCrafter;
 import mindustry.world.consumers.ConsumeLiquid;
@@ -39,14 +51,19 @@ import xilion.entities.XMirrorShootAlternate;
 import static mindustry.type.ItemStack.with;
 
 public class XBlocks {
+
+    public static Block plasmaCollector, wallCrusher, siliconOven, pipe, pipeRouter,pipeBridge, regularity;
     public static XUnitFactory merui;
-    public static XStaticWall corrodedPhaseWall,concentratedCarbonWall, pureCarbonWall, darkRedStoneWall;
-    public static Floor corrodedPhase,concentratedCarbon,pureCarbon, darkRedStone;
-    public static TallBlock DarkRedCrystalBlocks;
+    public static XStaticWall corrodedPhaseWall,concentratedCarbonWall, pureCarbonWall, darkRedStoneWall, erythriteStoneWall, pinkstoneWall;
+    public static OreBlock germaniumWallOre;
+    public static Floor corrodedPhase,concentratedCarbon,pureCarbon, darkRedStone, erythriteStone, cobaltPhosphateStone, pinkstone, darkPinkstone;
+    public static SteamVent corrodedPhaseVent, darkRedStoneVent;
+    public static TallBlock DarkRedCrystalBlocks, erythriteSpikes, corrodedPhaseSpikes;
     public static ItemTurret prevent;
+    public static PowerTurret shock;
     public static ContinuousTurret focus;
     public static HeatCrafter biogasSynthesizer, haberProcessFacility;
-    public static GenericCrafter waterExtractionBore, cobaltRefineryOven;
+    public static GenericCrafter waterExtractionBore, cobaltRefineryOven, phosphateDebonder;
     public static HeatProducer methaneHeater;
     public static BeamNode wireNode, beamWireNode;
     public static PowerDistributor batteryCell;
@@ -54,6 +71,8 @@ public class XBlocks {
     public static SolarGenerator solarCell;
     public static ConsumeGenerator ammoniaTurbineGenerator, biogasCombustionChamber;
     public static XFissionReactor nuclearFissionReactor;
+
+    public static BurstDrill crusherDrill;
 
     public static Wall germaniumWall, germaniumWallLarge, germaniumWallHuge, cobaltWall, cobaltWallLarge, cobaltWallHuge,
             reinforcedTungstenWall, reinforcedTungstenWallLarge, reinforcedTungstenWallHuge, reinforcedCarbideWall, reinforcedCarbideWallLarge, reinforcedCarbideWallHuge,
@@ -127,28 +146,70 @@ public class XBlocks {
         darkRedStone = new Floor("dark-red-stone"){{
             variants = 5;
         }};
+        darkPinkstone = new Floor("dark-pinkstone"){{
+            variants = 4;
+        }};
+       pinkstone = new Floor("pinkstone"){{
+            variants = 5;
+        }};
+        erythriteStone = new Floor("erythrite-stone"){{
+            variants = 5;
+            itemDrop = XItems.erythrite;
+            playerUnmineable = true;
 
+        }};
+        cobaltPhosphateStone = new Floor("cobalt-phosphate-stone"){{
+            variants = 5;
+            itemDrop = XItems.cobaltPhosphate;
+            playerUnmineable = true;
+        }};
+        corrodedPhaseVent   = new XSteamVentSmall("corroded-phase-vent"){
+            {
+                parent = blendGroup = corrodedPhase;
+                variants = 2;
+                attributes.set(Attribute.steam, 1f);
+            }};
+        darkRedStoneVent = new XSteamVentSmall("dark-red-stone-vent"){{
+            parent = blendGroup = darkRedStone;
+            variants = 2;
+            attributes.set(Attribute.steam, 1f);
+        }};
         //environment walls:
 
         concentratedCarbonWall = new XStaticWall("concentrated-carbon-wall"){{
             concentratedCarbon.asFloor().wall = this;
             variants = 4;
             largeVariants = 2;
+            attributes.set(XAttributes.carbon, 0.6f);
         }};
         pureCarbonWall = new XStaticWall("pure-carbon-wall"){{
             pureCarbon.asFloor().wall = this;
             variants = 4;
             largeVariants = 2;
+            attributes.set(XAttributes.carbon, 1f);
         }};
         corrodedPhaseWall = new XStaticWall("corroded-phase-wall"){{
             corrodedPhase.asFloor().wall = this;
             variants = 4;
             largeVariants = 2;
+            attributes.set(Attribute.sand, 1.2f);
         }};
         darkRedStoneWall = new XStaticWall("dark-red-stone-wall"){{
             darkRedStone.asFloor().wall = this;
             variants = 4;
             largeVariants = 3;
+            attributes.set(Attribute.sand, 1.6f);
+        }};
+        pinkstoneWall = new XStaticWall("pinkstone-wall"){{
+           pinkstone.asFloor().wall = this;
+            variants = 3;
+            largeVariants = 2;
+            attributes.set(Attribute.sand, 0.6f);
+        }};
+        erythriteStoneWall = new XStaticWall("erythrite-stone-wall"){{
+            erythriteStone.asFloor().wall = this;
+            variants = 4;
+            largeVariants = 2;
         }};
         DarkRedCrystalBlocks = new TallBlock("dark-red-crystal-blocks"){{
             variants = 2;
@@ -156,9 +217,173 @@ public class XBlocks {
             shadowAlpha = 0.5f;
             shadowOffset = -2.5f;
         }};
+        corrodedPhaseSpikes = new TallBlock("corroded-phase-spikes"){{
+            variants = 3;
+            clipSize = 96f;
+            shadowAlpha = 0.5f;
+            shadowOffset = -2.5f;
+        }};
+        erythriteSpikes = new TallBlock("erythrite-spikes"){{
+            variants = 3;
+            clipSize = 96f;
+            shadowAlpha = 0.5f;
+            shadowOffset = -2.5f;
+        }};
+        germaniumWallOre = new OreBlock("ore-wall-germanium", XItems.germanium){{
+            wallOre = true;
+            variants = 3;
+        }};
+        plasmaCollector = new BeamDrill("plasma-collector"){{
+            requirements(Category.production, with(XItems.germanium, 50f));
+            consumePower(30/60f);
 
+            drillTime = 120f;
+            tier = 3;
+            size = 2;
+            range = 4;
+            fogRadius = 3;
+
+            consumeLiquid(XItems.ammonia, 0.1f / 60f).boost();
+        }};
+        crusherDrill = new BurstDrill("crusher-drill"){{
+            requirements(Category.production, with(XItems.germanium, 120));
+            drillTime = 60f * 10f;
+
+            size = 3;
+            hasPower = true;
+            tier = 2;
+            drillEffect = new MultiEffect(Fx.mineImpact, Fx.drillSteam, Fx.mineImpactWave.wrap(Pal.redLight, 40f));
+            shake = 4f;
+            itemCapacity = 40;
+
+            researchCostMultiplier = 0.5f;
+
+            drillMultipliers.put(XItems.erythrite, 3.5f);
+            drillMultipliers.put(XItems.cobaltPhosphate, 3.5f);
+
+            fogRadius = 4;
+
+            consumePower(90f / 60f);
+            //consumeLiquid(Liquids.water, 0.2f);
+        }};
+        wallCrusher = new XWallCrafter("wall-crusher"){{
+            requirements(Category.production, with(XItems.cobalt, 30, XItems.germanium, 40));
+            consumePower(30 / 60f);
+
+            drillTime = 110f;
+            size = 2;
+            attribute = Attribute.sand;
+            output = Items.sand;
+            attribute2 = XAttributes.carbon;
+            output2 = XItems.carbon;
+            fogRadius = 2;
+            ambientSound = Sounds.drill;
+            ambientSoundVolume = 0.04f;
+        }};
+        pipe = new XPipe("pipe"){{
+            requirements(Category.distribution, with(XItems.germanium, 1));
+            health = 90;
+            speed = 3.75f;
+        }};
+        pipeRouter = new DuctRouter("pipe-router"){{
+            requirements(Category.distribution, with(XItems.germanium, 8));
+            health = 90;
+            speed = 3.75f;
+            regionRotated1 = 1;
+            solid = false;
+        }};
+        pipeBridge = new DuctBridge("pipe-bridge"){{
+            requirements(Category.distribution, with(XItems.germanium, 15));
+            health = 90;
+            speed = 3.75f;
+            range = 5;
+            buildCostMultiplier = 2f;
+            researchCostMultiplier = 0.3f;
+        }};
+        shock = new PowerTurret("shock"){{
+            size = 2;
+            drawer = new DrawTurret("reinforced-"){{
+
+            }};
+            requirements(Category.turret, with(Items.silicon, 60, XItems.germanium, 100, XItems.cobalt, 60));
+            buildCostMultiplier = 0.5f;
+            shootType = new LightningBulletType(){{
+                damage = 30;
+                lightningLength = 25;
+                collidesAir = false;
+                ammoMultiplier = 1f;
+
+
+                //for visual stats only.
+                buildingDamageMultiplier = 0.25f;
+
+                lightningType = new BulletType(0.0001f, 0f){{
+                    lifetime = Fx.lightning.lifetime;
+                    hitEffect = Fx.hitLancer;
+                    despawnEffect = Fx.none;
+                    status = StatusEffects.shocked;
+                    statusDuration = 10f;
+                    hittable = false;
+                    lightColor = Color.white;
+                    collidesAir = false;
+                    buildingDamageMultiplier = 0.25f;
+                }};
+            }};
+            reload = 25f;
+            shootCone = 10f;
+            rotateSpeed = 8f;
+            targetAir = false;
+            range = 144f;
+            shootEffect = Fx.lightningShoot;
+            heatColor = Color.red;
+            recoil = 1f;
+            health = 800;
+            shootSound = Sounds.spark;
+            consumePower(4f);
+            coolant = consumeCoolant(0.1f);
+        }};
+        regularity = new ItemTurret("regularity"){{
+            requirements(Category.turret, with(XItems.germanium, 250, XItems.cobalt, 200, Items.silicon, 180));
+            buildCostMultiplier = 0.5f;
+            ammo(
+                    XItems.germanium,  new BasicBulletType(5.5f, 45){{
+                        width = 10f;
+                        height = 20f;
+                        lifetime = 32f;
+                        ammoMultiplier = 2;
+                        targetGround = false;
+                    }},
+                    Items.silicon, new BasicBulletType(5.5f, 40){{
+                        width = 10f;
+                        height = 20f;
+                        reloadMultiplier = 2f;
+                        ammoMultiplier = 2;
+                        lifetime = 32f;
+                        targetGround = false;
+                    }}
+            );
+
+            drawer = new DrawTurret("reinforced-"){{
+            }};
+
+            size = 3;
+            range = 176f;
+            reload = 10f;
+            ammoEjectBack = 3f;
+            recoil = 2f;
+            shake = 1f;
+
+            targetGround = false;
+            ammoUseEffect = Fx.casing2;
+            scaledHealth = 210;
+            shootSound = Sounds.shootBig;
+            coolant = consume(new ConsumeLiquid(Liquids.hydrogen, 5f / 60f));
+            consumeLiquid(Liquids.water, 10f / 60f);
+            squareSprite = false;
+        }};
         prevent = new ItemTurret("prevent"){{
-            requirements(Category.turret, with( XItems.cobalt, 100, Items.silicon, 100, XItems.germanium, 150));
+            requirements(Category.turret, with(Items.tungsten, 200, XItems.cobalt, 220, Items.silicon, 200));
+            buildCostMultiplier = 0.5f;
 
             ammo(Items.tungsten, new BasicBulletType(){{
 
@@ -380,7 +605,7 @@ public class XBlocks {
             consumePower(1.5f);
         }};
         cobaltRefineryOven = new GenericCrafter("cobalt-refinery-oven"){{
-            requirements(Category.crafting, with(XItems.germanium, 60, Items.graphite, 50));
+            requirements(Category.crafting, with(XItems.germanium, 60));
             craftEffect = Fx.none;
             outputItem = new ItemStack(XItems.cobalt, 4);
             craftTime = 40f;
@@ -394,9 +619,62 @@ public class XBlocks {
             fogRadius = 3;
             ambientSound = Sounds.smelter;
             ambientSoundVolume = 0.12f;
-
+            squareSprite = false;
             consumeItems(with(XItems.erythrite, 6));
+            consumePower(4f);
+        }};
+       siliconOven = new GenericCrafter("silicon-oven"){{
+            requirements(Category.crafting, with(XItems.germanium, 100, XItems.cobalt, 70));
+            craftEffect = Fx.none;
+            outputItem = new ItemStack(Items.silicon, 4);
+            craftTime = 60f;
+            size = 3;
+            hasPower = true;
+            hasLiquids = false;
+            envEnabled |= Env.space | Env.underwater;
+            envDisabled = Env.none;
+            itemCapacity = 30;
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawArcSmelt(), new DrawDefault());
+            fogRadius = 3;
+            ambientSound = Sounds.smelter;
+            ambientSoundVolume = 0.12f;
+            squareSprite =false;
+            consumeItems(with(XItems.carbon, 2, Items.sand, 5));
             consumePower(5f);
+        }};
+        phosphateDebonder = new GenericCrafter("phosphate-debonder"){{
+            requirements(Category.crafting, with(Items.silicon, 70, XItems.cobalt, 50, XItems.germanium, 140, Items.tungsten, 80));
+            size = 3;
+
+            researchCostMultiplier = 1.2f;
+            craftTime = 60f;
+            rotate = true;
+            invertFlip = true;
+            group = BlockGroup.liquids;
+
+            liquidCapacity = 40f;
+            itemCapacity = 20;
+            consumeItem(XItems.cobaltPhosphate, 6);
+            consumePower(1.5f);
+
+            drawer = new DrawMulti(
+                    new DrawRegion(),
+                    new DrawLiquidOutputs(),
+                    new DrawGlowRegion(){{
+                        alpha = 0.7f;
+                        color = Color.valueOf("c4bdf3");
+                        glowIntensity = 0.3f;
+                        glowScale = 6f;
+                    }}
+            );
+            ambientSound = Sounds.electricHum;
+            ambientSoundVolume = 0.1f;
+            squareSprite = false;
+            regionRotated1 = 3;
+            outputLiquids = LiquidStack.with(Liquids.ozone, 4f / 60, XItems.phosphorus, 1f / 60);
+            outputItem = new ItemStack(XItems.cobalt, 1);
+            liquidOutputDirections = new int[]{1, 3};
+            squareSprite = false;
         }};
         methaneHeater = new HeatProducer("methane-heater"){{
             requirements(Category.crafting, with(Items.oxide, 30, Items.tungsten, 30, XItems.germanium, 30));
@@ -440,7 +718,7 @@ public class XBlocks {
             group = BlockGroup.liquids;
             displayEfficiencyScale = 1f / 4f;
             minEfficiency = 4f - 0.0001f;
-            powerProduction = 2f / 4f;
+            powerProduction = 1.5f / 4f;
             displayEfficiency = false;
             generateEffect = Fx.turbinegenerate;
             effectChance = 0.04f;
