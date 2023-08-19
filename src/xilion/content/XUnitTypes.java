@@ -18,6 +18,7 @@ import mindustry.entities.effect.WaveEffect;
 import mindustry.entities.part.HoverPart;
 import mindustry.entities.part.RegionPart;
 import mindustry.entities.pattern.ShootAlternate;
+import mindustry.entities.pattern.ShootHelix;
 import mindustry.entities.pattern.ShootPattern;
 import mindustry.gen.*;
 import mindustry.graphics.Drawf;
@@ -38,6 +39,9 @@ import static arc.graphics.g2d.Lines.lineAngle;
 import static arc.graphics.g2d.Lines.stroke;
 import static arc.math.Angles.randLenVectors;
 import static mindustry.Vars.tilePayload;
+import static mindustry.content.Fx.shootSmall;
+import static mindustry.content.Fx.shootSmallSmoke;
+import static mindustry.gen.Sounds.blaster;
 
 public class XUnitTypes {
     public static  UnitType
@@ -55,7 +59,7 @@ public class XUnitTypes {
     //Quick class units:
     quick, dash, leap, supersonic,hypersonic, leaptest,
 
-           blaze, ember, cerberus, annihilate;
+           blaze, ember, cerberus,aura,spectra, annihilate, etherium;
 
 
     public XUnitTypes() {
@@ -348,6 +352,98 @@ public class XUnitTypes {
                     }};
                 }});
             }};
+
+        aura = new ErekirUnitType("aura"){{
+            constructor = (Prov<Unit>) UnitEntity::create;
+            flying = true;
+            speed = 1.6f;
+            accel = 0.09f;
+            drag = 0.08f;
+            health = 400f;
+            hitSize = 10f;
+            armor = 0f;
+            itemCapacity = 50;
+            circleTarget = true;
+            range = 120;
+            mineWalls = false;
+            mineFloor =  false;
+            setEnginesMirror( new UnitEngine(){{
+                x = 4f;
+                y = -5f;
+                rotation = 270f;
+                radius = 3.2f;
+            }});
+            weapons.add(
+                    new Weapon("aura-helix"){{
+                reload = 44;
+                x = 1;
+                y = 2;
+                recoil = 4;
+                shootCone = 30;
+                shootSound =  blaster;
+                rotate = false;
+                shoot = new ShootHelix(){{
+                    scl = 1f;
+                    mag = 4f;
+                }};
+                bullet = new BasicBulletType(){{
+                    damage = 12;
+                    homingPower =  0.03f;
+                    frontColor = Pal.sapBullet;
+                    backColor = Pal.sapBulletBack;
+                    lightColor = Pal.sapBullet;
+                    /*
+                    frontColor = new Color(0x665c9f);
+                    backColor = new Color(0xbf92f9);
+                    lightColor = new Color(0x665c9f);
+
+                     */
+                    speed = 4f;
+                    width =  10f;
+                    height = 12f;
+                    lifetime = 30f;
+                    //trailColor = new Color(0xbf92f9);
+                    trailColor = Pal.sapBulletBack;
+                    trailLength = 32;
+                    trailWidth = 2f;
+                    shootEffect = shootSmall;
+                    smokeEffect = shootSmallSmoke;
+                }};
+            }},
+                    new Weapon("aura-main"){{
+                        reload = 44;
+                        x = 1;
+                        y = 2;
+                        recoil = 4;
+                        shootCone = 30;
+                        shootSound =  blaster;
+                        rotate = false;
+                        bullet = new BasicBulletType(){{
+                            damage = 12;
+                            homingPower =  0.03f;
+                            /*
+                            frontColor = new Color(0x665c9f);
+                            backColor = new Color(0xbf92f9);
+                            lightColor = new Color(0x665c9f);
+
+                             */
+                            frontColor = Pal.sapBullet;
+                            backColor = Pal.sapBulletBack;
+                            lightColor = Pal.sapBullet;
+                            speed = 4f;
+                            width =  10f;
+                            height = 12f;
+                            lifetime = 30f;
+                            //trailColor = new Color(0xbf92f9);
+                            trailColor = Pal.sapBulletBack;
+                            trailLength = 32;
+                            trailWidth = 2f;
+                            shootEffect = shootSmall;
+                            smokeEffect = shootSmallSmoke;
+                        }};
+                    }}
+                    );
+        }};
         annihilate = new ErekirUnitType("annihilate"){{
             constructor = (Prov<Unit>) UnitEntity::create;
             envDisabled = 0;
