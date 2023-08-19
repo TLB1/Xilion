@@ -375,7 +375,7 @@ public class XBlocks {
 
             targetGround = false;
             ammoUseEffect = Fx.casing2;
-            scaledHealth = 210;
+            scaledHealth = 260;
             shootSound = Sounds.shootBig;
             coolant = consume(new ConsumeLiquid(Liquids.hydrogen, 5f / 60f));
             consumeLiquid(Liquids.water, 10f / 60f);
@@ -454,7 +454,7 @@ public class XBlocks {
 
             outlineColor = Pal.darkOutline;
 
-            scaledHealth = 220;
+            scaledHealth = 280;
             range = 120f;
             size = 3;
 

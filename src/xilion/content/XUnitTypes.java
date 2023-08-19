@@ -202,7 +202,7 @@ public class XUnitTypes {
 
             rotateSpeed = 1.2f;
             accel = 0.09f;
-            health = 2000f;
+            health = 1800f;
             armor = 5f;
             hitSize = 16f;
             engineSize = 0;
@@ -217,7 +217,7 @@ public class XUnitTypes {
             weapons.add(new Weapon(XilionJavaMod.name("ember-cannon")){{
                 shootSound = Sounds.missileLarge;
                 layerOffset = 0.0001f;
-                reload = 120f;
+                reload = 133f;
                 shootY = 8f;
                 recoil = 2f;
                 rotate = true;
@@ -362,7 +362,6 @@ public class XUnitTypes {
             health = 400f;
             hitSize = 10f;
             armor = 0f;
-            itemCapacity = 50;
             circleTarget = true;
             range = 120;
             mineWalls = false;
@@ -371,7 +370,7 @@ public class XUnitTypes {
                 x = 4f;
                 y = -5f;
                 rotation = 270f;
-                radius = 3.2f;
+                radius = 2.4f;
             }});
             weapons.add(
                     new Weapon("aura-helix"){{
@@ -387,7 +386,7 @@ public class XUnitTypes {
                     mag = 4f;
                 }};
                 bullet = new BasicBulletType(){{
-                    damage = 12;
+                    damage = 11;
                     homingPower =  0.03f;
                     frontColor = Pal.sapBullet;
                     backColor = Pal.sapBulletBack;
@@ -419,7 +418,7 @@ public class XUnitTypes {
                         shootSound =  blaster;
                         rotate = false;
                         bullet = new BasicBulletType(){{
-                            damage = 12;
+                            damage = 11;
                             homingPower =  0.03f;
                             /*
                             frontColor = new Color(0x665c9f);
@@ -443,6 +442,128 @@ public class XUnitTypes {
                         }};
                     }}
                     );
+        }};
+        spectra = new ErekirUnitType("spectra"){{
+            constructor = (Prov<Unit>) UnitEntity::create;
+            flying = true;
+            speed = 1.6f;
+            accel = 0.04f;
+            drag = 0.08f;
+            health = 1200f;
+            armor = 2f;
+            hitSize = 18f;
+            range = 136f;
+            setEnginesMirror(new UnitEngine(){{
+                x = 5;
+                y = -7;
+                rotation = 270f;
+                radius = 3.2f;
+            }});
+            engines.add(new UnitEngine(){{
+                x = 0;
+                y = -8;
+                rotation = 270f;
+                radius = 4f;
+            }});
+            weapons.add(
+                    new Weapon(XilionJavaMod.name("spectra-helix")){{
+                        x = 0;
+                        y = 0;
+                        reload = 120f;
+                        mirror = false;
+                        recoil = 6f;
+                        shootCone = 20f;
+                        rotate = false;
+                        shoot = new ShootHelix(){{
+                            scl = 5f;
+                            mag = 3f;
+                        }};
+                        bullet = new BasicBulletType(4f, 25f){{
+                            homingPower = 0.03f;
+                            frontColor = Pal.sapBullet;
+                            backColor = Pal.sapBulletBack;
+                            lightColor = Pal.sapBullet;
+                            trailColor = Pal.sapBulletBack;
+                            width = 16f;
+                            height = 16f;
+                            lifetime = 34f;
+                            trailLength = 46;
+                            trailWidth = 3f;
+                            shootEffect = shootSmall;
+                            smokeEffect = shootSmallSmoke;
+                        }};
+                    }},
+
+                    new Weapon(XilionJavaMod.name("spectra-helix-middle")){{
+                        x = 0;
+                        y = 0;
+                        reload = 120f;
+                        mirror = false;
+                        recoil = 6f;
+                        shootCone = 20f;
+                        rotate = false;
+                        bullet = new BasicBulletType(4f, 50f){{
+                            homingPower = 0.03f;
+                            frontColor = Pal.sapBullet;
+                            backColor = Pal.sapBulletBack;
+                            lightColor = Pal.sapBullet;
+                            trailColor = Pal.sapBulletBack;
+                            width = 16f;
+                            height = 16f;
+                            lifetime = 34f;
+                            trailLength = 46;
+                            trailWidth = 3f;
+                            splashDamage = 40f;
+                            splashDamageRadius = 32f;
+                            shootEffect = shootSmall;
+                            smokeEffect = shootSmallSmoke;
+                            intervalBullet = new BasicBulletType(4f, 10f){{
+                                homingPower = 0.03f;
+                                frontColor = Pal.sapBullet;
+                                backColor = Pal.sapBulletBack;
+                                lightColor = Pal.sapBullet;
+                                trailColor = Pal.sapBulletBack;
+                                width = 10f;
+                                height = 12f;
+                                lifetime = 10f;
+                                trailLength = 32;
+                                trailWidth = 2f;
+                                shootEffect = shootSmall;
+                                smokeEffect = shootSmallSmoke;
+                            }};
+                            fragBullet = intervalBullet;
+                            bulletInterval = 4f;
+                            intervalRandomSpread = 0f;
+                            intervalBullets = 2;
+                            intervalSpread = 225f;
+                            intervalAngle = 0f;
+                            fragLifeMin = 0.4f;
+                            fragOnHit = true;
+                            fragVelocityMin = 0.4f;
+                            fragVelocityMax = 0.8f;
+                            fragBullets = 10;
+                            fragSpread = 36f;
+                            fragRandomSpread = 0f;
+                            fragAngle = 0f;
+
+                            hitEffect = new WaveEffect(){{
+                                colorFrom = Pal.sapBullet;
+                                colorTo = Pal.sapBulletBack;
+                                sizeTo = 64f;
+                                lifetime = 80f;
+                                strokeFrom = 5f;
+                            }};
+                            despawnEffect = new WaveEffect(){{
+                                colorFrom = Pal.sapBullet;
+                                colorTo = Pal.sapBulletBack;
+                                sizeTo = 10f;
+                                lifetime = 45f;
+                                strokeFrom = 4f;
+                            }};
+
+                        }};
+                    }}
+            );
         }};
         annihilate = new ErekirUnitType("annihilate"){{
             constructor = (Prov<Unit>) UnitEntity::create;
