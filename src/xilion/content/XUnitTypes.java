@@ -5,7 +5,7 @@ import arc.graphics.Color;
 import arc.graphics.g2d.Lines;
 import arc.math.Interp;
 import arc.math.Mathf;
-import mindustry.ai.types.DefenderAI;
+import mindustry.ai.UnitCommand;
 import mindustry.ai.types.FlyingAI;
 import mindustry.ai.types.FlyingFollowAI;
 import mindustry.content.Fx;
@@ -28,11 +28,8 @@ import mindustry.type.*;
 import mindustry.type.unit.ErekirUnitType;
 import mindustry.type.weapons.RepairBeamWeapon;
 import xilion.XilionJavaMod;
-import xilion.activeAbilities.TurboAA;
-import xilion.entities.XErekirAbilityUnitType;
 import xilion.entities.abilities.XDashAbility;
 import xilion.entities.abilities.XSpeedBuffFieldAbility;
-import xilion.util.XActiveAbility;
 
 import static arc.graphics.g2d.Draw.color;
 import static arc.graphics.g2d.Lines.lineAngle;
@@ -616,6 +613,53 @@ public class XUnitTypes {
                 }};
             }});
         }};
+        quick =  new ErekirUnitType("quick"){{
+            constructor = (Prov<Unit>) UnitEntity::create;
+            defaultCommand = UnitCommand.repairCommand;
+            commands = new UnitCommand[]{UnitCommand.moveCommand, UnitCommand.repairCommand};
+            health = 300;
+            armor =0;
+            speed = 2f;
+            hitSize = 10;
+            itemCapacity = 10;
+            //isCounted = false;
+            faceTarget = true;
+            rotateSpeed = 10f;
+            flying = true;
+            weapons.add(new RepairBeamWeapon(){{
+                widthSinMag = 0.11f;
+                reload = 20f;
+
+                x = 0f;
+                y = 5f;
+                rotate = false;
+                shootY = 0f;
+                beamWidth = 0.7f;
+                aimDst = 0f;
+                shootCone = 40f;
+                shoot = new ShootPattern(){{
+                    firstShotDelay = 60f;
+                    shotDelay = 1f;
+                }};
+                mirror = false;
+                repairSpeed = 0.4f;
+                fractionRepairSpeed = 0f;
+                canHeal =true;
+                targetUnits = true;
+                faceTarget =true;
+                targetBuildings = true;
+                autoTarget = true;
+                controllable = false;
+
+                laserColor = XColors.QuickClassEC2;
+                healColor = XColors.QuickClassEC1;
+
+
+                bullet = new BulletType(){{
+                    maxRange =48f;
+                }};
+            }});
+        }};
         acari = new ErekirUnitType("acari"){
             {
                 constructor = (Prov<Unit>) LegsUnit::create;
@@ -962,20 +1006,7 @@ public class XUnitTypes {
         }};
 
         */
-        quick =  new UnitType("quick"){{
-            constructor = (Prov<Unit>) UnitEntity::create;
-            aiController = DefenderAI::new;
-            health = 70;
-            armor =0;
-            speed = 4.4f;
-            hitSize = 6;
-            itemCapacity = 10;
-            //isCounted = false;
-            buildSpeed =  0.4f;
-            faceTarget = false;
-            rotateSpeed = 10f;
-            flying = true;
-        }};
+
 
         dash = new UnitType("dash"){{
             constructor = (Prov<Unit>) UnitEntity::create;

@@ -2,6 +2,7 @@ package xilion.util;
 
 import arc.util.Log;
 import mindustry.Vars;
+import mindustry.gen.Call;
 import mindustry.gen.Unit;
 
 public class XPacketHelper {
@@ -39,6 +40,9 @@ public class XPacketHelper {
             if(/*!Vars.net.server() &&*/ unit == null) return;
             XPackets.ActiveAbilityTrigger packet = new XPackets.ActiveAbilityTrigger();
             packet.unit = unit;
+            //TODO: fix Calls
+            //Call.clientPacketReliable(unit.id);
+            
             Vars.net.send(packet, true);
 
         }
