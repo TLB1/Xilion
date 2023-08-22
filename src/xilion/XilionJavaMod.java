@@ -32,6 +32,7 @@ public class XilionJavaMod extends Mod{
            new XItems().load();
            new XBlocks().load();
            new XUnitTypes().load();
+           new XUnitFactories().load();
            new XUltimateUnitFactories().load();
            XUnitHandler.init();
            XPacketHelper.init();

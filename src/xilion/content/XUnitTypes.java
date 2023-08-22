@@ -56,7 +56,8 @@ public class XUnitTypes {
     //Quick class units:
     quick, dash, leap, supersonic,hypersonic, leaptest,
 
-           blaze, ember, cerberus,aura,spectra, annihilate, etherium;
+           blaze, ember, cerberus,aura,spectra, annihilate, etherium,
+                   ship;
 
 
     public XUnitTypes() {
@@ -74,6 +75,13 @@ public class XUnitTypes {
 
 
     public void load() {
+        ship = new ErekirUnitType("ship"){{
+            constructor = (Prov<Unit>) UnitEntity::create;
+            speed =  rotateSpeed = engineSize = 1f;
+            itemCapacity = 0;
+            health = 100f;
+            hitSize = 6f;
+        }};
         /*
         leaptest = new XErekirAbilityUnitType("fs3"){{
             activeAbility = new XActiveAbility(new TurboAA("turbo"));
@@ -466,7 +474,7 @@ public class XUnitTypes {
                     new Weapon(XilionJavaMod.name("spectra-helix")){{
                         x = 0;
                         y = 0;
-                        reload = 120f;
+                        reload = 110f;
                         mirror = false;
                         recoil = 6f;
                         shootCone = 20f;
@@ -494,7 +502,7 @@ public class XUnitTypes {
                     new Weapon(XilionJavaMod.name("spectra-helix-middle")){{
                         x = 0;
                         y = 0;
-                        reload = 120f;
+                        reload = 110f;
                         mirror = false;
                         recoil = 6f;
                         shootCone = 20f;
