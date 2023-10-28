@@ -6,6 +6,7 @@ import arc.graphics.g2d.Lines;
 import arc.math.Interp;
 import arc.math.Mathf;
 import mindustry.ai.UnitCommand;
+import mindustry.ai.types.BuilderAI;
 import mindustry.ai.types.FlyingAI;
 import mindustry.ai.types.FlyingFollowAI;
 import mindustry.content.Fx;
@@ -28,6 +29,7 @@ import mindustry.type.*;
 import mindustry.type.unit.ErekirUnitType;
 import mindustry.type.weapons.RepairBeamWeapon;
 import xilion.XilionJavaMod;
+import xilion.entities.LegUnitFaceBuildingAI;
 import xilion.entities.abilities.XDashAbility;
 import xilion.entities.abilities.XSpeedBuffFieldAbility;
 
@@ -47,17 +49,18 @@ public class XUnitTypes {
     hypersonic beam that slows enemies and can teleport
 */
     // Erekir base units
-     acari, salticidae, astacoidea,
+     salticidae, astacoidea,
 
     //Attack class units:
     attack, strike, assault, battery, violence,
     snake,
-
+    explorer,
     //Quick class units:
     quick, dash, leap, supersonic,hypersonic, leaptest,
+    acari, sanatick,
 
            blaze, ember, cerberus,aura,spectra, annihilate, etherium,
-                   ship;
+                   ship, bug;
 
 
     public XUnitTypes() {
@@ -75,12 +78,111 @@ public class XUnitTypes {
 
 
     public void load() {
+        explorer = new ErekirUnitType("explorer") {
+            {
+                constructor = UnitEntity::create;
+                this.coreUnitDock = true;
+                this.controller = (u) -> {
+                    return new BuilderAI(true, 400f);
+                };
+                this.isEnemy = false;
+                this.envDisabled = 0;
+                this.targetPriority = -2.0F;
+                this.lowAltitude = false;
+                this.mineWalls = true;
+                this.mineFloor = false;
+                this.mineHardnessScaling = false;
+                this.flying = true;
+                this.mineSpeed = 8.0F;
+                this.mineTier = 3;
+                this.buildSpeed = 1.2F;
+                this.drag = 0.08F;
+                this.speed = 4.5F;
+                this.rotateSpeed = 7.0F;
+                this.accel = 0.09F;
+                this.itemCapacity = 60;
+                this.health = 400.0F;
+                this.armor = 0.0F;
+                this.hitSize = 10.0F;
+                this.engineSize = 0.0F;
+                this.payloadCapacity = 256.0F;
+                this.pickupUnits = false;
+                this.vulnerableWithPayloads = true;
+                this.fogRadius = 0.0F;
+                this.targetable = false;
+                this.hittable = false;
+                engines.add(new UnitEngine(0F, -5F, 3.9F, 45F));
+
+                this.weapons.add(new RepairBeamWeapon() {
+                    {
+                        this.widthSinMag = 0.11F;
+                        this.reload = 20.0F;
+                        this.x = 0.0F;
+                        this.y = 6.5F;
+                        this.rotate = false;
+                        this.shootY = 0.0F;
+                        this.beamWidth = 0.7F;
+                        this.repairSpeed = 3.1F;
+                        this.fractionRepairSpeed = 0.06F;
+                        aimDst = 0.0F;
+                        this.shootCone = 15.0F;
+                        this.mirror = false;
+                        this.targetUnits = false;
+                        this.targetBuildings = true;
+                        this.autoTarget = false;
+                        this.controllable = true;
+                        this.laserColor = Pal.heal;
+                        this.healColor = Pal.heal;
+                        this.bullet = new BulletType() {
+                            {
+                                this.maxRange = 45.0F;
+                            }
+                        };
+                    }
+                });
+            }
+        };
         ship = new ErekirUnitType("ship"){{
             constructor = (Prov<Unit>) UnitEntity::create;
-            speed =  rotateSpeed = engineSize = 1f;
+            flying = true;
+            speed  = engineSize = 1f;
+            rotateSpeed = 10f;
             itemCapacity = 0;
             health = 100f;
             hitSize = 6f;
+        }};
+        bug = new ErekirUnitType("bug"){{
+            constructor = (Prov<Unit>) LegsUnit::create;
+            speed = 0.7f;
+            drag = 0.1f;
+            hitSize = 6f;
+            rotateSpeed = 3f;
+            health = 300f;
+            armor = 0f;
+            legStraightness = 0.4f;
+            stepShake = 0f;
+            legCount = 4;
+            legLength = 8f;
+            lockLegBase = false;
+            legContinuousMove = true;
+            legExtension = -1f;
+            legBaseOffset = 3f;
+            legMaxLength = 1.1f;
+            legMinLength = 0.2f;
+            legLengthScl = 0.96f;
+            legForwardScl = 1.1f;
+            legGroupSize = 2;
+            rippleScale = 0.2f;
+
+            legMoveSpace = 1f;
+            allowLegStep = true;
+            hovering = true;
+            legPhysicsLayer = false;
+
+            shadowElevation = 0.1f;
+            groundLayer = Layer.legUnit - 1f;
+            targetAir = false;
+            researchCostMultiplier = 0f;
         }};
         /*
         leaptest = new XErekirAbilityUnitType("fs3"){{
@@ -142,7 +244,7 @@ public class XUnitTypes {
                 rotateSpeed = 3f;
 
                 accel = 0.09f;
-                health = 750f;
+                health = 850f;
                 armor = 2f;
                 hitSize = 12f;
                 engineOffset = 7f;
@@ -151,6 +253,7 @@ public class XUnitTypes {
                 useEngineElevation = false;
                 researchCostMultiplier = 0f;
                 faceTarget = false;
+                targetAir = true;
 
                 abilities.add(new MoveEffectAbility(0f, -8f, XColors.ember1, Fx.missileTrailShort, 5f){{
                     teamColor = true;
@@ -183,7 +286,7 @@ public class XUnitTypes {
                     recoil = 1f;
                     mirror = false;
                     ejectEffect = Fx.none;
-                    bullet = new BulletType(4.5f, 10f){{
+                    bullet = new BulletType(4.5f, 11f){{
                         ammoMultiplier = 3f;
                         hitSize = 7f;
                         lifetime = 20f;
@@ -675,7 +778,7 @@ public class XUnitTypes {
                 drag = 0.11f;
                 hitSize = 10f;
                 rotateSpeed = 3f;
-                health = 1100;
+                health = 1000;
                 armor = 6f;
                 legStraightness = 0.3f;
                 stepShake = 0f;
@@ -748,6 +851,166 @@ public class XUnitTypes {
                             colorFrom = colorTo = XColors.attackClassEC2;
                             sizeTo = splashDamageRadius + 1f;
                             lifetime = 6f;
+                            strokeFrom = 2f;
+                        }});
+                    }};
+                }});
+            }};
+        sanatick = new ErekirUnitType("sanatick"){
+            {
+                constructor = (Prov<Unit>) LegsUnit::create;
+                //defaultCommand = UnitCommand.rebuildCommand;
+                defaultCommand = UnitCommand.repairCommand;
+                commands =  new UnitCommand[]{UnitCommand.moveCommand, UnitCommand.repairCommand};
+                //commands = new UnitCommand[]{UnitCommand.moveCommand, UnitCommand.rebuildCommand, UnitCommand.assistCommand};
+                //aiController =  LegUnitFaceBuildingAI::new;
+                buildSpeed = 0.3f;
+                rotateToBuilding = true;
+                rotateMoveFirst = true;
+                buildRange = 40f;
+                faceTarget = true;
+                speed = 0.7f;
+                drag = 0.1f;
+                hitSize = 9f;
+                rotateSpeed = 3f;
+                health = 500;
+                armor = 0f;
+                legStraightness = 0.4f;
+                stepShake = 0f;
+                legCount = 6;
+                legLength = 8f;
+                lockLegBase = false;
+                legContinuousMove = true;
+                legExtension = -1f;
+                legBaseOffset = 3f;
+                legMaxLength = 1.1f;
+                legMinLength = 0.2f;
+                legLengthScl = 0.96f;
+                legForwardScl = 1.1f;
+                legGroupSize = 3;
+                rippleScale = 0.2f;
+
+                legMoveSpace = 1f;
+                allowLegStep = true;
+                hovering = true;
+                legPhysicsLayer = false;
+
+                shadowElevation = 0.1f;
+                groundLayer = Layer.legUnit - 1f;
+                targetAir = false;
+                researchCostMultiplier = 0f;
+                weapons.add(new RepairBeamWeapon(){{
+                    widthSinMag = 0.11f;
+                    reload = 20f;
+
+                    x = 0f;
+                    y = 5f;
+                    rotate = false;
+                    shootY = 0f;
+                    beamWidth = 0.7f;
+                    aimDst = 0f;
+                    shootCone = 40f;
+                    shoot = new ShootPattern(){{
+                        firstShotDelay = 60f;
+                        shotDelay = 1f;
+                    }};
+                    mirror = false;
+                    repairSpeed = 0.6f;
+                    fractionRepairSpeed = 0f;
+                    canHeal =true;
+                    targetUnits = true;
+                    faceTarget =true;
+                    targetBuildings = true;
+                    autoTarget = true;
+                    controllable = false;
+
+                    laserColor = XColors.QuickClassEC2;
+                    healColor = XColors.QuickClassEC1;
+
+
+                    bullet = new BulletType(){{
+                        maxRange =48f;
+                    }};
+                }});
+            }};
+            strike =  new ErekirUnitType("strike"){{
+                constructor = (Prov<Unit>) LegsUnit::create;
+                faceTarget = true;
+                speed = 0.9f;
+                drag = 0.1f;
+                hitSize = 9f;
+                rotateSpeed = 3f;
+                health = 600;
+                armor = 0f;
+                legStraightness = 0.4f;
+                stepShake = 0f;
+                legCount = 4;
+                legLength = 8f;
+                lockLegBase = false;
+                legContinuousMove = true;
+                legExtension = -1f;
+                legBaseOffset = 3f;
+                legMaxLength = 1.1f;
+                legMinLength = 0.2f;
+                legLengthScl = 0.96f;
+                legForwardScl = 1.1f;
+                legGroupSize = 2;
+                rippleScale = 0.2f;
+
+                legMoveSpace = 1f;
+                allowLegStep = true;
+                hovering = true;
+                legPhysicsLayer = false;
+
+                shadowElevation = 0.1f;
+                groundLayer = Layer.legUnit - 1f;
+                targetAir = false;
+                researchCostMultiplier = 0f;
+
+
+                weapons.add(new Weapon(XilionJavaMod.name("strike-weapon")){{
+                    reload = 30f;
+                    x = 18/4f;
+                    y = 0f;
+                    top = false;
+                    shootY = 1f;
+                    alternate = true;
+                    mirror = true;
+                    shootSound = Sounds.missile;
+                    recoil = 4f;
+                    bullet = new ArtilleryBulletType(2.5f, 40){{
+                        shootEffect = new MultiEffect(Fx.shootSmallColor, new Effect(9, e -> {
+                            color(Color.white, e.color, e.fin());
+                            stroke(0.7f + e.fout());
+                            Lines.square(e.x, e.y, e.fin() * 5f, e.rotation + 45f);
+
+                            Drawf.light(e.x, e.y, 23f, e.color, e.fout() * 0.7f);
+                        }));
+
+                        collidesTiles = true;
+                        backColor = hitColor = Pal.sapBulletBack;
+                        frontColor = Pal.sapBullet;
+
+                        knockback = 0.8f;
+                        lifetime = 35f;
+                        width = height = 9f;
+                        splashDamageRadius = 19f;
+                        splashDamage = 30f;
+
+                        trailLength = 27;
+                        trailWidth = 2.5f;
+                        trailEffect = Fx.none;
+                        trailColor = backColor;
+
+                        trailInterp = Interp.slope;
+
+                        shrinkX = 0.6f;
+                        shrinkY = 0.2f;
+
+                        hitEffect = despawnEffect = new MultiEffect(Fx.hitSquaresColor, new WaveEffect(){{
+                            colorFrom = colorTo = Pal.sapBullet;
+                            sizeTo = splashDamageRadius + 2f;
+                            lifetime = 9f;
                             strokeFrom = 2f;
                         }});
                     }};
@@ -956,7 +1219,7 @@ public class XUnitTypes {
 
         }};
 
-        strike = new UnitType("strike"){{
+        /*strike = new UnitType("strike"){{
 
             constructor = (Prov<Unit>) LegsUnit::create;
 
@@ -988,6 +1251,8 @@ public class XUnitTypes {
             weapons.add(XWeapons.StrikeOrbTriple);
 
         }};
+        */
+
        /* assault = new UnitType("assault"){{
             constructor = (Prov<Unit>) LegsUnit::create;
             health = 700f;

@@ -1,13 +1,16 @@
 package xilion.content;
 
 import arc.graphics.Color;
+import arc.struct.Seq;
 import mindustry.type.Item;
 import mindustry.type.Liquid;
 
 public class XItems {
     public static Liquid ammonia, methane, phosphorus;
-    public static Item germanium, erythrite,cobaltPhosphate, carbon, cobalt, thermoplastic, boron, boronCarbide;
+    public static Item germanium, erythrite,cobaltPhosphate, carbon, cobalt, malachite, thermoplastic, boron, boronCarbide;
+    public static Seq<Item> xilionItems = new Seq<>();
     public void load() {
+
         ammonia = new Liquid("ammonia", Color.valueOf("e4ca5a")){{
             gas = true;
             barColor = Color.valueOf("e4ca5a");
@@ -51,13 +54,18 @@ public class XItems {
             cost = 1.4f;
             healthScaling = 0.7f;
         }};
+        malachite = new Item("malachite", Color.valueOf("268c5b")){{
+            hardness = 3;
+            cost = 1.2f;
+            healthScaling = 0.6f;
+        }};
         thermoplastic = new Item("thermoplastic", Color.valueOf("8b6680")){{
             hardness = 2;
             cost = 1.1f;
             healthScaling = 0.9f;
         }};
         boron = new Item("boron", Color.valueOf("8e8372")){{
-            hardness = 4;
+            hardness = 6;
             cost = 1.6f;
             healthScaling = 1.0f;
         }};
@@ -66,5 +74,7 @@ public class XItems {
             healthScaling = 1.3f;
         }};
 
+
+        xilionItems.addAll(germanium, erythrite,cobaltPhosphate, carbon, cobalt, thermoplastic, boron, boronCarbide);
     }
 }

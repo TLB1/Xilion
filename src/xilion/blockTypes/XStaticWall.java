@@ -54,6 +54,8 @@ public class XStaticWall extends Prop {
         super.load();
         large = new TextureRegion[largeVariants];
         split = new TextureRegion[largeVariants][][];
+        //variantRegions = new TextureRegion[variants];
+        //TextureRegion allRegion = Core.atlas.find(name+"-map");
         for (int i = 1; i < largeVariants +1; i++) {
            large[i-1] =  Core.atlas.find(name+"-large"+i);
         }

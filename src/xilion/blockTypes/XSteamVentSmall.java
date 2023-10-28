@@ -50,5 +50,4 @@ public class XSteamVentSmall extends SteamVent {
         }
         return true;
     }
-
 }

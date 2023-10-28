@@ -3,6 +3,7 @@ package xilion;
 import arc.*;
 import arc.util.*;
 import mindustry.content.Blocks;
+import mindustry.content.Items;
 import mindustry.content.UnitTypes;
 import mindustry.game.EventType.*;
 import mindustry.mod.*;
@@ -30,13 +31,18 @@ public class XilionJavaMod extends Mod{
            new XStatusEffects().load();
            new XFx().load();
            new XItems().load();
-           new XBlocks().load();
            new XUnitTypes().load();
+           new XBlocks().load();
            new XUnitFactories().load();
            new XUltimateUnitFactories().load();
+           new XSchematics().load();
+           new XPlanets().load();
+           new XSectorPresets().load();
+           new XTechTree().load();
            XUnitHandler.init();
            XPacketHelper.init();
            UnitTypes.merui.useUnitCap = false;
+
            // Does not work because no multiplier
         //Blocks.eruptionDrill.consumeLiquid(UPItems.ammonia, 2.5f / 60f).boost();
        // Blocks.impactDrill.consumeLiquid(UPItems.ammonia, 1.5f / 60f).boost().;
@@ -121,6 +127,7 @@ public class XilionJavaMod extends Mod{
     }
 
     public void init(){
+        Items.copper.uiIcon = Items.copper.fullIcon;
 
        // UnitTypes.crawler.health = 250; //   +50HP
       //  UnitTypes.fortress.health = 1000; //    +100HP
@@ -135,10 +142,6 @@ public class XilionJavaMod extends Mod{
     public void loadContent(){
         Log.info("Loading UnitsPlus content.");
         createBaseContent();
-
-
-
-
     }
 
 
