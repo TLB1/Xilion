@@ -1,6 +1,7 @@
 package xilion.util;
 
 import arc.Events;
+import arc.files.Fi;
 import arc.util.Log;
 import mindustry.Vars;
 import mindustry.content.Blocks;
@@ -12,10 +13,13 @@ import mindustry.type.UnitType;
 import mindustry.world.Block;
 import mindustry.world.Tile;
 
+import java.io.DataInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.zip.InflaterInputStream;
 
 public class XUnitHandler {
     public static HashMap<UnitType, Integer> unitMap = new HashMap<>();
@@ -60,6 +64,22 @@ public class XUnitHandler {
         Events.on(EventType.WorldLoadEndEvent.class, e->{
           load();
         });
+        /*
+        Events.on(EventType.SaveWriteEvent.class, e->{
+
+            String additionalSaveFile;
+            DataInputStream stream;
+
+               additionalSaveFile = Vars.control.saves.getCurrent().file.pathWithoutExtension() + ".xilion";
+               Fi file = Fi.get(additionalSaveFile);
+               if(file.exists()){
+                   stream = new DataInputStream(new InflaterInputStream(file.read(8192)));
+               }
+
+
+        });
+
+         */
     }
 
     public static void load(){

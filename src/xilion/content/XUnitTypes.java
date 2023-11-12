@@ -16,8 +16,10 @@ import mindustry.entities.abilities.MoveEffectAbility;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.effect.WaveEffect;
+import mindustry.entities.part.DrawPart;
 import mindustry.entities.part.HoverPart;
 import mindustry.entities.part.RegionPart;
+import mindustry.entities.part.ShapePart;
 import mindustry.entities.pattern.ShootAlternate;
 import mindustry.entities.pattern.ShootHelix;
 import mindustry.entities.pattern.ShootPattern;
@@ -1144,8 +1146,9 @@ public class XUnitTypes {
                     y = 0;
                     moveX = 7f/4;
                     moveY = 9f/4;
+                    progress = PartProgress.reload;
+                    //progress.sin(2f, 4f);
 
-                    progress = PartProgress.warmup;
                     layerOffset = -0.001f;
                     mirror = true;
                 }});

@@ -46,6 +46,7 @@ public class XBlocks {
     public static Block plasmaCollector, wallCrusher, siliconOven, pipe, pipeRouter, pipeBridge, heavy, regularity,
             slateKhakiStone, slateKhakiStoneDark, slateKhakiStoneWall, slateKhakiStoneBoulder, slateKhakiStoneVent,
             greenBubbleStone, greenBubbleStoneDark, greenBubbleStoneWall, greenBubbleStoneBoulder, greenBubbleStoneVent,
+            blueBubbleStone, blueBubbleStoneDark, blueBubbleStoneWall, blueBubbleStoneBoulder, blueBubbleStoneVent,
             slateBlueStone, slateBlueStoneDark, slateBlueStoneWall, slateBlueStoneVent, oreDrill, superOreDrill, coreExplorer,
             purpurRock, purpurRockDark, purpurRockWall, turquoiseFlower, turquoiseFlowerBush, largeTungstenOre, largeBoronOre,
             compactElectrolyzer, surgeOven, basicPump, erythriteDissolver, malachiteDissolver, malachiteSmelter, malachiteWallOre, discharge, isolate;
@@ -155,6 +156,12 @@ public class XBlocks {
         greenBubbleStoneDark = new Floor("green-bubble-stone-dark") {{
             variants = 4;
         }};
+        blueBubbleStone = new Floor("blue-bubble-stone") {{
+            variants = 9;
+        }};
+        blueBubbleStoneDark = new Floor("blue-bubble-stone-dark") {{
+            variants = 9;
+        }};
         purpurRock = new Floor("purpur-rock") {{
             variants = 5;
         }};
@@ -200,6 +207,13 @@ public class XBlocks {
         greenBubbleStoneVent = new XSteamVentSmall("green-bubble-stone-vent") {
             {
                 parent = blendGroup = greenBubbleStone;
+                variants = 2;
+                attributes.set(Attribute.steam, 1f);
+            }
+        };
+        blueBubbleStoneVent = new XSteamVentSmall("blue-bubble-stone-vent") {
+            {
+                parent = blendGroup = blueBubbleStone;
                 variants = 2;
                 attributes.set(Attribute.steam, 1f);
             }
@@ -261,6 +275,12 @@ public class XBlocks {
             largeVariants = 2;
             attributes.set(Attribute.sand, 1.2f);
         }};
+        blueBubbleStoneWall = new XStaticWall("blue-bubble-stone-wall") {{
+            greenBubbleStone.asFloor().wall = this;
+            variants = 4;
+            largeVariants = 2;
+            attributes.set(Attribute.sand, 1.2f);
+        }};
         purpurRockWall = new XStaticWall("purpur-rock-wall") {{
             purpurRock.asFloor().wall = this;
             variants = 4;
@@ -282,6 +302,10 @@ public class XBlocks {
         greenBubbleStoneBoulder = new Prop("green-bubble-stone-boulder") {{
             variants = 1;
             greenBubbleStone.asFloor().decoration = this;
+        }};
+        blueBubbleStoneBoulder = new Prop("blue-bubble-stone-boulder") {{
+            variants = 1;
+            blueBubbleStone.asFloor().decoration = this;
         }};
         slateKhakiStoneBoulder = new Prop("slate-khaki-stone-boulder") {{
             variants = 2;

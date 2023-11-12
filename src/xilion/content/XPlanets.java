@@ -1,7 +1,9 @@
 package xilion.content;
 
 import arc.graphics.Color;
+import arc.struct.ObjectSet;
 import arc.struct.Seq;
+import mindustry.content.Blocks;
 import mindustry.content.Items;
 import mindustry.content.Planets;
 import mindustry.game.Team;
@@ -11,6 +13,7 @@ import mindustry.graphics.g3d.MultiMesh;
 import mindustry.maps.planet.ErekirPlanetGenerator;
 import mindustry.type.Item;
 import mindustry.type.Planet;
+import mindustry.world.Block;
 import mindustry.world.meta.Attribute;
 import xilion.generation.XilionPlanetGenerator;
 
@@ -41,7 +44,7 @@ public class XPlanets {
             allowSectorInvasion = true;
             allowLaunchSchematics = true;
             enemyCoreSpawnReplace = true;
-            allowLaunchLoadout = true;
+            allowLaunchLoadout = false;
             clearSectorOnLose = true;
             iconColor = Color.valueOf("43b6bc");
             atmosphereColor = Color.valueOf("43b6bc");
@@ -57,11 +60,20 @@ public class XPlanets {
             //itemWhitelist.addAll(Items.sand, Items.silicon, Items.tungsten, Items.surgeAlloy, Items.carbide, germanium, erythrite,cobaltPhosphate, carbon, cobalt, thermoplastic, boron, boronCarbide);
             hiddenItems.addAll(Items.serpuloItems).addAll(Items.erekirOnlyItems).removeAll(allowedItems);
             hiddenItems.removeAll(xilionItems);
+
             ruleSetter = r -> {
                 r.waveTeam = Team.malis;
                 r.placeRangeCheck = false;
                 r.showSpawns = true;
                 r.coreDestroyClear = false;
+                r.bannedBlocks = ObjectSet.with(
+                        Blocks.duo, Blocks.mechanicalDrill, Blocks.conveyor,
+                        Blocks.junction, Blocks.router, Blocks.copperWall, Blocks.copperWallLarge,
+                        Blocks.surgeWall, Blocks.surgeWallLarge, Blocks.reinforcedSurgeWall,
+                        Blocks.reinforcedSurgeWallLarge, Blocks.tungstenWall, Blocks.tungstenWallLarge,
+                        Blocks.blastDoor
+                );
+                r.hideBannedBlocks = true;
             };
         }};
     }
