@@ -1,6 +1,6 @@
 apply plugin: "java"
 
-version '0.1.23test'
+version '0.1.24test'
 
 //compile java 16 code, targeting java 8
 targetCompatibility = 8
@@ -10,8 +10,8 @@ sourceSets.main.java.srcDirs = ["src"]
 
 repositories{
     mavenCentral()
+    maven{ url "https://raw.githubusercontent.com/Zelaux/MindustryRepo/master/repository" }
     maven{ url 'https://www.jitpack.io' }
-
 }
 
 ext{
@@ -30,9 +30,9 @@ allprojects{
 dependencies{
     compileOnly 'org.jetbrains:annotations:24.0.1'
     compileOnly "com.github.Anuken.Arc:arc-core:$mindustryVersion"
-
+    compileOnly "com.github.Anuken.Mindustry:core:$mindustryVersion"
     //compileOnly "com.github.Anuken.Mindustry:core:$mindustryVersion"
-    compileOnly "com.github.Anuken.MindustryJitpack:core:$mindustryVersion"
+    //compileOnly "com.github.Anuken.MindustryJitpack:core:$mindustryVersion"
     annotationProcessor "com.github.Anuken:jabel:$jabelVersion"
 }
 

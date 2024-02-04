@@ -7,6 +7,7 @@ import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.effect.ParticleEffect;
 import mindustry.entities.part.RegionPart;
 import mindustry.entities.pattern.ShootPattern;
+import mindustry.graphics.Pal;
 import mindustry.type.Weapon;
 import xilion.XilionJavaMod;
 
@@ -174,7 +175,7 @@ public class XWeapons {
         mirror = true;
         top = true;
 
-        heatColor = Color.valueOf("f9350f");
+        heatColor = Pal.sapBullet;
         shootWarmupSpeed = 0.06f;
         cooldownTime = 80f;
         minWarmup = 0.9f;

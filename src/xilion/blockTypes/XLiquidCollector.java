@@ -16,7 +16,7 @@ public class XLiquidCollector extends LiquidRouter {
         public void updateTile() {
             if (liquids.currentAmount() > 0.0001f) {
                 //Dump liquid only into the direction of the block
-                dumpLiquid(liquids.current(), 0.05f, 0);
+                dumpLiquid(liquids.current(), 1f, 0);
             }
         }
 
@@ -31,6 +31,5 @@ public class XLiquidCollector extends LiquidRouter {
             //arrows and top region
             Draw.rect(region, x, y, rotation * 90f);
         }
-
     }
 }

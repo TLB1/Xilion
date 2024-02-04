@@ -6,7 +6,7 @@ import mindustry.type.Item;
 import mindustry.type.Liquid;
 
 public class XItems {
-    public static Liquid ammonia, methane, phosphorus;
+    public static Liquid ammonia, methane, phosphorus, synGas;
     public static Item germanium, erythrite,cobaltPhosphate, carbon, cobalt, malachite, thermoplastic, boron, boronCarbide;
     public static Seq<Item> xilionItems = new Seq<>();
     public void load() {
@@ -22,6 +22,12 @@ public class XItems {
             barColor = Color.valueOf("e69d62");
             explosiveness = 0.5f;
             flammability = 1f;
+        }};
+        synGas = new Liquid("syngas", Color.valueOf("bcbdcb")){{
+            gas = true;
+            barColor = Color.valueOf("bcbdcb");
+            explosiveness = 0.4f;
+            flammability = 0.8f;
         }};
         phosphorus = new Liquid("phosphorus", Color.valueOf("846ad4")){{
             gas = true;

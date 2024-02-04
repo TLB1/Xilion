@@ -1,5 +1,6 @@
 package xilion.content;
 
+import arc.graphics.Blending;
 import arc.graphics.Color;
 import arc.math.Interp;
 import arc.math.Mathf;
@@ -10,6 +11,7 @@ import mindustry.entities.UnitSorts;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.*;
 import mindustry.entities.part.DrawPart;
+import mindustry.entities.part.FlarePart;
 import mindustry.entities.part.RegionPart;
 import mindustry.entities.pattern.ShootBarrel;
 import mindustry.gen.Sounds;
@@ -49,7 +51,9 @@ public class XBlocks {
             blueBubbleStone, blueBubbleStoneDark, blueBubbleStoneWall, blueBubbleStoneBoulder, blueBubbleStoneVent,
             slateBlueStone, slateBlueStoneDark, slateBlueStoneWall, slateBlueStoneVent, oreDrill, superOreDrill, coreExplorer,
             purpurRock, purpurRockDark, purpurRockWall, turquoiseFlower, turquoiseFlowerBush, largeTungstenOre, largeBoronOre,
-            compactElectrolyzer, surgeOven, basicPump, erythriteDissolver, malachiteDissolver, malachiteSmelter, malachiteWallOre, discharge, isolate;
+            compactElectrolyzer, surgeOven, basicPump, erythriteDissolver, malachiteDissolver, malachiteSmelter, malachiteWallOre,
+            discharge, isolate, giantBomb, hybridTurbineGenerator, aquila;
+
     public static XUnitFactory merui;
     public static XStaticWall corrodedPhaseWall, concentratedCarbonWall, pureCarbonWall, darkRedStoneWall, erythriteStoneWall, pinkstoneWall;
     public static OreBlock germaniumWallOre;
@@ -59,7 +63,7 @@ public class XBlocks {
     public static ItemTurret prevent;
     public static PowerTurret shock;
     public static ContinuousTurret focus;
-    public static HeatCrafter biogasSynthesizer, haberProcessFacility;
+    public static Block biogasSynthesizer, gasOxidisationSynthesizer, haberProcessFacility;
     public static GenericCrafter waterExtractionBore, cobaltRefineryOven, phosphateDebonder;
     public static HeatProducer methaneHeater;
     public static BeamNode wireNode, beamWireNode;
@@ -73,7 +77,7 @@ public class XBlocks {
 
     public static Wall germaniumWall, germaniumWallLarge, germaniumWallHuge, cobaltWall, cobaltWallLarge, cobaltWallHuge,
             reinforcedCopperWall, reinforcedCopperWallLarge, reinforcedCopperWallHuge, reinforcedTungstenWall, reinforcedTungstenWallLarge, reinforcedTungstenWallHuge, reinforcedCarbideWall, reinforcedCarbideWallLarge, reinforcedCarbideWallHuge,
-            boronWall, boronWallLarge, boronWallHuge, boronCarbideWall, boronCarbideWallLarge, boronCarbideWallHuge, virusWall;
+            boronWall, boronWallLarge, boronWallHuge, boronCarbideWall, boronCarbideWallLarge, boronCarbideWallHuge, techWall, techWallLarge, techWallHuge, virusWall;
 
     public static ArmoredConduit basicConduit;
     public static LiquidRouter basicLiquidRouter;
@@ -83,6 +87,14 @@ public class XBlocks {
     public static XLiquidCollector liquidCollector;
 
     public void load() {
+        giantBomb = new XBomb("giant-bomb") {{
+            explosionRadius = 5 * 8f;
+            explodeSound = Sounds.explosion;
+            triggerRadius = 2 * 8f;
+            size = 2;
+            explosionDamage = 350f;
+            requirements = with(Items.silicon, 40, XItems.cobalt, 30);
+        }};
         basicConduit = new ArmoredConduit("basic-conduit") {{
             requirements(Category.liquid, with(XItems.germanium, 2));
 
@@ -472,6 +484,7 @@ public class XBlocks {
         shock = new PowerTurret("shock") {{
             researchCost = with(Items.silicon, 60, XItems.germanium, 100, XItems.cobalt, 60);
             researchCostMultiplier = 0.5f;
+            targetAir = true;
             size = 2;
             drawer = new DrawTurret("reinforced-") {{
 
@@ -481,8 +494,9 @@ public class XBlocks {
             shootType = new LightningBulletType() {{
                 damage = 20f;
                 lightningLength = 25;
-                collidesAir = false;
+                collidesAir = true;
                 ammoMultiplier = 1f;
+                targetAir = true;
 
 
                 //for visual stats only.
@@ -495,15 +509,16 @@ public class XBlocks {
                     status = StatusEffects.shocked;
                     statusDuration = 10f;
                     hittable = false;
+                    targetAir = true;
+                    collidesAir = true;
                     lightColor = Color.white;
-                    collidesAir = false;
                     buildingDamageMultiplier = 0.25f;
                 }};
             }};
             reload = 25f;
             shootCone = 10f;
             rotateSpeed = 8f;
-            targetAir = false;
+            targetAir = true;
             range = 144f;
             shootEffect = Fx.lightningShoot;
             heatColor = Color.red;
@@ -528,16 +543,15 @@ public class XBlocks {
                 }};
                 ammo(
 
-                        XItems.cobalt, new BasicBulletType(3f, 250, "shell") {{
+                        XItems.cobalt, new ArtilleryBulletType(3f, 250, "shell") {{
                             hitEffect = new MultiEffect(Fx.titanExplosion, Fx.titanSmoke);
                             despawnEffect = Fx.none;
                             knockback = 2f;
-                            collidesAir = true;
                             lifetime = 40f;
                             height = 12f;
                             width = 11f;
                             splashDamageRadius = 24f;
-                            splashDamage = 80f;
+                            splashDamage = 250f;
                             scaledSplashDamage = true;
                             backColor = hitColor = trailColor = Pal.sapBullet.lerp(Pal.sapBulletBack, 0.5f);
                             frontColor = Color.white;
@@ -565,7 +579,6 @@ public class XBlocks {
                             hitEffect = new MultiEffect(Fx.titanExplosion, Fx.titanSmoke);
                             despawnEffect = Fx.none;
                             knockback = 2f;
-                            collidesAir = true;
                             lifetime = 40f;
                             height = 12f;
                             width = 11f;
@@ -599,7 +612,7 @@ public class XBlocks {
                 shootSound = Sounds.mediumCannon;
                 ammoPerShot = 4;
                 maxAmmo = ammoPerShot * 3;
-                targetAir = true;
+                targetAir = false;
                 shake = 4f;
                 recoil = 1f;
                 reload = 60f * 2.5f;
@@ -613,20 +626,21 @@ public class XBlocks {
             requirements(Category.turret, with(XItems.germanium, 250, XItems.cobalt, 200, Items.silicon, 180));
             buildCostMultiplier = 0.5f;
             ammo(
-                    XItems.germanium, new BasicBulletType(5.5f, 45) {{
+                    XItems.germanium, new BasicBulletType(6f, 45) {{
+                        collidesGround = false;
                         width = 10f;
                         height = 20f;
-                        lifetime = 32f;
+                        lifetime = 34f;
                         ammoMultiplier = 2;
                         targetGround = false;
                     }},
-                    Items.silicon, new BasicBulletType(5.5f, 40) {{
+                    Items.silicon, new BasicBulletType(6f, 40) {{
                         collidesGround = false;
                         width = 10f;
                         height = 20f;
                         reloadMultiplier = 2f;
                         ammoMultiplier = 2;
-                        lifetime = 32f;
+                        lifetime = 34f;
                         targetGround = false;
                     }}
             );
@@ -635,7 +649,7 @@ public class XBlocks {
             }};
 
             size = 3;
-            range = 176f;
+            range = 200f;
             reload = 10f;
             ammoEjectBack = 3f;
             recoil = 2f;
@@ -660,7 +674,7 @@ public class XBlocks {
             ammo(Items.copper, new BasicBulletType() {{
                 smokeEffect = Fx.shootSmokeTitan;
                 this.hitColor = Pal.techBlue;
-                this.despawnSound = hitSound =Sounds.spark;
+                this.despawnSound = hitSound = Sounds.spark;
                 ammoMultiplier = 1f;
                 this.sprite = "large-orb";
                 this.trailEffect = Fx.missileTrail;
@@ -766,7 +780,7 @@ public class XBlocks {
             ammo(Items.tungsten, new BasicBulletType() {{
 
                 damage = 40;
-                speed = 5f;
+                speed = 5.5f;
                 width = height = 12;
                 shrinkY = 0.3f;
                 backSprite = "large-bomb-back";
@@ -790,7 +804,7 @@ public class XBlocks {
                 hitEffect = despawnEffect = Fx.hitBulletColor;
             }});
 
-            reload = 20f;
+            reload = 16f;
             shootY = 9.5f;
 
             rotateSpeed = 5f;
@@ -822,7 +836,7 @@ public class XBlocks {
                 spread = 3.5f;
                 shots = 4;
                 barrels = 2;
-                shotDelay = 10f;
+                shotDelay = 8f;
             }};
 
             targetGround = true;
@@ -833,13 +847,67 @@ public class XBlocks {
             outlineColor = Pal.darkOutline;
 
             scaledHealth = 280;
-            range = 120f;
+            range = 128f;
             size = 3;
 
             coolant = consume(new ConsumeLiquid(Liquids.water, 10f / 60f));
             coolantMultiplier = 2f;
 
             limitRange(-4f);
+        }};
+        aquila = new ItemTurret("aquila") {{
+            requirements(Category.turret, with(Items.silicon, 500, XItems.cobalt, 600, Items.tungsten, 500, XItems.boron, 300));
+            heatColor = Pal.turretHeat;
+            squareSprite = false;
+            cooldownTime = 360f;
+            recoil = 8f;
+            reload = 240f;
+            liquidCapacity = 50f;
+            minWarmup = 0.94f;
+            shootWarmupSpeed = 0.04f;
+            scaledHealth = 300;
+            size = 5;
+            range = 400f;
+            shootY = 19f;
+            shootSound = Sounds.missileLaunch;
+            ammoPerShot = 6;
+            maxAmmo = 12;
+            outlineColor = Pal.darkOutline;
+            shootCone = 1.25f;
+            rotateSpeed = 1.5f;
+            consumeLiquid(XItems.synGas, 8f / 60f);
+            ammo(
+                    XItems.boron, new BasicBulletType(8f, 3000) {{
+                        width = 20f;
+                        height = 20f;
+                        lifetime = 50f;
+                        ammoMultiplier = 1f;
+                    }},
+                    Items.surgeAlloy, new BasicBulletType(8f, 3000) {{
+                        width = 20f;
+                        height = 20f;
+                        lifetime = 50f;
+                        reloadMultiplier = 1.5f;
+                        ammoMultiplier = 1f;
+                    }}
+            );
+            consumePower(25f);
+            drawer = new DrawTurret("reinforced-") {{
+                //var heatp = DrawPart.PartProgress.warmup.blend(p -> Mathf.absin(2f, 1f) * p.warmup, 0.2f);
+                parts.add(new RegionPart("-wing") {{
+                    progress = PartProgress.warmup;
+                    heatProgress = PartProgress.warmup;
+                    heatColor = Color.valueOf("ffffff");
+                    mirror = true;
+                    under = true;
+                    moves.add(new PartMove(PartProgress.warmup, 32f / 4f, 20f / 4f, -2f));
+                }}, new RegionPart("-glow"){{
+                    outline = false;
+                    color = Color.white;
+                    blending = Blending.normal;
+                    //blending = Blending.additive;
+                }});
+            }};
         }};
         focus = new ContinuousTurret("lustre") {{
             requirements(Category.turret, with(Items.silicon, 250, Items.graphite, 200, Items.oxide, 50, Items.carbide, 90));
@@ -905,36 +973,6 @@ public class XBlocks {
             consumeLiquid(Liquids.nitrogen, 6f / 60f);
         }};
 
-        biogasSynthesizer = new HeatCrafter("biogas-synthesizer") {{
-            requirements(Category.crafting, with(Items.tungsten, 100, Items.silicon, 80, XItems.germanium, 120));
-
-            heatRequirement = 4f;
-
-            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(XItems.methane),
-                    new DrawParticles() {{
-                        color = Color.valueOf("e69d62");
-                        alpha = 0.7f;
-                        particleSize = 2.5f;
-                        particles = 20;
-                        particleRad = 9f;
-                        particleLife = 200f;
-                        reverse = true;
-                        particleSizeInterp = Interp.one;
-                    }}, new DrawDefault(), new DrawHeatInput(), new DrawHeatRegion("-heat-top"));
-
-            size = 3;
-
-            ambientSound = Sounds.extractLoop;
-            ambientSoundVolume = 0.08f;
-
-            liquidCapacity = 80f;
-            outputLiquid = new LiquidStack(XItems.methane, 1f / 60f);
-
-            //consumeLiquids(LiquidStack.with(Liquids.hydrogen, 3f / 60f, Liquids.nitrogen, 2f / 60f));
-            consumeLiquid(Liquids.hydrogen, 4f / 60f);
-            consumeItem(Items.graphite);
-            consumePower(2f);
-        }};
 
         haberProcessFacility = new HeatCrafter("haber-process-facility") {{
             requirements(Category.crafting, with(Items.thorium, 25, Items.silicon, 80, XItems.germanium, 160));
@@ -1142,6 +1180,67 @@ public class XBlocks {
             outputLiquids = LiquidStack.with(Liquids.ozone, 2f / 60, Liquids.hydrogen, 3f / 60);
             liquidOutputDirections = new int[]{1, 3};
         }};
+        biogasSynthesizer = new GenericCrafter("biogas-synthesizer") {{
+            requirements(Category.crafting, with(Items.tungsten, 100, Items.silicon, 80, XItems.germanium, 120));
+
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(XItems.methane) {{
+                padding = 3f;
+            }},
+                    new DrawParticles() {{
+                        color = Color.valueOf("e69d62");
+                        alpha = 0.7f;
+                        particleSize = 2.5f;
+                        particles = 20;
+                        particleRad = 9f;
+                        particleLife = 200f;
+                        reverse = true;
+                        particleSizeInterp = Interp.one;
+                    }}, new DrawDefault(), new DrawHeatRegion("-heat-top"));
+
+            size = 3;
+
+            ambientSound = Sounds.extractLoop;
+            ambientSoundVolume = 0.08f;
+            squareSprite = false;
+            liquidCapacity = 80f;
+            outputLiquid = new LiquidStack(XItems.methane, 8f / 60f);
+
+            //consumeLiquids(LiquidStack.with(Liquids.hydrogen, 3f / 60f, Liquids.nitrogen, 2f / 60f));
+            craftTime = 15f;
+            consumeLiquid(Liquids.hydrogen, 8f / 60f);
+            consumeItem(XItems.carbon, 1);
+            consumePower(5f);
+        }};
+        gasOxidisationSynthesizer = new GenericCrafter("gas-oxidation-synthesizer") {{
+            requirements(Category.crafting, with(XItems.cobalt, 160, Items.silicon, 90, Items.surgeAlloy, 30));
+
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(XItems.synGas) {{
+                padding = 3f;
+            }},
+                    new DrawParticles() {{
+                        color = Color.valueOf("febcd3");
+                        alpha = 0.6f;
+                        particleSize = 1.5f;
+                        particles = 10;
+                        particleRad = 9f;
+                        particleLife = 180f;
+                        reverse = true;
+                        particleSizeInterp = Interp.one;
+                    }}, new DrawDefault(), new DrawHeatRegion("-heat-top"));
+
+            size = 3;
+
+            ambientSound = Sounds.hum;
+            ambientSoundVolume = 0.08f;
+            squareSprite = false;
+            liquidCapacity = 80f;
+            outputLiquid = new LiquidStack(XItems.synGas, 6f / 60f);
+
+            //consumeLiquids(LiquidStack.with(Liquids.hydrogen, 3f / 60f, Liquids.nitrogen, 2f / 60f));
+            craftTime = 15f;
+            consumeLiquids(LiquidStack.with(XItems.methane, 4f / 60f, Liquids.ozone, 2f / 60f));
+            consumePower(4f);
+        }};
         surgeOven = new GenericCrafter("surge-oven") {{
             requirements(Category.crafting, with(Items.silicon, 100, XItems.germanium, 200, Items.tungsten, 80));
 
@@ -1284,6 +1383,25 @@ public class XBlocks {
                 color = Color.valueOf("ff1e1e");
             }});
         }};
+        hybridTurbineGenerator = new ConsumeGenerator("hybrid-turbine-generator") {{
+            squareSprite = false;
+            fillsTile = false;
+            requirements(Category.power, with(Items.tungsten, 30, Items.copper, 50, Items.silicon, 30));
+            consumeLiquid(XItems.synGas, 1 / 60f);
+            powerProduction = 8.5f;
+            generateEffect = Fx.turbinegenerate;
+            effectChance = 0.01f;
+            size = 2;
+            ambientSound = Sounds.hum;
+            ambientSoundVolume = 0.05f;
+            drawer = new DrawMulti(new DrawDefault(), new DrawBlurSpin("-rotator", 1.5f * 4f) {{
+                blurThresh = 0.01f;
+            }});
+
+            hasLiquids = true;
+            liquidCapacity = 10f;
+            fogRadius = 3;
+        }};
 
         ammoniaTurbineGenerator = new ConsumeGenerator("ammonia-turbine-generator") {{
             squareSprite = false;
@@ -1308,9 +1426,9 @@ public class XBlocks {
         biogasCombustionChamber = new ConsumeGenerator("biogas-combustion-chamber") {{
             squareSprite = false;
             fillsTile = false;
-            requirements(Category.power, with(XItems.cobalt, 180f, Items.tungsten, 200f, Items.oxide, 50f, Items.silicon, 65));
+            requirements(Category.power, with(XItems.cobalt, 180f, Items.tungsten, 200f, Items.copper, 50f, Items.silicon, 65));
             powerProduction = 50f;
-            consumeLiquid(XItems.methane, 10f / 180f);
+            consumeLiquid(XItems.methane, 6 / 60f);
             size = 4;
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawPistons() {{
                 suffix = "-large-piston";
@@ -1557,6 +1675,29 @@ public class XBlocks {
             armor = 18f;
             buildCostMultiplier = 10f;
             size = 3;
+        }};
+        techWall = new XTechWall("tech-wall") {{
+            requirements(Category.defense, with(XItems.thermoplastic, 8, Items.silicon, 4, Items.surgeAlloy, 4));
+            health = 225 * 4;
+            armor = 8f;
+            buildCostMultiplier = 10f;
+            setTechStats();
+        }};
+        techWallLarge = new XTechWall("tech-wall-large") {{
+            requirements(Category.defense, with(XItems.thermoplastic, 16, Items.silicon, 8, Items.surgeAlloy, 8));
+            health = 225 * 4 * 4;
+            armor = 8f;
+            buildCostMultiplier = 10f;
+            size = 2;
+            setTechStats();
+        }};
+        techWallHuge = new XTechWall("tech-wall-huge") {{
+            requirements(Category.defense, with(XItems.thermoplastic, 32, Items.silicon, 16, Items.surgeAlloy, 16));
+            health = 225 * 4 * 9;
+            armor = 8f;
+            buildCostMultiplier = 10f;
+            size = 3;
+            setTechStats();
         }};
 
         virusWall = new XVirusWall("virus-wall") {{

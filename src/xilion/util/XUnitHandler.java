@@ -1,7 +1,6 @@
 package xilion.util;
 
 import arc.Events;
-import arc.files.Fi;
 import arc.util.Log;
 import mindustry.Vars;
 import mindustry.content.Blocks;
@@ -12,14 +11,13 @@ import mindustry.gen.Building;
 import mindustry.type.UnitType;
 import mindustry.world.Block;
 import mindustry.world.Tile;
+import xilion.content.XBlocks;
+import xilion.content.XUnitTypes;
 
-import java.io.DataInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.zip.InflaterInputStream;
 
 public class XUnitHandler {
     public static HashMap<UnitType, Integer> unitMap = new HashMap<>();
@@ -43,23 +41,53 @@ public class XUnitHandler {
         unitMap.put(UnitTypes.obviate,2);
         unitMap.put(UnitTypes.quell, 3);
         unitMap.put(UnitTypes.disrupt, 4);
+
+        unitMap.put(XUnitTypes.bug, 0);
+
+        unitMap.put(XUnitTypes.aura, 0);
+        unitMap.put(XUnitTypes.blaze, 0);
+        unitMap.put(XUnitTypes.acari, 0);
+        unitMap.put(XUnitTypes.sanatick, 0);
     }
     private static void initBlockMap(){
         blockMap.put(Blocks.coreBastion, new MaxUnitModifier(20,10,5,0,0));
         blockMap.put(Blocks.coreCitadel, new MaxUnitModifier(25,15,10,5,0));
         blockMap.put(Blocks.coreAcropolis, new MaxUnitModifier(30,20,15,10,5));
+        blockMap.put(XBlocks.coreExplorer, new MaxUnitModifier(20, 10, 5, 0, 0));
     }
     public static void init(){
         initBlockMap();
         initUnitMap();
-         Arrays.fill( unitCaps,new UnitCap());
+         //Arrays.fill( unitCaps,new UnitCap());  // PLZ NO
+        for (int i = 0; i < unitCaps.length; i++) {
+            unitCaps[i] = new UnitCap();
+        }
         // handle events for it to work properly
         Events.on(EventType.UnitDestroyEvent.class, e->{
-          XUnitHandler.getUnitCap(e.unit.team()).removeUnit(  e.unit.type());
+          XUnitHandler.getUnitCap(e.unit.team()).removeUnit(e.unit.type());
         });
         Events.on(EventType.UnitDrownEvent.class, e->{
             XUnitHandler.getUnitCap(e.unit.team()).removeUnit(  e.unit.type());
         });
+        /*
+        Events.on(EventType.UnitCreateEvent.class, e -> {
+            XUnitHandler.getUnitCap(e.unit.team()).tryAddToUnits(e.unit.type());
+            Log.info("CreateEvent");
+        });
+        Events.on(EventType.UnitChangeEvent.class, e -> {
+            Log.info("UnitChangeEvent");
+        });
+        */
+        Events.on(EventType.UnitUnloadEvent.class, e -> {
+            Log.info("UnitUnloadEvent");
+        });
+        /*
+        Events.on(EventType.UnitSpawnEvent.class, e -> {
+            XUnitHandler.getUnitCap(e.unit.team()).tryAddToUnits(e.unit.type());
+            Log.info("SpawnEvent");
+        });
+
+         */
 
         Events.on(EventType.WorldLoadEndEvent.class, e->{
           load();
@@ -127,6 +155,14 @@ public class XUnitHandler {
     public static class UnitCap{
         private int[] maxUnits = new int[5];
         private int[] unitCount = new int[5];
+        public int getUnitCap(int tier){
+            if (tier > 5 || tier < 1) return 0;
+            return maxUnits[tier-1];
+        }
+        public int getUnitCount(int tier){
+            if (tier > 5 || tier < 1) return 0;
+            return unitCount[tier-1];
+        }
 
         public void clearMax(){
             Arrays.fill(maxUnits, 0);

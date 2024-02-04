@@ -2,6 +2,7 @@ package xilion.util;
 
 import arc.util.Log;
 import arc.util.Time;
+import mindustry.Vars;
 import mindustry.gen.Unit;
 
 public class XActiveAbility {
@@ -30,7 +31,12 @@ public class XActiveAbility {
         //if(Vars.net.client() Vars.net.server()){
             Log.info("May be client, tried to send packets");
             //TODO: send packet to server to request ability use
+        if(Vars.net.server()){
+            triggeredAbility(unit);
+        }else{
             XPacketHelper.Client.TryActiveAbilityUse(unit);
+        }
+
         //}
     }
     public void triggeredAbility(Unit unit){

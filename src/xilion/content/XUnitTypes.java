@@ -31,9 +31,12 @@ import mindustry.type.*;
 import mindustry.type.unit.ErekirUnitType;
 import mindustry.type.weapons.RepairBeamWeapon;
 import xilion.XilionJavaMod;
+import xilion.activeAbilities.TurboAA;
 import xilion.entities.LegUnitFaceBuildingAI;
+import xilion.entities.XErekirAbilityUnitType;
 import xilion.entities.abilities.XDashAbility;
 import xilion.entities.abilities.XSpeedBuffFieldAbility;
+import xilion.util.XActiveAbility;
 
 import static arc.graphics.g2d.Draw.color;
 import static arc.graphics.g2d.Lines.lineAngle;
@@ -59,9 +62,9 @@ public class XUnitTypes {
     explorer,
     //Quick class units:
     quick, dash, leap, supersonic,hypersonic, leaptest,
-    acari, sanatick,
+    acari, blastbeetle, sanatick,
 
-           blaze, ember, cerberus,aura,spectra, annihilate, etherium,
+           blaze, ember, hellhound, cerberus,aura,spectra, annihilate, etherium,
                    ship, bug;
 
 
@@ -80,8 +83,9 @@ public class XUnitTypes {
 
 
     public void load() {
-        explorer = new ErekirUnitType("explorer") {
+        explorer = new XErekirAbilityUnitType("explorer") {
             {
+                activeAbility = new XActiveAbility(new TurboAA("boost"));
                 constructor = UnitEntity::create;
                 this.coreUnitDock = true;
                 this.controller = (u) -> {
@@ -246,8 +250,8 @@ public class XUnitTypes {
                 rotateSpeed = 3f;
 
                 accel = 0.09f;
-                health = 850f;
-                armor = 2f;
+                health = 800f;
+                armor = 5f;
                 hitSize = 12f;
                 engineOffset = 7f;
                 engineSize = 2f;
@@ -281,7 +285,7 @@ public class XUnitTypes {
                     top = true;
                     layerOffset = 0.001f;
                     rotate = true;
-                    rotateSpeed = 1.5f;
+                    rotateSpeed = 2f;
                     shootSound = Sounds.flame;
                     shootY = 5f;
                     reload = 12f;
@@ -312,8 +316,8 @@ public class XUnitTypes {
 
             rotateSpeed = 1.2f;
             accel = 0.09f;
-            health = 1800f;
-            armor = 5f;
+            health = 1700f;
+            armor = 8f;
             hitSize = 16f;
             engineSize = 0;
             fogRadius = 25;
@@ -342,6 +346,60 @@ public class XUnitTypes {
                 bullet = XBullets.emberBulletType;
             }});
         }};
+
+        hellhound = new ErekirUnitType("hellhound"){
+            {
+                constructor = (Prov<Unit>) UnitEntity::create;
+                envDisabled = 0;
+
+                lowAltitude = false;
+                flying = true;
+                drag = 0.06f;
+                speed = 1.5f;
+                rotateSpeed = 3.4f;
+                accel = 0.1f;
+                health = 5000f;
+                armor = 10f;
+                hitSize = 32f;
+                payloadCapacity = Mathf.sqr(3f) * tilePayload;
+                researchCostMultiplier = 0f;
+                targetAir = true;
+
+                engineSize = 6f;
+                engineOffset = 61 / 4f;
+                weapons.add(
+                        new Weapon(XilionJavaMod.name("hellhould-flamethrower")) {{
+                            ejectEffect = new Effect();
+                            mirror = true;
+                            alternate = true;
+                            x = 29 / 4f;
+                            y = 44 / 4f;
+                            layerOffset = -0.001f;
+                            cooldownTime = 30f;
+                            recoil = 1.5f;
+                            heatColor = Color.valueOf("f9350f");
+                            rotate = true;
+                            rotateSpeed = 3f;
+                            shootSound = Sounds.flame;
+                            shootY = 5f;
+                            reload = 6f;
+                            recoil = 1f;
+                            ejectEffect = Fx.none;
+                            bullet = new BulletType(4.5f, 11f) {{
+                                ammoMultiplier = 3f;
+                                hitSize = 7f;
+                                lifetime = 20f;
+                                pierce = true;
+                                pierceBuilding = true;
+                                pierceCap = 2;
+                                shootEffect = Fx.shootSmallFlame;
+                                hitEffect = Fx.hitFlameSmall;
+                                despawnEffect = Fx.none;
+                                keepVelocity = false;
+                                hittable = false;
+                            }};
+                        }});
+            }};
         cerberus =  new ErekirUnitType("cerberus"){
             {
                 constructor = (Prov<Unit>) UnitEntity::create;
@@ -579,7 +637,7 @@ public class XUnitTypes {
                     new Weapon(XilionJavaMod.name("spectra-helix")){{
                         x = 0;
                         y = 0;
-                        reload = 110f;
+                        reload = 90f;
                         mirror = false;
                         recoil = 6f;
                         shootCone = 20f;
@@ -607,7 +665,7 @@ public class XUnitTypes {
                     new Weapon(XilionJavaMod.name("spectra-helix-middle")){{
                         x = 0;
                         y = 0;
-                        reload = 110f;
+                        reload = 90f;
                         mirror = false;
                         recoil = 6f;
                         shootCone = 20f;
@@ -712,6 +770,7 @@ public class XUnitTypes {
                 layerOffset = -0.001f;
                 cooldownTime = 30f;
                 recoil = 1.5f;
+                /*
                 bullet = new LaserBoltBulletType(5f, 120){{
                     ejectEffect= new Effect();
                     lifetime = 30f;
@@ -724,6 +783,9 @@ public class XUnitTypes {
                     frontColor = Pal.sapBullet;
                     hitEffect =  new Effect();
                 }};
+
+                 */
+                bullet = XBullets.assaultTypeBullet;
             }});
         }};
         quick =  new ErekirUnitType("quick"){{
@@ -772,6 +834,42 @@ public class XUnitTypes {
                     maxRange =48f;
                 }};
             }});
+        }};
+        dash = new ErekirUnitType("dash"){{
+            constructor = (Prov<Unit>) UnitEntity::create;
+            aiController = FlyingAI::new;
+            health = 600;
+            armor =0;
+            speed = 4f;
+            hitSize = 12;
+
+            itemCapacity = 20;
+            // isCounted = false;
+            buildSpeed =  0.6f;
+            faceTarget = true;
+            rotateSpeed = 15f;
+            flying = true;
+            //rotateShooting = true;
+            engineSize = 4.5f;
+            engineOffset = 8f;
+            buildRange = 80f;
+            buildBeamOffset = 6f;
+
+            /*
+            weapons.add(
+                    new Weapon("quick-weapon-mount"){{
+                        shootSound = Sounds.lasershoot;
+
+                        reload = 20f;
+                        x = 3f;
+                        y = 3f;
+                        rotate = true;
+
+                        mirror = true;
+                        bullet = XBullets.QuickTypeBullet;
+                    }});
+
+             */
         }};
         acari = new ErekirUnitType("acari"){
             {
@@ -856,6 +954,59 @@ public class XUnitTypes {
                             strokeFrom = 2f;
                         }});
                     }};
+                }});
+            }};
+        blastbeetle = new ErekirUnitType("blastbeetle"){
+            {
+                constructor = (Prov<Unit>) LegsUnit::create;
+                speed = 0.62f;
+                drag = 0.11f;
+                hitSize = 16f;
+                rotateSpeed = 3f;
+                health = 2300;
+                armor = 10f;
+                legStraightness = 0.3f;
+                stepShake = 0f;
+
+                legCount = 6;
+                legLength = 11f;
+                lockLegBase = false;
+                legContinuousMove = true;
+                legExtension = -2f;
+                legBaseOffset = 5f;
+                legMaxLength = 1.3f;
+                legMinLength = 0.6f;
+                legLengthScl = 0.96f;
+                legForwardScl = 1.4f;
+                legGroupSize = 3;
+                rippleScale = 0.2f;
+
+                legMoveSpace = 1f;
+                allowLegStep = true;
+                hovering = true;
+                legPhysicsLayer = false;
+
+                shadowElevation = 0.1f;
+                groundLayer = Layer.legUnit - 1f;
+                targetAir = true;
+                researchCostMultiplier = 0f;
+                range = 40f;
+
+                weapons.add(new Weapon(XilionJavaMod.name("blastbeetle-weapon")) {{
+                    shootSound = Sounds.missile;
+
+                    mirror = false;
+                    showStatSprite = false;
+                    x = 0f;
+                    y = 0f;
+                    shootY = 9f;
+                    reload = 120f;
+
+                    cooldownTime = 90f;
+                    range = 40f;
+                    heatColor = Pal.turretHeat;
+                    bullet = XBullets.blastTypeBullet;
+                    recoil = 0f;
                 }});
             }};
         sanatick = new ErekirUnitType("sanatick"){
@@ -1284,36 +1435,7 @@ public class XUnitTypes {
         */
 
 
-        dash = new UnitType("dash"){{
-            constructor = (Prov<Unit>) UnitEntity::create;
-            aiController = FlyingAI::new;
-            health = 270;
-            armor =0;
-            speed = 4.8f;
-            hitSize = 9;
-             
-            itemCapacity = 20;
-           // isCounted = false;
-            buildSpeed =  0.6f;
-            faceTarget = true;
-            rotateSpeed = 10f;
-            flying = true;
-            //rotateShooting = true;
-            engineSize = 3.0f;
-            weapons.add(
-                    new Weapon("quick-weapon-mount"){{
-                        shootSound = Sounds.lasershoot;
 
-                        reload = 20f;
-                        x = 3f;
-                        y = 3f;
-                        rotate = true;
-
-                        mirror = true;
-                        bullet = XBullets.QuickTypeBullet;
-                    }});
-
-        }};
 
         leap = new UnitType("leap"){{
             constructor = (Prov<Unit>) UnitEntity::create;

@@ -9,12 +9,16 @@ import mindustry.game.EventType.*;
 import mindustry.mod.*;
 
 import xilion.content.*;
+import xilion.util.UnitUIFragment;
 import xilion.util.XPacketHelper;
 import xilion.util.XUnitHandler;
 
+import static arc.Core.*;
+import static mindustry.Vars.*;
+
 
 public class XilionJavaMod extends Mod{
-
+    public UnitUIFragment unitUI = new UnitUIFragment();
     public static final String MOD_NAME = "xilion";
     public static String name(String name){
         return MOD_NAME + "-" + name;
@@ -128,7 +132,7 @@ public class XilionJavaMod extends Mod{
 
     public void init(){
         Items.copper.uiIcon = Items.copper.fullIcon;
-
+        unitUI.build(ui.hudGroup);
        // UnitTypes.crawler.health = 250; //   +50HP
       //  UnitTypes.fortress.health = 1000; //    +100HP
       //  UnitTypes.arkyid.health = 7000; //  -1000HP
