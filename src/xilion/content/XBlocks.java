@@ -646,6 +646,7 @@ public class XBlocks {
                 shootSound = Sounds.spark;
                 consumePower(4f);
                 coolant = consumeCoolant(0.1f);
+                outlineColor = XColors.outline;
             }};
             heavy = new ItemTurret("heavy") {
                 {
@@ -738,6 +739,7 @@ public class XBlocks {
                     shootY = 6f;
                     rotateSpeed = 2f;
                     range = 120f;
+                    outlineColor = XColors.outline;
                 }
             };
             regularity = new ItemTurret("regularity") {{
@@ -781,6 +783,7 @@ public class XBlocks {
                 coolant = consume(new ConsumeLiquid(Liquids.hydrogen, 5f / 60f));
                 consumeLiquid(Liquids.water, 10f / 60f);
                 squareSprite = false;
+                outlineColor = XColors.outline;
             }};
 
             discharge = new ItemTurret("discharge") {{
@@ -846,6 +849,7 @@ public class XBlocks {
                 coolant.optional = true;
                 coolantMultiplier = 2f;
                 squareSprite = false;
+                outlineColor = XColors.outline;
             }};
             isolate = new ItemTurret("isolate") {
                 {
@@ -888,7 +892,7 @@ public class XBlocks {
                     scaledHealth = 150.0F;
                     coolant = consumeCoolant(10 / 60F);
                     consumePower(4.0F);
-                    outlineColor = Pal.darkOutline;
+                    outlineColor = XColors.outline;
                 }
             };
 
@@ -963,7 +967,7 @@ public class XBlocks {
 
                 shootWarmupSpeed = 0.08f;
 
-                outlineColor = Pal.darkOutline;
+                outlineColor = XColors.outline;
 
                 scaledHealth = 280;
                 range = 128f;
@@ -991,7 +995,7 @@ public class XBlocks {
                 shootSound = Sounds.missileLaunch;
                 ammoPerShot = 6;
                 maxAmmo = 12;
-                outlineColor = Pal.darkOutline;
+                outlineColor = XColors.outline;
                 shootCone = 1.25f;
                 rotateSpeed = 1.5f;
                 consumeLiquid(XItems.synGas, 8f / 60f);

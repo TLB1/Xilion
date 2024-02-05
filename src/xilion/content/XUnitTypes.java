@@ -28,12 +28,12 @@ import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
 import mindustry.type.*;
-import mindustry.type.unit.ErekirUnitType;
 import mindustry.type.weapons.RepairBeamWeapon;
 import xilion.XilionJavaMod;
 import xilion.activeAbilities.TurboAA;
 import xilion.entities.LegUnitFaceBuildingAI;
 import xilion.entities.XErekirAbilityUnitType;
+import xilion.entities.XilionUnitType;
 import xilion.entities.abilities.XDashAbility;
 import xilion.entities.abilities.XSpeedBuffFieldAbility;
 import xilion.util.XActiveAbility;
@@ -148,7 +148,7 @@ public class XUnitTypes {
                 });
             }
         };
-        ship = new ErekirUnitType("ship"){{
+        ship = new XilionUnitType("ship"){{
             constructor = (Prov<Unit>) UnitEntity::create;
             flying = true;
             speed  = engineSize = 1f;
@@ -157,7 +157,7 @@ public class XUnitTypes {
             health = 100f;
             hitSize = 6f;
         }};
-        bug = new ErekirUnitType("bug"){{
+        bug = new XilionUnitType("bug"){{
             constructor = (Prov<Unit>) LegsUnit::create;
             speed = 0.7f;
             drag = 0.1f;
@@ -239,7 +239,7 @@ public class XUnitTypes {
 
         }};
         */
-        blaze = new ErekirUnitType("blaze"){
+        blaze = new XilionUnitType("blaze"){
             {
                 constructor = (Prov<Unit>) ElevationMoveUnit::create;
                 hovering = true;
@@ -307,7 +307,7 @@ public class XUnitTypes {
                     }};
                 }});
             }};
-        ember = new ErekirUnitType("ember"){{
+        ember = new XilionUnitType("ember"){{
             constructor = (Prov<Unit>) UnitEntity::create;
             lowAltitude = false;
             flying = true;
@@ -347,7 +347,7 @@ public class XUnitTypes {
             }});
         }};
 
-        hellhound = new ErekirUnitType("hellhound"){
+        hellhound = new XilionUnitType("hellhound"){
             {
                 constructor = (Prov<Unit>) UnitEntity::create;
                 envDisabled = 0;
@@ -400,7 +400,7 @@ public class XUnitTypes {
                             }};
                         }});
             }};
-        cerberus =  new ErekirUnitType("cerberus"){
+        cerberus =  new XilionUnitType("cerberus"){
             {
                 constructor = (Prov<Unit>) UnitEntity::create;
                 aiController = FlyingFollowAI::new;
@@ -521,7 +521,7 @@ public class XUnitTypes {
                 }});
             }};
 
-        aura = new ErekirUnitType("aura"){{
+        aura = new XilionUnitType("aura"){{
             constructor = (Prov<Unit>) UnitEntity::create;
             flying = true;
             speed = 1.6f;
@@ -611,7 +611,7 @@ public class XUnitTypes {
                     }}
                     );
         }};
-        spectra = new ErekirUnitType("spectra"){{
+        spectra = new XilionUnitType("spectra"){{
             constructor = (Prov<Unit>) UnitEntity::create;
             flying = true;
             speed = 1.6f;
@@ -733,7 +733,7 @@ public class XUnitTypes {
                     }}
             );
         }};
-        annihilate = new ErekirUnitType("annihilate"){{
+        annihilate = new XilionUnitType("annihilate"){{
             constructor = (Prov<Unit>) UnitEntity::create;
             envDisabled = 0;
 
@@ -788,7 +788,7 @@ public class XUnitTypes {
                 bullet = XBullets.assaultTypeBullet;
             }});
         }};
-        quick =  new ErekirUnitType("quick"){{
+        quick =  new XilionUnitType("quick"){{
             constructor = (Prov<Unit>) UnitEntity::create;
             defaultCommand = UnitCommand.repairCommand;
             commands = new UnitCommand[]{UnitCommand.moveCommand, UnitCommand.repairCommand};
@@ -835,7 +835,7 @@ public class XUnitTypes {
                 }};
             }});
         }};
-        dash = new ErekirUnitType("dash"){{
+        dash = new XilionUnitType("dash"){{
             constructor = (Prov<Unit>) UnitEntity::create;
             aiController = FlyingAI::new;
             health = 600;
@@ -871,7 +871,7 @@ public class XUnitTypes {
 
              */
         }};
-        acari = new ErekirUnitType("acari"){
+        acari = new XilionUnitType("acari"){
             {
                 constructor = (Prov<Unit>) LegsUnit::create;
                 speed = 0.66f;
@@ -956,7 +956,7 @@ public class XUnitTypes {
                     }};
                 }});
             }};
-        blastbeetle = new ErekirUnitType("blastbeetle"){
+        blastbeetle = new XilionUnitType("blastbeetle"){
             {
                 constructor = (Prov<Unit>) LegsUnit::create;
                 speed = 0.62f;
@@ -1009,7 +1009,7 @@ public class XUnitTypes {
                     recoil = 0f;
                 }});
             }};
-        sanatick = new ErekirUnitType("sanatick"){
+        sanatick = new XilionUnitType("sanatick"){
             {
                 constructor = (Prov<Unit>) LegsUnit::create;
                 //defaultCommand = UnitCommand.rebuildCommand;
@@ -1086,7 +1086,7 @@ public class XUnitTypes {
                     }};
                 }});
             }};
-            strike =  new ErekirUnitType("strike"){{
+            strike =  new XilionUnitType("strike"){{
                 constructor = (Prov<Unit>) LegsUnit::create;
                 faceTarget = true;
                 speed = 0.9f;
@@ -1169,7 +1169,7 @@ public class XUnitTypes {
                     }};
                 }});
             }};
-            salticidae = new ErekirUnitType("salticidae"){{
+            salticidae = new XilionUnitType("salticidae"){{
                 constructor = (Prov<Unit>) LegsUnit::create;
                 speed = 0.78f;
                 drag = 0.11f;
@@ -1257,7 +1257,7 @@ public class XUnitTypes {
 
 
         }};
-        astacoidea = new ErekirUnitType("astacoidea"){
+        astacoidea = new XilionUnitType("astacoidea"){
             {
                 constructor = (Prov<Unit>) LegsUnit::create;
                 speed = 0.7f;
