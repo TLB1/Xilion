@@ -605,7 +605,7 @@ public class XBlocks {
                 researchCostMultiplier = 0.5f;
                 targetAir = true;
                 size = 2;
-                drawer = new DrawTurret(XilionJavaMod.name("")) {{
+                drawer = new DrawTurret(XilionJavaMod.TURRET_BASE) {{
 
                 }};
                 requirements(Category.turret, with(Items.silicon, 60, XItems.germanium, 100, XItems.cobalt, 60));
@@ -657,7 +657,7 @@ public class XBlocks {
                     size = 2;
                     squareSprite = false;
                     cooldownTime = 90f;
-                    drawer = new DrawTurret(XilionJavaMod.name("")) {{
+                    drawer = new DrawTurret(XilionJavaMod.TURRET_BASE) {{
 
                     }};
                     ammo(
@@ -764,7 +764,7 @@ public class XBlocks {
                         }}
                 );
 
-                drawer = new DrawTurret("reinforced-") {{
+                drawer = new DrawTurret(XilionJavaMod.TURRET_BASE) {{
                 }};
 
                 size = 3;
@@ -788,7 +788,7 @@ public class XBlocks {
                 buildCostMultiplier = 0.5f;
                 consumePower(6f);
                 requirements(Category.turret, ItemStack.with(Items.copper, 180, XItems.cobalt, 280, Items.silicon, 300));
-                drawer = new DrawTurret("reinforced-") {{
+                drawer = new DrawTurret(XilionJavaMod.TURRET_BASE) {{
                 }};
                 ammo(Items.copper, new BasicBulletType() {{
                     smokeEffect = Fx.shootSmokeTitan;
@@ -855,7 +855,7 @@ public class XBlocks {
                 outlineIcon = true;
 
                  */
-                    drawer = new DrawTurret("reinforced-") {{
+                    drawer = new DrawTurret(XilionJavaMod.TURRET_BASE) {{
                     }};
                     ammo(Items.surgeAlloy, new PointBulletType() {
                         {
@@ -931,7 +931,7 @@ public class XBlocks {
                 consumeAmmoOnce = true;
                 shootSound = Sounds.shootBig;
 
-                drawer = new DrawTurret("reinforced-") {{
+                drawer = new DrawTurret(XilionJavaMod.TURRET_BASE) {{
                     parts.add(
                             new RegionPart("-mid") {{
                                 under = true;
@@ -1011,7 +1011,7 @@ public class XBlocks {
                         }}
                 );
                 consumePower(25f);
-                drawer = new DrawTurret("reinforced-") {{
+                drawer = new DrawTurret(XilionJavaMod.TURRET_BASE) {{
                     //var heatp = DrawPart.PartProgress.warmup.blend(p -> Mathf.absin(2f, 1f) * p.warmup, 0.2f);
                     parts.add(new RegionPart("-wing") {{
                         progress = PartProgress.warmup;

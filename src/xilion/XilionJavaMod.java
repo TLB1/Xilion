@@ -20,6 +20,7 @@ import static mindustry.Vars.*;
 public class XilionJavaMod extends Mod{
     public UnitUIFragment unitUI = new UnitUIFragment();
     public static final String MOD_NAME = "xilion";
+    public static final String TURRET_BASE = MOD_NAME + "-";
     public static String name(String name){
         return MOD_NAME + "-" + name;
     }
