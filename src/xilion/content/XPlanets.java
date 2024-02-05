@@ -48,7 +48,7 @@ public class XPlanets {
             clearSectorOnLose = true;
             iconColor = Color.valueOf("43b6bc");
             atmosphereColor = Color.valueOf("43b6bc");
-            defaultCore = XBlocks.coreExplorer;
+            defaultCore = XBlocks.Core.coreExplorer;
             atmosphereRadIn = 0.025f;
             atmosphereRadOut = 0.35f;
             startSector = 33;

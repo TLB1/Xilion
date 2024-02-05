@@ -10,6 +10,6 @@ public class XPipe extends Duct {
     @Override
     public void init() {
         super.init();
-        bridgeReplacement = XBlocks.pipeBridge;
+        bridgeReplacement = XBlocks.Distribution.pipeBridge;
     }
 }

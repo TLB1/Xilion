@@ -53,7 +53,7 @@ public class XUnitHandler {
         blockMap.put(Blocks.coreBastion, new MaxUnitModifier(20,10,5,0,0));
         blockMap.put(Blocks.coreCitadel, new MaxUnitModifier(25,15,10,5,0));
         blockMap.put(Blocks.coreAcropolis, new MaxUnitModifier(30,20,15,10,5));
-        blockMap.put(XBlocks.coreExplorer, new MaxUnitModifier(20, 10, 5, 0, 0));
+        blockMap.put(XBlocks.Core.coreExplorer, new MaxUnitModifier(20, 10, 5, 0, 0));
     }
     public static void init(){
         initBlockMap();

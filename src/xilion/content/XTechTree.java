@@ -7,12 +7,18 @@ import mindustry.content.SectorPresets;
 import mindustry.game.Objectives;
 
 import static mindustry.content.TechTree.*;
-import static xilion.content.XBlocks.*;
+import static xilion.content.XBlocks.Drills.*;
+import static xilion.content.XBlocks.Distribution.*;
+import static xilion.content.XBlocks.Liquid.*;
+import static xilion.content.XBlocks.Turrets.*;
+import static xilion.content.XBlocks.Production.*;
+import static xilion.content.XBlocks.Walls.*;
+import static xilion.content.XBlocks.Power.*;
 import static xilion.content.XItems.*;
 
 public class XTechTree {
     public static void load() {
-        XPlanets.xilion.techTree = nodeRoot("xilion", XBlocks.coreExplorer, () -> {
+        XPlanets.xilion.techTree = nodeRoot("xilion", XBlocks.Core.coreExplorer, () -> {
             //Pipes
             node(pipe, () -> {
                 node(basicConduit, () -> {

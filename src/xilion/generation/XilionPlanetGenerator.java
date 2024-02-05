@@ -12,7 +12,7 @@ import xilion.content.XBlocks;
 import xilion.content.XSchematics;
 
 import static arc.graphics.VertexAttribute.position;
-import static xilion.content.XBlocks.*;
+import static xilion.content.XBlocks.Environment.*;
 
 public class XilionPlanetGenerator extends PlanetGenerator {
     float scl = 5f;
