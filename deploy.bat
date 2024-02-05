@@ -1,2 +1,0 @@
-./gradlew deploy
-Move-Item
