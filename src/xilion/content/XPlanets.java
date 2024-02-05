@@ -10,10 +10,8 @@ import mindustry.game.Team;
 import mindustry.graphics.g3d.HexMesh;
 import mindustry.graphics.g3d.HexSkyMesh;
 import mindustry.graphics.g3d.MultiMesh;
-import mindustry.maps.planet.ErekirPlanetGenerator;
 import mindustry.type.Item;
 import mindustry.type.Planet;
-import mindustry.world.Block;
 import mindustry.world.meta.Attribute;
 import xilion.generation.XilionPlanetGenerator;
 
@@ -48,7 +46,7 @@ public class XPlanets {
             clearSectorOnLose = true;
             iconColor = Color.valueOf("43b6bc");
             atmosphereColor = Color.valueOf("43b6bc");
-            defaultCore = XBlocks.Core.coreExplorer;
+            defaultCore = XBlocks.Base.coreExplorer;
             atmosphereRadIn = 0.025f;
             atmosphereRadOut = 0.35f;
             startSector = 33;

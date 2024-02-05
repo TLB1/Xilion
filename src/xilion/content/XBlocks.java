@@ -1,17 +1,15 @@
 package xilion.content;
 
+import arc.Core;
 import arc.graphics.Blending;
 import arc.graphics.Color;
 import arc.math.Interp;
 import arc.math.Mathf;
-import arc.struct.Seq;
 import mindustry.content.*;
-import mindustry.entities.Effect;
 import mindustry.entities.UnitSorts;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.*;
 import mindustry.entities.part.DrawPart;
-import mindustry.entities.part.FlarePart;
 import mindustry.entities.part.RegionPart;
 import mindustry.entities.pattern.ShootBarrel;
 import mindustry.gen.Sounds;
@@ -851,16 +849,9 @@ public class XBlocks {
                 squareSprite = false;
                 outlineColor = XColors.outline;
             }};
-            isolate = new ItemTurret("isolate") {
-                {
-                    final float brange = range = 200.0F;
+            isolate = new ItemTurret("isolate") {{
+                    final float brange = range = 240.0F;
                     requirements(Category.turret, ItemStack.with(Items.copper, 200, XItems.cobalt, 300, Items.silicon, 300));
-                /*outlineColor = Pal.darkOutline;
-                outlineIcon = true;
-
-                 */
-                    drawer = new DrawTurret(XilionJavaMod.TURRET_BASE) {{
-                    }};
                     ammo(Items.surgeAlloy, new PointBulletType() {
                         {
                             shootEffect = Fx.instShoot;
@@ -869,30 +860,46 @@ public class XBlocks {
                             trailEffect = Fx.instTrail;
                             despawnEffect = Fx.instBomb;
                             trailSpacing = 20.0F;
-                            damage = 450.0F;
+                            damage = 500F;
                             buildingDamageMultiplier = 0.2F;
                             speed = brange;
                             hitShake = 6.0F;
                             ammoMultiplier = 1.0F;
                         }
                     });
+                    heatColor = Pal.turretHeat;
+                    minWarmup = 0.94f;
+                    shootWarmupSpeed = 0.06f;
                     maxAmmo = 40;
-                    ammoPerShot = 5;
+                    ammoPerShot = 3;
                     rotateSpeed = 2.0F;
                     reload = 120.0F;
                     ammoUseEffect = Fx.casing3Double;
                     recoil = 4.0F;
-                    cooldownTime = reload;
+                    cooldownTime = reload*2f;
                     shake = 2.0F;
                     size = 3;
                     shootCone = 2.0F;
                     shootSound = Sounds.railgun;
                     unitSort = UnitSorts.weakest;
-                    coolantMultiplier = 0.4F;
-                    scaledHealth = 150.0F;
+                    coolantMultiplier = 1F;
+                    scaledHealth = 280f;
                     coolant = consumeCoolant(10 / 60F);
                     consumePower(4.0F);
                     outlineColor = XColors.outline;
+                    fullIcon = Core.atlas.find("isolate-full");
+                    drawer = new DrawTurret(XilionJavaMod.TURRET_BASE) {{
+                        parts.add(new RegionPart("-side") {{
+                            progress = PartProgress.warmup;
+                            heatProgress = PartProgress.warmup;
+                            heatColor = Pal.turretHeat;
+                            mirror = true;
+                            under = true;
+                            x  = - 0.75f;
+                            y = -0.75f;
+                            moves.add(new PartMove(PartProgress.warmup, 2f, 2f, 0f));
+                        }});
+                    }};
                 }
             };
 
@@ -1749,7 +1756,7 @@ public class XBlocks {
             }};
         }
     }
-    public static class Core {
+    public static class Base {
         public static Block coreExplorer;
         public static void load() {
             coreExplorer = new CoreBlock("core-explorer") {
@@ -1781,6 +1788,6 @@ public class XBlocks {
         Power.load();
         Production.load();
         Drills.load();
-        Core.load();
+        Base.load();
     }
 }

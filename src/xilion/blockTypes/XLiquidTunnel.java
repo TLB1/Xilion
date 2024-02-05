@@ -61,7 +61,7 @@ public class XLiquidTunnel extends Block {
         super.load();
         bottomRegion = Core.atlas.find(name + "-bottom");
         dirRegion = Core.atlas.find(name + "-dir");
-        //activeRegion = Core.atlas.find(name+"-active");
+        //activeRegion = Base.atlas.find(name+"-active");
         fullIcon = Core.atlas.find(name + "-full");
     }
 

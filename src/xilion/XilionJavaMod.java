@@ -65,7 +65,7 @@ public class XilionJavaMod extends Mod{
                 BaseDialog dialog = new BaseDialog("frog");
                 dialog.cont.add("behold").row();
                 //mod sprites are prefixed with the mod name (this mod is called 'example-java-mod' in its config)
-                dialog.cont.image(Core.atlas.find("xilion-frog")).pad(20f).row();
+                dialog.cont.image(Base.atlas.find("xilion-frog")).pad(20f).row();
                 dialog.cont.button("I see", dialog::hide).size(100f, 50f);
                 dialog.show();
                 Vars.content.getByName(ContentType.unit, "xilion-");
@@ -83,7 +83,7 @@ public class XilionJavaMod extends Mod{
                     BaseDialog dialog = new BaseDialog("frog");
                     dialog.cont.add("behold").row();
                     //mod sprites are prefixed with the mod name (this mod is called 'example-java-mod' in its config)
-                    dialog.cont.image(Core.atlas.find("xilion-frog")).pad(20f).row();
+                    dialog.cont.image(Base.atlas.find("xilion-frog")).pad(20f).row();
                     dialog.cont.button("I see", dialog::hide).size(100f, 50f);
                     dialog.show();
                     Vars.content.getByName(ContentType.unit, "xilion-");
@@ -122,7 +122,7 @@ public class XilionJavaMod extends Mod{
                 BaseDialog dialog = new BaseDialog("frog");
                 dialog.cont.add("behold").row();
                 //mod sprites are prefixed with the mod name (this mod is qcalled 'example-java-mod' in its config)
-                dialog.cont.image(Core.atlas.find("xilion-frog")).pad(20f).row();
+                dialog.cont.image(Base.atlas.find("xilion-frog")).pad(20f).row();
                 dialog.cont.button("I see", dialog::hide).size(100f, 50f);
                 dialog.show();
                 Vars.content.getByName(ContentType.unit, "xilion-");

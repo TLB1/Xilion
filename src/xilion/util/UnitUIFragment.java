@@ -34,12 +34,12 @@ public class UnitUIFragment{
                 IntFormat memnative = new IntFormat("memory2");
                 IntFormat units = new IntFormat("t1-units");
 
-                //info.label(() -> fps.get(Core.graphics.getFramesPerSecond())).left().style(Styles.outlineLabel).name("fps");
+                //info.label(() -> fps.get(Base.graphics.getFramesPerSecond())).left().style(Styles.outlineLabel).name("fps");
                 info.row();
                 if(android){
-                    info.label(() -> memnative.get((int)(Core.app.getJavaHeap() / 1024 / 1024), (int)(Core.app.getNativeHeap() / 1024 / 1024))).left().style(Styles.outlineLabel).name("memory2");
+                    info.label(() -> memnative.get((int)(Base.app.getJavaHeap() / 1024 / 1024), (int)(Base.app.getNativeHeap() / 1024 / 1024))).left().style(Styles.outlineLabel).name("memory2");
                 }else{
-                    info.label(() -> mem.get((int)(Core.app.getJavaHeap() / 1024 / 1024))).left().style(Styles.outlineLabel).name("memory");
+                    info.label(() -> mem.get((int)(Base.app.getJavaHeap() / 1024 / 1024))).left().style(Styles.outlineLabel).name("memory");
                 }
                 info.row();
 

@@ -3,7 +3,6 @@ package xilion.content;
 import arc.struct.Seq;
 import mindustry.content.Items;
 import mindustry.content.Liquids;
-import mindustry.content.SectorPresets;
 import mindustry.game.Objectives;
 
 import static mindustry.content.TechTree.*;
@@ -18,7 +17,7 @@ import static xilion.content.XItems.*;
 
 public class XTechTree {
     public static void load() {
-        XPlanets.xilion.techTree = nodeRoot("xilion", XBlocks.Core.coreExplorer, () -> {
+        XPlanets.xilion.techTree = nodeRoot("xilion", XBlocks.Base.coreExplorer, () -> {
             //Pipes
             node(pipe, () -> {
                 node(basicConduit, () -> {
