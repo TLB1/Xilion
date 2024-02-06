@@ -16,10 +16,8 @@ import mindustry.entities.abilities.MoveEffectAbility;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.effect.WaveEffect;
-import mindustry.entities.part.DrawPart;
 import mindustry.entities.part.HoverPart;
 import mindustry.entities.part.RegionPart;
-import mindustry.entities.part.ShapePart;
 import mindustry.entities.pattern.ShootAlternate;
 import mindustry.entities.pattern.ShootHelix;
 import mindustry.entities.pattern.ShootPattern;
@@ -31,7 +29,6 @@ import mindustry.type.*;
 import mindustry.type.weapons.RepairBeamWeapon;
 import xilion.XilionJavaMod;
 import xilion.activeAbilities.TurboAA;
-import xilion.entities.LegUnitFaceBuildingAI;
 import xilion.entities.XErekirAbilityUnitType;
 import xilion.entities.XilionUnitType;
 import xilion.entities.abilities.XDashAbility;
@@ -61,7 +58,7 @@ public class XUnitTypes {
     snake,
     explorer,
     //Quick class units:
-    quick, dash, leap, supersonic,hypersonic, leaptest,
+    quick, dash, leap, sonic, leaptest,
     acari, blastbeetle, sanatick,
 
            blaze, ember, hellhound, cerberus,aura,spectra, annihilate, etherium,
@@ -847,11 +844,11 @@ public class XUnitTypes {
             // isCounted = false;
             buildSpeed =  0.6f;
             faceTarget = true;
-            rotateSpeed = 15f;
+            rotateSpeed = 8f;
             flying = true;
             //rotateShooting = true;
-            engineSize = 4.5f;
-            engineOffset = 8f;
+            engineSize = 4f;
+            engineOffset = 7f;
             buildRange = 80f;
             buildBeamOffset = 6f;
 
@@ -870,6 +867,66 @@ public class XUnitTypes {
                     }});
 
              */
+        }};
+        leap = new XilionUnitType("leap"){{
+            constructor = (Prov<Unit>) UnitEntity::create;
+            aiController = FlyingAI::new;
+            health = 2400;
+            armor = 3;
+            speed = 4.0f;
+            hitSize = 16;
+            itemCapacity = 40;
+            buildSpeed =  1.6f;
+            faceTarget = true;
+            rotateSpeed = 8f;
+            flying = true;
+            engineSize = 5.0f;
+            abilities.add(new XDashAbility(27, 360));
+            engineLayer = Layer.flyingUnit-0.1f;
+
+
+
+
+            weapons.add(
+                    new Weapon(XilionJavaMod.name("leap-weapon")){{
+                        shootSound = Sounds.lasershoot;
+                        // firstShotDelay = 10;
+                        shoot = new ShootPattern(){{
+                            shots = 1;
+                            shotDelay = 0f;
+                            firstShotDelay =10f;
+                        }};
+
+                        reload = 10f;
+                        x = 6;
+                        y = 0;
+                        rotate = true;
+
+                        mirror = true;
+                        bullet = XBullets.QuickTypeBullet;
+                        bullet.lifetime = 35;
+                    }});
+
+        }};
+        sonic = new XilionUnitType("sonic"){{
+
+            constructor = (Prov<PayloadUnit>) PayloadUnit::create;
+            aiController = FlyingAI::new;
+            health = 6000;
+            armor = 6;
+            speed = 2.0f;
+            hitSize = 36;
+            itemCapacity = 80;
+            payloadCapacity = (3f * 3f) * tilePayload;
+            buildSpeed =  2.8f;
+            faceTarget = true;
+            rotateSpeed = 2f;
+            flying = true;
+            engineLayer = Layer.flyingUnit-0.1f;
+            engineSize = 10.0f;
+            engineOffset = 18f;
+            abilities.add(new XDashAbility(60, 1000));
+            abilities.add(new XSpeedBuffFieldAbility( XStatusEffects.speedTierOne, 480f, 480f, 80));
         }};
         acari = new XilionUnitType("acari"){
             {
@@ -1086,6 +1143,8 @@ public class XUnitTypes {
                     }};
                 }});
             }};
+
+        /*
             strike =  new XilionUnitType("strike"){{
                 constructor = (Prov<Unit>) LegsUnit::create;
                 faceTarget = true;
@@ -1372,7 +1431,7 @@ public class XUnitTypes {
             weapons.add(XWeapons.strikeOrb);
 
         }};
-
+        */
         /*strike = new UnitType("strike"){{
 
             constructor = (Prov<Unit>) LegsUnit::create;
@@ -1437,74 +1496,7 @@ public class XUnitTypes {
 
 
 
-        leap = new UnitType("leap"){{
-            constructor = (Prov<Unit>) UnitEntity::create;
-            aiController = FlyingAI::new;
 
-            health = 570;
-            this.
-            armor =2;
-            speed = 4.0f;
-            hitSize = 16;
-
-            itemCapacity = 40;
-            //isCounted = false;
-            buildSpeed =  1.6f;
-            faceTarget = true;
-            rotateSpeed = 8f;
-            flying = true;
-            //rotateShooting = true;
-            engineSize = 5.0f;
-            abilities.add(new XDashAbility(27, 360));
-            engineLayer = Layer.flyingUnit-0.1f;
-
-
-
-
-            weapons.add(
-                    new Weapon(XilionJavaMod.name("leap-weapon-mount")){{
-                        shootSound = Sounds.lasershoot;
-                       // firstShotDelay = 10;
-                        shoot = new ShootPattern(){{
-                            shots = 1;
-                            shotDelay = 0f;
-                            firstShotDelay =10f;
-                        }};
-
-                        reload = 10f;
-                        x = 6;
-                        y = 0;
-                        rotate = true;
-
-                        mirror = true;
-                        bullet = XBullets.QuickTypeBullet;
-                        bullet.lifetime = 35;
-                    }});
-
-        }};
-
-        supersonic = new UnitType("supersonic"){{
-
-            constructor = (Prov<PayloadUnit>) PayloadUnit::create;
-            aiController = FlyingAI::new;
-            health = 6000;
-            armor =4;
-            speed = 2.0f;
-            hitSize = 36;
-            itemCapacity = 80;
-            payloadCapacity = (3f * 3f) * tilePayload;
-            //isCounted = false;
-            buildSpeed =  2.8f;
-            faceTarget = true;
-            rotateSpeed = 3f;
-            flying = true;
-            engineLayer = Layer.flyingUnit-0.1f;
-            //rotateShooting = true;
-            engineSize = 10.0f;
-            engineOffset = 18f;
-            abilities.add(new XDashAbility(60, 1000));
-            abilities.add(new XSpeedBuffFieldAbility( XStatusEffects.speedTierOne, 480f, 480f, 80));
-        }};
         /*
        snake = new SnakeEntityType("snake"){{
             constructor = (Prov<Unit>) UnitEntity::create;

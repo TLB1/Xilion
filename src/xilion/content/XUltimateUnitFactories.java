@@ -156,7 +156,7 @@ public class XUltimateUnitFactories {
 
                     new UnitType[]{UnitTypes.zenith, UnitTypes.antumbra},
                     new UnitType[]{UnitTypes.mega, UnitTypes.quad},
-                    new UnitType[]{XUnitTypes.leap, XUnitTypes.supersonic},
+                    new UnitType[]{XUnitTypes.leap, XUnitTypes.sonic},
 
                     new UnitType[]{UnitTypes.bryde, UnitTypes.sei},
                     new UnitType[]{UnitTypes.cyerce, UnitTypes.aegires}
