@@ -14,8 +14,10 @@ import mindustry.content.StatusEffects;
 import mindustry.entities.Effect;
 import mindustry.entities.abilities.MoveEffectAbility;
 import mindustry.entities.bullet.*;
+import mindustry.entities.effect.ExplosionEffect;
 import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.effect.WaveEffect;
+import mindustry.entities.part.HaloPart;
 import mindustry.entities.part.HoverPart;
 import mindustry.entities.part.RegionPart;
 import mindustry.entities.pattern.ShootAlternate;
@@ -26,7 +28,9 @@ import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
 import mindustry.type.*;
+import mindustry.type.unit.ErekirUnitType;
 import mindustry.type.weapons.RepairBeamWeapon;
+import mindustry.world.draw.DrawHeatRegion;
 import xilion.XilionJavaMod;
 import xilion.activeAbilities.TurboAA;
 import xilion.entities.XErekirAbilityUnitType;
@@ -61,7 +65,7 @@ public class XUnitTypes {
     quick, dash, leap, sonic, leaptest,
     acari, blastbeetle, sanatick,
 
-           blaze, ember, hellhound, cerberus,aura,spectra, annihilate, etherium,
+           blaze, ember, hellhound, cerberus,aura,spectra, refract, irradiate,
                    ship, bug;
 
 
@@ -521,9 +525,9 @@ public class XUnitTypes {
         aura = new XilionUnitType("aura"){{
             constructor = (Prov<Unit>) UnitEntity::create;
             flying = true;
-            speed = 1.6f;
+            speed = 2.2f;
             accel = 0.09f;
-            drag = 0.08f;
+            drag = 0.06f;
             health = 400f;
             hitSize = 10f;
             armor = 0f;
@@ -611,9 +615,9 @@ public class XUnitTypes {
         spectra = new XilionUnitType("spectra"){{
             constructor = (Prov<Unit>) UnitEntity::create;
             flying = true;
-            speed = 1.6f;
-            accel = 0.04f;
-            drag = 0.08f;
+            speed = 2f;
+            accel = 0.05f;
+            drag = 0.04f;
             health = 1200f;
             armor = 2f;
             hitSize = 18f;
@@ -730,7 +734,7 @@ public class XUnitTypes {
                     }}
             );
         }};
-        annihilate = new XilionUnitType("annihilate"){{
+        refract = new XilionUnitType("refract"){{
             constructor = (Prov<Unit>) UnitEntity::create;
             envDisabled = 0;
 
@@ -753,7 +757,7 @@ public class XUnitTypes {
                     new UnitEngine(44 / 4f, -52 / 4f, 3f, 315f)
             );
             weapons.add(
-            new Weapon(XilionJavaMod.name("annihilate-lazer")){{
+            new Weapon(XilionJavaMod.name("refract-lazer")){{
                 heatColor = Pal.sapBulletBack;
                 shootSound = Sounds.lasershoot;
                 ejectEffect = new Effect();
@@ -783,6 +787,48 @@ public class XUnitTypes {
 
                  */
                 bullet = XBullets.assaultTypeBullet;
+            }});
+        }};
+        irradiate = new XilionUnitType("irradiate"){{
+            constructor = (Prov<Unit>) UnitEntity::create;
+            flying = true;
+            drag = 0.08f;
+            speed = 1.8f;
+            rotateSpeed = 2f;
+            accel = 0.09f;
+            health = 6000f;
+            armor = 6f;
+            hitSize = 36f;
+            engineSize = 5.8f;
+            engineOffset = 54f / 4f;
+            fogRadius = 35;
+            itemCapacity = 0;
+            lowAltitude = true;
+
+            setEnginesMirror(
+                    new UnitEngine(40 / 4f, -55 / 4f, 3.8f, 315f)
+            );
+
+            parts.add(
+
+                    new RegionPart("-blade"){{
+                        moves.add(new PartMove(PartProgress.reload, 3f, 2f, -9f));
+                        progress = PartProgress.warmup;
+                        mirror = true;
+                    }});
+
+
+            weapons.add(new Weapon(){{
+                shootSound = Sounds.shockBlast;
+                x = 0f;
+                y = -3f;
+                shootY = 0f;
+                reload = 140f;
+                mirror = false;
+                minWarmup = 0.95f;
+                shake = 4f;
+                cooldownTime = reload - 10f;
+                bullet = XBullets.assaultTypeBulletBig;
             }});
         }};
         quick =  new XilionUnitType("quick"){{
@@ -935,7 +981,7 @@ public class XUnitTypes {
                 drag = 0.11f;
                 hitSize = 10f;
                 rotateSpeed = 3f;
-                health = 1000;
+                health = 950;
                 armor = 6f;
                 legStraightness = 0.3f;
                 stepShake = 0f;
@@ -1020,7 +1066,7 @@ public class XUnitTypes {
                 drag = 0.11f;
                 hitSize = 16f;
                 rotateSpeed = 3f;
-                health = 2300;
+                health = 2250;
                 armor = 10f;
                 legStraightness = 0.3f;
                 stepShake = 0f;

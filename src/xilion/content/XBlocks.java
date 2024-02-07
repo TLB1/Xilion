@@ -995,9 +995,9 @@ public class XBlocks {
                 liquidCapacity = 50f;
                 minWarmup = 0.94f;
                 shootWarmupSpeed = 0.04f;
-                scaledHealth = 300;
+                scaledHealth = 340;
                 size = 5;
-                range = 400f;
+                range = 480f;
                 shootY = 19f;
                 shootSound = Sounds.missileLaunch;
                 ammoPerShot = 6;
@@ -1008,17 +1008,24 @@ public class XBlocks {
                 consumeLiquid(XItems.synGas, 8f / 60f);
                 ammo(
                         XItems.boron, new BasicBulletType(8f, 3000) {{
-                            width = 20f;
-                            height = 20f;
-                            lifetime = 50f;
-                            ammoMultiplier = 1f;
+                            width = 24f;
+                            height = 24f;
+                            lifetime = 60f;
+                            splashDamageRadius = 10f;
+                            pierce = true;
+                            pierceDamageFactor = 0.8f;
+                            knockback = 60f;
+
                         }},
                         Items.surgeAlloy, new BasicBulletType(8f, 3000) {{
-                            width = 20f;
-                            height = 20f;
-                            lifetime = 50f;
+                            width = 24f;
+                            height = 24f;
+                            lifetime = 60f;
                             reloadMultiplier = 1.5f;
                             ammoMultiplier = 1f;
+                            pierce = true;
+                            knockback = 60f;
+                            pierceDamageFactor = 0.8f;
                         }}
                 );
                 consumePower(25f);
