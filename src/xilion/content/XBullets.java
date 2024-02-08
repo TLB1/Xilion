@@ -168,7 +168,7 @@ public class XBullets {
     }};
      assaultTypeBulletBig = new BulletType(5f, 600){{
          trailChance = 100f;
-         lifetime = 45f;
+         lifetime = 40f;
          hitSize = 16;
          drawSize = 60f;
          splashDamageRadius = 48f;

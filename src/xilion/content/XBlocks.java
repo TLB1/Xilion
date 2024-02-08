@@ -860,7 +860,7 @@ public class XBlocks {
                             trailEffect = Fx.instTrail;
                             despawnEffect = Fx.instBomb;
                             trailSpacing = 20.0F;
-                            damage = 500F;
+                            damage = 550F;
                             buildingDamageMultiplier = 0.2F;
                             speed = brange;
                             hitShake = 6.0F;
@@ -885,7 +885,7 @@ public class XBlocks {
                     coolantMultiplier = 1F;
                     scaledHealth = 280f;
                     coolant = consumeCoolant(10 / 60F);
-                    consumePower(4.0F);
+                    consumePower(5.0F);
                     outlineColor = XColors.outline;
                     fullIcon = Core.atlas.find("isolate-full");
                     drawer = new DrawTurret(XilionJavaMod.TURRET_BASE) {{

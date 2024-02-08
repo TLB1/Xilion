@@ -1190,7 +1190,7 @@ public class XUnitTypes {
                 }});
             }};
 
-        /*
+
             strike =  new XilionUnitType("strike"){{
                 constructor = (Prov<Unit>) LegsUnit::create;
                 faceTarget = true;
@@ -1198,7 +1198,7 @@ public class XUnitTypes {
                 drag = 0.1f;
                 hitSize = 9f;
                 rotateSpeed = 3f;
-                health = 600;
+                health = 550;
                 armor = 0f;
                 legStraightness = 0.4f;
                 stepShake = 0f;
@@ -1236,7 +1236,7 @@ public class XUnitTypes {
                     mirror = true;
                     shootSound = Sounds.missile;
                     recoil = 4f;
-                    bullet = new ArtilleryBulletType(2.5f, 40){{
+                    bullet = new ArtilleryBulletType(2.5f, 45){{
                         shootEffect = new MultiEffect(Fx.shootSmallColor, new Effect(9, e -> {
                             color(Color.white, e.color, e.fin());
                             stroke(0.7f + e.fout());
@@ -1274,6 +1274,7 @@ public class XUnitTypes {
                     }};
                 }});
             }};
+            /*
             salticidae = new XilionUnitType("salticidae"){{
                 constructor = (Prov<Unit>) LegsUnit::create;
                 speed = 0.78f;
