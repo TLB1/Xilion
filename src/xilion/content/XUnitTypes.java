@@ -14,10 +14,8 @@ import mindustry.content.StatusEffects;
 import mindustry.entities.Effect;
 import mindustry.entities.abilities.MoveEffectAbility;
 import mindustry.entities.bullet.*;
-import mindustry.entities.effect.ExplosionEffect;
 import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.effect.WaveEffect;
-import mindustry.entities.part.HaloPart;
 import mindustry.entities.part.HoverPart;
 import mindustry.entities.part.RegionPart;
 import mindustry.entities.pattern.ShootAlternate;
@@ -28,9 +26,7 @@ import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
 import mindustry.type.*;
-import mindustry.type.unit.ErekirUnitType;
 import mindustry.type.weapons.RepairBeamWeapon;
-import mindustry.world.draw.DrawHeatRegion;
 import xilion.XilionJavaMod;
 import xilion.activeAbilities.TurboAA;
 import xilion.entities.XErekirAbilityUnitType;
@@ -1274,6 +1270,44 @@ public class XUnitTypes {
                     }};
                 }});
             }};
+            assault = new XilionUnitType("assault"){
+                {
+                    constructor = (Prov<Unit>) LegsUnit::create;
+                    speed = 0.66f;
+                    drag = 0.11f;
+                    hitSize = 15f;
+                    rotateSpeed = 3.5f;
+                    health = 1500;
+                    armor = 3f;
+                    legStraightness = 0.3f;
+                    stepShake = 0f;
+
+                    legCount = 4;
+                    legLength = 11f;
+                    lockLegBase = false;
+                    legContinuousMove = true;
+                    legExtension = -2f;
+                    legBaseOffset = 5f;
+                    legMaxLength = 1.3f;
+                    legMinLength = 0.6f;
+                    legLengthScl = 0.96f;
+                    legForwardScl = 1.4f;
+                    legGroupSize = 3;
+                    rippleScale = 0.2f;
+
+                    legMoveSpace = 1f;
+                    allowLegStep = true;
+                    hovering = true;
+                    legPhysicsLayer = false;
+
+                    shadowElevation = 0.1f;
+                    groundLayer = Layer.legUnit - 1f;
+                    targetAir = true;
+                    researchCostMultiplier = 0f;
+                    range = 96f;
+
+                    weapons.add(XWeapons.assaultOrbTriple);
+                }};
             /*
             salticidae = new XilionUnitType("salticidae"){{
                 constructor = (Prov<Unit>) LegsUnit::create;

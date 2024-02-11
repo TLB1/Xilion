@@ -89,18 +89,19 @@ public class XWeapons {
 
         }};
     }};
-    public static Weapon StrikeOrbTriple = new Weapon("strike-orb"){{
+    public static Weapon assaultOrbTriple = new Weapon(XilionJavaMod.name("assault-weapon")){{
         shootCone = 12;
         x = 0;
-        y = 6;
-        shootY = 0;
+        y = 0;
+        shootY = 6;
         mirror = false;
         top = true;
 
         inaccuracy = 18;
-
+        heatColor = Pal.turretHeat;
+        cooldownTime = 60f;
         //shots = 3;
-        reload = 32;
+        reload = 40;
         recoil = 0.8f;
         //firstShotDelay = 12;
         shoot = new ShootPattern(){{
@@ -112,7 +113,7 @@ public class XWeapons {
         rotateSpeed = 4;
 
 
-        bullet = new BasicBulletType(3.8f, 20){{
+        bullet = new BasicBulletType(3.8f, 25){{
             shootEffect = new MultiEffect() {{
                 lifetime = 15;
 
@@ -126,8 +127,8 @@ public class XWeapons {
                     cone = -360;
                     lenFrom = 4;
                     lenTo = 0;
-                    colorFrom = XColors.attackClassEC1;
-                    colorTo = XColors.attackClassEC2;
+                    colorFrom = Pal.sapBullet;
+                    colorTo = Pal.sapBulletBack;
                 }};
                 effects[1] = new ParticleEffect(){{
                     particles = 1;
@@ -136,8 +137,8 @@ public class XWeapons {
                     length = 0;
                     lifetime = 26;
                     cone = 360;
-                    colorFrom = XColors.attackClassEC1;
-                    colorTo = XColors.attackClassEC2;
+                    colorFrom = Pal.sapBullet;
+                    colorTo = Pal.sapBulletBack;
                 }};
             }};
             trailChance = 1;
@@ -146,22 +147,22 @@ public class XWeapons {
                 length = 0;
                 lifetime = 15;
                 sizeFrom = 5;
-                colorFrom = XColors.attackClassEC1;
-                colorTo = XColors.attackClassEC2;
+                colorFrom = Pal.sapBullet;
+                colorTo = Pal.sapBulletBack;
             }};
             keepVelocity = false;
             width = 4;
             height = 4.5f;
-            lifetime = 32;
+            lifetime = 26;
             shootCone = 12;
             homingDelay = 5;
             homingPower = 0.07f;
             homingRange = 40;
             splashDamageRadius = 8;
-            splashDamage = 6;
-            buildingDamageMultiplier = 0.2f;
-            frontColor = XColors.attackClassEC1;
-            backColor = XColors.attackClassEC2;
+            splashDamage = 5;
+            //buildingDamageMultiplier = 0.3f;
+            frontColor = Pal.sapBullet;
+            backColor = Pal.sapBulletBack;
 
         }};
     }};

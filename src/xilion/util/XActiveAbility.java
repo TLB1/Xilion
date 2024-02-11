@@ -28,14 +28,16 @@ public class XActiveAbility {
     public void triggerAbility(Unit unit) {
         Log.info("ability checks...");
         if(!abilityReady()) return;
-        //if(Vars.net.client() Vars.net.server()){
-            Log.info("May be client, tried to send packets");
+        Log.info("May be client, tried to send packets");
             //TODO: send packet to server to request ability use
-        if(Vars.net.server()){
-            triggeredAbility(unit);
-        }else{
-            XPacketHelper.Client.TryActiveAbilityUse(unit);
-        }
+        if(Vars.net.active()){
+            if(Vars.net.server()){
+                triggeredAbility(unit);
+            }else{
+                XPacketHelper.Client.TryActiveAbilityUse(unit);
+            }
+        }else triggeredAbility(unit);
+
 
         //}
     }
