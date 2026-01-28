@@ -1,6 +1,6 @@
 # ![icon](https://github.com/TLB1/Xilion/assets/105983271/2d957375-fdda-4be5-940f-9b5631b2292c) Xilion
 
-A Java Mindustry mod that will add a new capaign. 
+A Java Mindustry mod that adds a new capaign on the planet Xilion. Currently still in pre-alpha
 
 ## Please star this mod to keep up to date on the progress!
 The repo and code are currently quite messy, all content will be improved when the time comes
