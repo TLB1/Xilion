@@ -42,7 +42,7 @@ public class XSteamVentSmall extends SteamVent {
 
 
     public boolean checkAdjacent(Tile tile){
-        for(var point : newOffsets){
+        for(Point2 point : newOffsets){
             Tile other = Vars.world.tile(tile.x + point.x, tile.y + point.y);
             if(other == null || other.floor() != this){
                 return false;

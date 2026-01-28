@@ -69,10 +69,10 @@ public class XLargeOre extends OverlayFloor {
             }
 
             packer.add(MultiPacker.PageType.environment, name + (i + 1), image);
-            packer.add(MultiPacker.PageType.editor, "editor-" + name + (i + 1), image);
+            packer.add(MultiPacker.PageType.ui, "editor-" + name + (i + 1), image);
 
             if(i == 0){
-                packer.add(MultiPacker.PageType.editor, "editor-block-" + name + "-full", image);
+                packer.add(MultiPacker.PageType.ui, "editor-block-" + name + "-full", image);
                 packer.add(MultiPacker.PageType.main, "block-" + name + "-full", image);
             }
         }

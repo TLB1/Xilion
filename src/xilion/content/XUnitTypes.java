@@ -5,6 +5,7 @@ import arc.graphics.Color;
 import arc.graphics.g2d.Lines;
 import arc.math.Interp;
 import arc.math.Mathf;
+import arc.struct.Seq;
 import mindustry.ai.UnitCommand;
 import mindustry.ai.types.BuilderAI;
 import mindustry.ai.types.FlyingAI;
@@ -36,13 +37,10 @@ import xilion.entities.abilities.XSpeedBuffFieldAbility;
 import xilion.util.XActiveAbility;
 
 import static arc.graphics.g2d.Draw.color;
-import static arc.graphics.g2d.Lines.lineAngle;
 import static arc.graphics.g2d.Lines.stroke;
-import static arc.math.Angles.randLenVectors;
 import static mindustry.Vars.tilePayload;
 import static mindustry.content.Fx.shootSmall;
 import static mindustry.content.Fx.shootSmallSmoke;
-import static mindustry.gen.Sounds.blaster;
 
 public class XUnitTypes {
     public static  UnitType
@@ -52,7 +50,7 @@ public class XUnitTypes {
 */
     // Erekir base units
      salticidae, astacoidea,
-
+    blastTerror,
     //Attack class units:
     attack, strike, assault, battery, violence,
     snake,
@@ -66,7 +64,7 @@ public class XUnitTypes {
 
 
     public XUnitTypes() {
-
+/*
         EntityMapping.nameMap.put(XilionJavaMod.name("attack"), EntityMapping.idMap[1]);
         EntityMapping.nameMap.put(XilionJavaMod.name("strike"), EntityMapping.idMap[2]);
 
@@ -75,6 +73,8 @@ public class XUnitTypes {
         EntityMapping.nameMap.put(XilionJavaMod.name("leap"), EntityMapping.idMap[8]);
         EntityMapping.nameMap.put(XilionJavaMod.name("supersonic"), EntityMapping.idMap[9]);
         EntityMapping.nameMap.put(XilionJavaMod.name("acari"), EntityMapping.idMap[11]);
+
+ */
     }
 
 
@@ -283,7 +283,7 @@ public class XUnitTypes {
                     layerOffset = 0.001f;
                     rotate = true;
                     rotateSpeed = 2f;
-                    shootSound = Sounds.flame;
+                    shootSound = Sounds.shootFlame;
                     shootY = 5f;
                     reload = 12f;
                     recoil = 1f;
@@ -326,7 +326,7 @@ public class XUnitTypes {
                     */
             );
             weapons.add(new Weapon(XilionJavaMod.name("ember-cannon")){{
-                shootSound = Sounds.missileLarge;
+                shootSound = Sounds.shootMissileLarge;
                 layerOffset = 0.0001f;
                 reload = 133f;
                 shootY = 8f;
@@ -377,7 +377,7 @@ public class XUnitTypes {
                             heatColor = Color.valueOf("f9350f");
                             rotate = true;
                             rotateSpeed = 3f;
-                            shootSound = Sounds.flame;
+                            shootSound = Sounds.shootFlame;
                             shootY = 5f;
                             reload = 6f;
                             recoil = 1f;
@@ -437,7 +437,7 @@ public class XUnitTypes {
                     inaccuracy = 7f;
                     ejectEffect = Fx.none;
                     shake = 1f;
-                    shootSound = Sounds.missile;
+                    shootSound = Sounds.shootMissile;
 
                     shoot = new ShootAlternate(){{
                         shots = 6;
@@ -488,7 +488,7 @@ public class XUnitTypes {
                     rotateSpeed = 3.5f;
                     reload = 50f;
                     recoil = 1f;
-                    shootSound = Sounds.beam;
+                    shootSound = Sounds.shootBeamPlasma;
                     continuous = true;
                     cooldownTime =60;
                     immunities.add(StatusEffects.burning);
@@ -524,7 +524,7 @@ public class XUnitTypes {
             speed = 2.2f;
             accel = 0.09f;
             drag = 0.06f;
-            health = 400f;
+            health = 350f;
             hitSize = 10f;
             armor = 0f;
             circleTarget = true;
@@ -544,7 +544,7 @@ public class XUnitTypes {
                 y = 2;
                 recoil = 4;
                 shootCone = 30;
-                shootSound =  blaster;
+                shootSound =  Sounds.shootBeamPlasma;
                 rotate = false;
                 shoot = new ShootHelix(){{
                     scl = 1f;
@@ -580,7 +580,7 @@ public class XUnitTypes {
                         y = 2;
                         recoil = 4;
                         shootCone = 30;
-                        shootSound =  blaster;
+                        shootSound =  Sounds.shootBeamPlasma;
                         rotate = false;
                         bullet = new BasicBulletType(){{
                             damage = 11;
@@ -611,13 +611,14 @@ public class XUnitTypes {
         spectra = new XilionUnitType("spectra"){{
             constructor = (Prov<Unit>) UnitEntity::create;
             flying = true;
-            speed = 2f;
-            accel = 0.05f;
-            drag = 0.04f;
+            speed = 2.2f;
+            accel = 0.06f;
+            drag = 0.03f;
             health = 1200f;
             armor = 2f;
             hitSize = 18f;
             range = 136f;
+
             setEnginesMirror(new UnitEngine(){{
                 x = 5;
                 y = -7;
@@ -643,7 +644,7 @@ public class XUnitTypes {
                             scl = 5f;
                             mag = 3f;
                         }};
-                        bullet = new BasicBulletType(4f, 25f){{
+                        bullet = new BasicBulletType(4f, 28f){{
                             homingPower = 0.03f;
                             frontColor = Pal.sapBullet;
                             backColor = Pal.sapBulletBack;
@@ -755,7 +756,7 @@ public class XUnitTypes {
             weapons.add(
             new Weapon(XilionJavaMod.name("refract-lazer")){{
                 heatColor = Pal.sapBulletBack;
-                shootSound = Sounds.lasershoot;
+                shootSound = Sounds.shootLaser;
                 ejectEffect = new Effect();
 
                 reload = 20f;
@@ -815,7 +816,7 @@ public class XUnitTypes {
 
 
             weapons.add(new Weapon(){{
-                shootSound = Sounds.shockBlast;
+                shootSound = Sounds.shockBullet;
                 x = 0f;
                 y = -3f;
                 shootY = 0f;
@@ -830,7 +831,7 @@ public class XUnitTypes {
         quick =  new XilionUnitType("quick"){{
             constructor = (Prov<Unit>) UnitEntity::create;
             defaultCommand = UnitCommand.repairCommand;
-            commands = new UnitCommand[]{UnitCommand.moveCommand, UnitCommand.repairCommand};
+            commands = Seq.with(UnitCommand.moveCommand, UnitCommand.repairCommand);
             health = 300;
             armor =0;
             speed = 2f;
@@ -931,7 +932,7 @@ public class XUnitTypes {
 
             weapons.add(
                     new Weapon(XilionJavaMod.name("leap-weapon")){{
-                        shootSound = Sounds.lasershoot;
+                        shootSound = Sounds.shootLaser;
                         // firstShotDelay = 10;
                         shoot = new ShootPattern(){{
                             shots = 1;
@@ -1007,7 +1008,7 @@ public class XUnitTypes {
                 range = 32f;
 
                 weapons.add(new Weapon("acari-weapon") {{
-                    shootSound = Sounds.missile;
+                    shootSound = Sounds.shootMissile;
                     mirror = false;
                     showStatSprite = false;
                     x = 0f;
@@ -1063,7 +1064,7 @@ public class XUnitTypes {
                 hitSize = 16f;
                 rotateSpeed = 3f;
                 health = 2250;
-                armor = 10f;
+                armor = 12f;
                 legStraightness = 0.3f;
                 stepShake = 0f;
 
@@ -1092,7 +1093,7 @@ public class XUnitTypes {
                 range = 40f;
 
                 weapons.add(new Weapon(XilionJavaMod.name("blastbeetle-weapon")) {{
-                    shootSound = Sounds.missile;
+                    shootSound = Sounds.shootMissile;
 
                     mirror = false;
                     showStatSprite = false;
@@ -1113,7 +1114,7 @@ public class XUnitTypes {
                 constructor = (Prov<Unit>) LegsUnit::create;
                 //defaultCommand = UnitCommand.rebuildCommand;
                 defaultCommand = UnitCommand.repairCommand;
-                commands =  new UnitCommand[]{UnitCommand.moveCommand, UnitCommand.repairCommand};
+                commands =  Seq.with(UnitCommand.moveCommand, UnitCommand.repairCommand);
                 //commands = new UnitCommand[]{UnitCommand.moveCommand, UnitCommand.rebuildCommand, UnitCommand.assistCommand};
                 //aiController =  LegUnitFaceBuildingAI::new;
                 buildSpeed = 0.3f;
@@ -1230,7 +1231,7 @@ public class XUnitTypes {
                     shootY = 1f;
                     alternate = true;
                     mirror = true;
-                    shootSound = Sounds.missile;
+                    shootSound = Sounds.shootMissile;
                     recoil = 4f;
                     bullet = new ArtilleryBulletType(2.5f, 45){{
                         shootEffect = new MultiEffect(Fx.shootSmallColor, new Effect(9, e -> {
@@ -1273,8 +1274,8 @@ public class XUnitTypes {
             assault = new XilionUnitType("assault"){
                 {
                     constructor = (Prov<Unit>) LegsUnit::create;
-                    speed = 0.66f;
-                    drag = 0.11f;
+                    speed = 0.75f;
+                    drag = 0.08f;
                     hitSize = 15f;
                     rotateSpeed = 3.5f;
                     health = 1500;
@@ -1304,10 +1305,67 @@ public class XUnitTypes {
                     groundLayer = Layer.legUnit - 1f;
                     targetAir = true;
                     researchCostMultiplier = 0f;
+                    researchCostMultiplier = 0f;
                     range = 96f;
 
                     weapons.add(XWeapons.assaultOrbTriple);
                 }};
+
+        blastTerror = new XilionUnitType("blast-terror"){{
+            constructor = (Prov<Unit>) LegsUnit::create;
+            flying = false;
+            speed = 0.7f;
+            rotateSpeed = 1.4f;
+            health = 45000f;
+            armor = 20f;
+            hitSize = 56f;
+            fogRadius = 50;
+            itemCapacity = 0;
+            lockLegBase = true;
+            legContinuousMove = true;
+            legStraightness = 0.6f;
+            baseLegStraightness = 0.5f;
+
+            legCount = 6;
+            legLength = 50f;
+            legForwardScl = 2.1f;
+            legMoveSpace = 1.05f;
+            rippleScale = 1.5f;
+            stepShake = 2f;
+            legGroupSize = 2;
+            legExtension = -3f;
+            legBaseOffset = 27f;
+            legBaseOffset = 16f;
+            legStraightLength = 0.9f;
+            legMaxLength = 1.2f;
+
+            hovering = true;
+
+            shadowElevation = 0.1f;
+            groundLayer = Layer.legUnit +0.2f;
+
+            parts.add(
+                    new RegionPart("-mandible"){{
+                        y = 10.5f;
+                        moves.add(new PartMove(PartProgress.reload, 6f, -4f, -9f));
+                        progress = PartProgress.warmup;
+                        mirror = true;
+                    }});
+
+
+            weapons.add(new Weapon(){{
+                shootSound = Sounds.shockBullet;
+                x = 0f;
+                y = 10.5f;
+                shootY = 2f;
+                reload = 280f;
+                mirror = false;
+                minWarmup = 0.95f;
+                shake = 10f;
+                cooldownTime = reload - 30f;
+                bullet = XBullets.guardianTerrorBlast;
+            }});
+        }};
             /*
             salticidae = new XilionUnitType("salticidae"){{
                 constructor = (Prov<Unit>) LegsUnit::create;

@@ -97,7 +97,7 @@ public class XWeapons {
         mirror = false;
         top = true;
 
-        inaccuracy = 18;
+        inaccuracy = 15;
         heatColor = Pal.turretHeat;
         cooldownTime = 60f;
         //shots = 3;
@@ -158,8 +158,8 @@ public class XWeapons {
             homingDelay = 5;
             homingPower = 0.07f;
             homingRange = 40;
-            splashDamageRadius = 8;
-            splashDamage = 5;
+            splashDamageRadius = 16;
+            splashDamage = 15;
             //buildingDamageMultiplier = 0.3f;
             frontColor = Pal.sapBullet;
             backColor = Pal.sapBulletBack;

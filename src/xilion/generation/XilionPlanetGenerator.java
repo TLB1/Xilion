@@ -39,7 +39,8 @@ public class XilionPlanetGenerator extends PlanetGenerator {
         position = Tmp.v33.set(position).scl(scl);
         return (Mathf.pow(Simplex.noise3d(seed, 7, 0.5f, 1f/3f, position.x, position.y, position.z), 2.3f) + waterOffset) / (1f + waterOffset);
     }
-    @Override
+
+    //TODO: Fix for v154
     public Color getColor(Vec3 vec3) {
         Block block = getBlock(vec3);
 

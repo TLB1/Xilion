@@ -168,7 +168,7 @@ public class XLiquidTunnel extends Block {
                     dumpLiquid(liquids.current(), 1.2f, 2);
                     var link = findLink();
                     if (link != null) {
-                        if (link.liquids().currentAmount() < this.liquids().currentAmount()) {
+                        if (link.liquids.currentAmount() < this.liquids.currentAmount()) {
                             transferLiquid(link, (liquids.currentAmount() - link.liquids.currentAmount()) / 2, liquids.current());
                         }
                     }
@@ -236,7 +236,7 @@ public class XLiquidTunnel extends Block {
             //only accept if there's an output point, or it comes from a link
             if (link == null && !(source instanceof XLiquidTunnel.LiquidTunnelBuild b && b.findLink() == this))
                 return false;
-            if (link != null && source instanceof XLiquidTunnel.LiquidTunnelBuild b && b.liquids().get(b.liquids().current()) > liquids.get(liquids.current()))
+            if (link != null && source instanceof XLiquidTunnel.LiquidTunnelBuild b && b.liquids.get(b.liquids.current()) > liquids.get(liquids.current()))
                 return true;
             int rel = this.relativeToEdge(source.tile);
 

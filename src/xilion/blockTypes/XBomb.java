@@ -53,7 +53,7 @@ public class XBomb extends XTrap{
 
         @Override
         public boolean shouldActivate() {
-            Unit target = Units.bestEnemy(this.team, this.x, this.y, triggerRadius, (e) -> !e.dead(), UnitSorts.strongest);
+            Unit target = Units.bestEnemy(this.team, this.x, this.y, triggerRadius, (e) -> (!e.dead() && !e.isFlying()), UnitSorts.strongest);
             return target != null;
         }
 

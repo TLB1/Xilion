@@ -13,4 +13,8 @@ public class XColors {
     public static final arc.graphics.Color ember2  = new Color(0xfeb38099);
 
     public static final arc.graphics.Color outline = new Color(0x2e2929FF);
+
+    public static final arc.graphics.Color guardianFront = new Color(0xa6d1aaFF);
+
+    public static final arc.graphics.Color guardianBack = new Color(0x6c8c88FF);
 }

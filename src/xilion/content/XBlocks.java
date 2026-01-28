@@ -40,6 +40,8 @@ import xilion.XilionJavaMod;
 import xilion.blockTypes.*;
 import xilion.entities.XMirrorShootAlternate;
 
+import java.util.function.Supplier;
+
 import static mindustry.type.ItemStack.with;
 
 public class XBlocks {
@@ -588,7 +590,7 @@ public class XBlocks {
         }
     }
     public static class Turrets {
-        public static Block giantBomb, shock, heavy, regularity, prevent, discharge, isolate, focus, aquila;
+        public static Block giantBomb, tarMine, shock, heavy, regularity, prevent, discharge, isolate, divide, focus, aquila;
         private static void load() {
             giantBomb = new XBomb("giant-bomb") {{
                 explosionRadius = 5 * 8f;
@@ -597,6 +599,19 @@ public class XBlocks {
                 size = 2;
                 explosionDamage = 350f;
                 requirements = with(Items.silicon, 40, XItems.cobalt, 30);
+            }};
+            tarMine = new XStatusMine("tar-mine"){{
+                explosionRadius = 4 * 8f;
+                statusRadius = 4 * 8f;
+                canStopActivating = true;
+                activationTime = 60f;
+                status = StatusEffects.tarred;
+                statusDuration = 240f;
+                explodeSound = Sounds.loopExtract;
+                triggerRadius = 2 * 8f;
+                size = 2;
+                explosionDamage = 50f;
+                requirements = with(Items.silicon, 35, Items.tungsten, 20);
             }};
             shock = new PowerTurret("shock") {{
                 researchCost = with(Items.silicon, 60, XItems.germanium, 100, XItems.cobalt, 60);
@@ -641,7 +656,7 @@ public class XBlocks {
                 heatColor = Color.red;
                 recoil = 1f;
                 health = 800;
-                shootSound = Sounds.spark;
+                shootSound = Sounds.shootArc;
                 consumePower(4f);
                 coolant = consumeCoolant(0.1f);
                 outlineColor = XColors.outline;
@@ -674,7 +689,7 @@ public class XBlocks {
                                 backColor = hitColor = trailColor = Pal.sapBullet.lerp(Pal.sapBulletBack, 0.5f);
                                 frontColor = Color.white;
                                 ammoMultiplier = 1f;
-                                hitSound = Sounds.titanExplosion;
+                                hitSound = Sounds.explosionTitan;
 
                                 status = StatusEffects.blasted;
 
@@ -706,7 +721,7 @@ public class XBlocks {
                                 backColor = hitColor = trailColor = Pal.bulletYellow.lerp(Pal.bulletYellowBack, 0.5f);
                                 frontColor = Color.white;
                                 ammoMultiplier = 1f;
-                                hitSound = Sounds.titanExplosion;
+                                hitSound = Sounds.explosionTitan;
 
                                 status = StatusEffects.blasted;
 
@@ -727,7 +742,7 @@ public class XBlocks {
                             }}
                     );
 
-                    shootSound = Sounds.mediumCannon;
+                    shootSound = Sounds.shootArtillery;
                     ammoPerShot = 4;
                     maxAmmo = ammoPerShot * 3;
                     targetAir = false;
@@ -777,7 +792,7 @@ public class XBlocks {
                 targetGround = false;
                 ammoUseEffect = Fx.casing2;
                 scaledHealth = 260;
-                shootSound = Sounds.shootBig;
+                shootSound = Sounds.shootScatter;
                 coolant = consume(new ConsumeLiquid(Liquids.hydrogen, 5f / 60f));
                 consumeLiquid(Liquids.water, 10f / 60f);
                 squareSprite = false;
@@ -794,7 +809,7 @@ public class XBlocks {
                 ammo(Items.copper, new BasicBulletType() {{
                     smokeEffect = Fx.shootSmokeTitan;
                     this.hitColor = Pal.techBlue;
-                    this.despawnSound = hitSound = Sounds.spark;
+                    this.despawnSound = hitSound = Sounds.shootArc;
                     ammoMultiplier = 1f;
                     this.sprite = "large-orb";
                     this.trailEffect = Fx.missileTrail;
@@ -841,7 +856,7 @@ public class XBlocks {
                 this.consumeAmmoOnce = false;
                 this.size = 3;
                 this.scaledHealth = 270f;
-                this.shootSound = Sounds.missile;
+                this.shootSound = Sounds.shootMissile;
 
                 coolant = consume(new ConsumeLiquid(Liquids.hydrogen, 10f / 60f));
                 coolant.optional = true;
@@ -880,7 +895,7 @@ public class XBlocks {
                     shake = 2.0F;
                     size = 3;
                     shootCone = 2.0F;
-                    shootSound = Sounds.railgun;
+                    shootSound = Sounds.shootLaser;
                     unitSort = UnitSorts.weakest;
                     coolantMultiplier = 1F;
                     scaledHealth = 280f;
@@ -900,8 +915,7 @@ public class XBlocks {
                             moves.add(new PartMove(PartProgress.warmup, 2f, 2f, 0f));
                         }});
                     }};
-                }
-            };
+                }};
 
             prevent = new ItemTurret("prevent") {{
                 requirements(Category.turret, with(Items.tungsten, 200, XItems.cobalt, 220, Items.silicon, 200));
@@ -940,7 +954,7 @@ public class XBlocks {
                 rotateSpeed = 5f;
                 shootCone = 30f;
                 consumeAmmoOnce = true;
-                shootSound = Sounds.shootBig;
+                shootSound = Sounds.shootSalvo;
 
                 drawer = new DrawTurret(XilionJavaMod.TURRET_BASE) {{
                     parts.add(
@@ -985,6 +999,56 @@ public class XBlocks {
 
                 limitRange(-4f);
             }};
+
+            divide = new ItemTurret("divide") {{
+                researchCost = with(XItems.boron, 150, XItems.cobalt, 350, Items.silicon, 300);
+                requirements(Category.turret, with(XItems.boron, 300, XItems.cobalt, 700, Items.silicon, 600));
+                buildCostMultiplier = 0.5f;
+                ammo(
+                        XItems.cobalt, new BasicBulletType(6f, 20) {{
+                            collidesGround = false;
+                            width = 12f;
+                            height = 20f;
+                            ammoMultiplier = 2;
+                            lifetime = 40f;
+                            targetGround = false;
+                            splashDamage = 40f;
+                            splashDamageRadius= 56f;
+                        }},
+                        XItems.boron, new BasicBulletType(6f, 40) {{
+                            collidesGround = false;
+                            width = 12f;
+                            height = 20f;
+                            lifetime = 40f;
+                            ammoMultiplier = 2;
+                            splashDamage = 50f;
+                            splashDamageRadius= 40f;
+                            targetGround = false;
+                        }}
+
+                );
+
+                drawer = new DrawTurret(XilionJavaMod.TURRET_BASE) {{
+
+                }};
+
+                size = 4;
+                range = 240f;
+                reload = 6f;
+                ammoEjectBack = 3f;
+                recoil = 2f;
+                shake = 1f;
+
+                targetGround = false;
+                ammoUseEffect = Fx.casing2;
+                scaledHealth = 260;
+                shootSound = Sounds.shootSalvo;
+                coolant = consume(new ConsumeLiquid(Liquids.nitrogen, 10f / 60f));
+                consumeLiquid(Liquids.hydrogen, 10f / 60f);
+                squareSprite = false;
+                outlineColor = XColors.outline;
+            }};
+
             aquila = new ItemTurret("aquila") {{
                 requirements(Category.turret, with(Items.silicon, 500, XItems.cobalt, 600, Items.tungsten, 500, XItems.boron, 300));
                 heatColor = Pal.turretHeat;
@@ -999,7 +1063,7 @@ public class XBlocks {
                 size = 5;
                 range = 480f;
                 shootY = 19f;
-                shootSound = Sounds.missileLaunch;
+                shootSound = Sounds.shootArtillery;
                 ammoPerShot = 6;
                 maxAmmo = 12;
                 outlineColor = XColors.outline;
@@ -1091,7 +1155,7 @@ public class XBlocks {
 
                 shootSound = Sounds.none;
                 loopSoundVolume = 1f;
-                loopSound = Sounds.laserbeam;
+                loopSound = Sounds.shootLaser;
 
                 shootWarmupSpeed = 0.08f;
                 shootCone = 360f;
@@ -1110,6 +1174,404 @@ public class XBlocks {
                 unitSort = UnitSorts.strongest;
 
                 consumeLiquid(Liquids.nitrogen, 6f / 60f);
+            }};
+        }
+    }
+    public static class BattleTurrets{
+        public static Block
+                /* 2x2 */
+                shock, heavy,
+                /* 3x3 */
+                regularity, prevent, isolate,
+                /* 4x4 */
+                divide,
+                /* 5x5 */
+                zeus        ;
+        private static void load() {
+            shock = new BattleTurret("shock") {{
+
+                targetAir = true;
+                size = 2;
+                drawer = new DrawTurret(XilionJavaMod.TURRET_BASE) {{
+
+                }};
+                requirements(Category.turret, with(XItems.guardianOre, 100));
+                buildCostMultiplier = 0.5f;
+                shootType = new LightningBulletType() {{
+                    damage = 20f;
+                    lightningLength = 25;
+                    collidesAir = true;
+                    ammoMultiplier = 1f;
+                    targetAir = true;
+
+
+                    //for visual stats only.
+                    buildingDamageMultiplier = 0.25f;
+
+                    lightningType = new BulletType(0.0001f, 0f) {{
+                        lifetime = Fx.lightning.lifetime;
+                        hitEffect = Fx.hitLancer;
+                        despawnEffect = Fx.none;
+                        status = StatusEffects.shocked;
+                        statusDuration = 10f;
+                        hittable = false;
+                        targetAir = true;
+                        collidesAir = true;
+                        lightColor = Color.white;
+                        buildingDamageMultiplier = 0.25f;
+                    }};
+                }};
+                reload = 25f;
+                shootCone = 10f;
+                rotateSpeed = 8f;
+                targetAir = true;
+                range = 144f;
+                shootEffect = Fx.lightningShoot;
+                heatColor = Color.red;
+                recoil = 1f;
+                health = 800;
+                shootSound = Sounds.shootArc;
+                //consumePower(4f);
+                //coolant = consumeCoolant(0.1f);
+                outlineColor = XColors.outline;
+            }};
+            heavy = new BattleTurret("heavy") {
+                {
+                    requirements(Category.turret, with(XItems.guardianOre, 100));
+                    buildCostMultiplier = 0.5f;
+                    health = 800;
+                    size = 2;
+                    squareSprite = false;
+                    cooldownTime = 90f;
+                    drawer = new DrawTurret(XilionJavaMod.TURRET_BASE) {{
+
+                    }};
+                   shootType = new ArtilleryBulletType(3f, 250, "shell") {{
+                                hitEffect = new MultiEffect(Fx.titanExplosion, Fx.titanSmoke);
+                                despawnEffect = Fx.none;
+                                knockback = 2f;
+                                lifetime = 40f;
+                                height = 12f;
+                                width = 11f;
+                                splashDamageRadius = 24f;
+                                splashDamage = 250f;
+                                scaledSplashDamage = true;
+                                backColor = hitColor = trailColor = Pal.sapBullet.lerp(Pal.sapBulletBack, 0.5f);
+                                frontColor = Color.white;
+                                ammoMultiplier = 1f;
+                                hitSound = Sounds.explosionTitan;
+
+                                status = StatusEffects.blasted;
+
+                                trailLength = 32;
+                                trailWidth = 3.35f;
+                                trailSinScl = 2.5f;
+                                trailSinMag = 0.5f;
+                                trailEffect = Fx.none;
+                                despawnShake = 7f;
+
+                                shootEffect = Fx.shootTitan;
+                                smokeEffect = Fx.shootSmokeTitan;
+
+                                trailInterp = v -> Math.max(Mathf.slope(v), 0.8f);
+                                shrinkX = 0.2f;
+                                shrinkY = 0.1f;
+                                buildingDamageMultiplier = 0.3f;
+                            }};
+
+                    shootSound = Sounds.shootArtillerySmall;
+                    targetAir = false;
+                    shake = 4f;
+                    recoil = 1f;
+                    reload = 60f * 2.5f;
+                    shootY = 6f;
+                    rotateSpeed = 2f;
+                    range = 120f;
+                    outlineColor = XColors.outline;
+                }
+            };
+            regularity = new BattleTurret("regularity") {{
+                requirements(Category.turret, with(XItems.guardianOre, 300));
+
+                shootType = new BasicBulletType(6f, 40) {{
+                            collidesGround = false;
+                            width = 10f;
+                            height = 20f;
+                            lifetime = 34f;
+                            targetGround = false;
+                        }};
+
+                drawer = new DrawTurret(XilionJavaMod.TURRET_BASE) {{
+                }};
+
+                size = 3;
+                range = 200f;
+                reload = 5f;
+                ammoEjectBack = 3f;
+                recoil = 2f;
+                shake = 1f;
+
+                targetGround = false;
+                ammoUseEffect = Fx.casing2;
+                scaledHealth = 260;
+                shootSound = Sounds.shootScatter;
+                //coolant = consume(new ConsumeLiquid(Liquids.hydrogen, 5f / 60f));
+                //consumeLiquid(Liquids.water, 10f / 60f);
+                squareSprite = false;
+                outlineColor = XColors.outline;
+            }};
+            prevent = new BattleTurret("prevent") {{
+                requirements(Category.turret, with(XItems.guardianOre, 300));
+                buildCostMultiplier = 0.5f;
+
+                shootType = new BasicBulletType() {{
+                    damage = 40;
+                    speed = 5.5f;
+                    width = height = 12;
+                    shrinkY = 0.3f;
+                    backSprite = "large-bomb-back";
+                    sprite = "mine-bullet";
+                    velocityRnd = 0.11f;
+                    targetGround = true;
+                    collidesGround = true;
+                    collidesTiles = false;
+                    shootEffect = Fx.shootBig2;
+                    smokeEffect = Fx.shootSmokeDisperse;
+                    frontColor = Color.white;
+                    backColor = trailColor = hitColor = Color.crimson;
+                    trailChance = 0.44f;
+                    knockback = 8f;
+                    lifetime = 24f;
+                    rotationOffset = 90f;
+                    trailRotation = true;
+                    trailEffect = Fx.disperseTrail;
+
+                    hitEffect = despawnEffect = Fx.hitBulletColor;
+                }};
+
+                reload = 16f;
+                shootY = 9.5f;
+
+                rotateSpeed = 5f;
+                shootCone = 30f;
+                consumeAmmoOnce = true;
+                shootSound = Sounds.shootSalvo;
+
+                drawer = new DrawTurret(XilionJavaMod.TURRET_BASE) {{
+                    parts.add(
+                            new RegionPart("-mid") {{
+                                under = true;
+                                moveY = -1.5f;
+                                progress = PartProgress.recoil;
+                                heatProgress = PartProgress.recoil.add(0.25f).min(PartProgress.warmup);
+                            }},
+                            new RegionPart("-outer") {{
+                                heatProgress = PartProgress.warmup;
+                                heatColor = Color.sky.cpy().a(0.9f);
+                                recoilIndex = 1;
+                                progress = PartProgress.recoil;
+                                heatProgress = PartProgress.recoil.add(0.25f).min(PartProgress.warmup);
+                                under = true;
+                                moveY = -1.5f;
+                            }});
+                }};
+
+                shoot = new XMirrorShootAlternate() {{
+                    spread = 3.5f;
+                    shots = 4;
+                    barrels = 2;
+                    shotDelay = 8f;
+                }};
+
+                targetGround = true;
+                inaccuracy = 8f;
+
+                shootWarmupSpeed = 0.08f;
+
+                outlineColor = XColors.outline;
+
+                scaledHealth = 280;
+                range = 128f;
+                size = 3;
+
+                //coolant = consume(new ConsumeLiquid(Liquids.water, 10f / 60f));
+                //coolantMultiplier = 2f;
+
+                limitRange(-4f);
+            }};
+            isolate = new BattleTurret("isolate") {{
+                final float brange = range = 240.0F;
+                requirements(Category.turret, with(XItems.guardianOre, 300));
+                shootType = new PointBulletType() {
+                    {
+                        shootEffect = Fx.instShoot;
+                        hitEffect = Fx.instHit;
+                        smokeEffect = Fx.smokeCloud;
+                        trailEffect = Fx.instTrail;
+                        despawnEffect = Fx.instBomb;
+                        trailSpacing = 20.0F;
+                        damage = 750F;
+                        buildingDamageMultiplier = 0.2F;
+                        speed = brange;
+                        hitShake = 6.0F;
+                        ammoMultiplier = 1.0F;
+                    }
+                };
+                heatColor = Pal.turretHeat;
+                minWarmup = 0.94f;
+                shootWarmupSpeed = 0.06f;
+                rotateSpeed = 2.0F;
+                reload = 120.0F;
+                ammoUseEffect = Fx.casing3Double;
+                recoil = 4.0F;
+                cooldownTime = reload*2f;
+                shake = 2.0F;
+                size = 3;
+                shootCone = 2.0F;
+                shootSound = Sounds.shootLaser;
+                unitSort = UnitSorts.weakest;
+                //coolantMultiplier = 1F;
+                scaledHealth = 280f;
+                //coolant = consumeCoolant(10 / 60F);
+                outlineColor = XColors.outline;
+                fullIcon = Core.atlas.find("isolate-full");
+                drawer = new DrawTurret(XilionJavaMod.TURRET_BASE) {{
+                    parts.add(new RegionPart("-side") {{
+                        progress = PartProgress.warmup;
+                        heatProgress = PartProgress.warmup;
+                        heatColor = Pal.turretHeat;
+                        mirror = true;
+                        under = true;
+                        x  = - 0.75f;
+                        y = -0.75f;
+                        moves.add(new PartMove(PartProgress.warmup, 2f, 2f, 0f));
+                    }});
+                }};
+            }};
+            divide = new BattleTurret("divide") {
+                {
+                    requirements(Category.turret, with(XItems.guardianOre, 600));
+                    buildCostMultiplier = 0.5f;
+                    scaledHealth = 280f;
+                    size = 4;
+                    squareSprite = false;
+                    cooldownTime = 90f;
+                    drawer = new DrawTurret(XilionJavaMod.TURRET_BASE) {{
+
+                    }};
+                    shootType = new BasicBulletType(4.5f, 200, "shell") {{
+                                hitEffect = Fx.titanExplosion;
+                                despawnEffect = Fx.titanExplosion;
+                                knockback = 2f;
+                                lifetime = 40f;
+                                height = 12f;
+                                width = 11f;
+                                splashDamageRadius = 40f;
+                                splashDamage = 200f;
+                                scaledSplashDamage = true;
+                                backColor = hitColor = trailColor = Pal.bulletYellow.lerp(Pal.bulletYellowBack, 0.5f);
+                                frontColor = Color.white;
+                                ammoMultiplier = 1f;
+                                hitSound = Sounds.explosionTitan;
+                                collidesAir = false;
+                                targetAir = false;
+
+                                status = StatusEffects.blasted;
+
+                                trailLength = 32;
+                                trailWidth = 3.35f;
+                                trailSinScl = 2.5f;
+                                trailSinMag = 0.5f;
+                                trailEffect = Fx.none;
+                                despawnShake = 7f;
+
+                                shootEffect = Fx.shootTitan;
+                                smokeEffect = Fx.shootSmokeTitan;
+
+                                trailInterp = v -> Math.max(Mathf.slope(v), 0.8f);
+                                shrinkX = 0.2f;
+                                shrinkY = 0.1f;
+                                buildingDamageMultiplier = 0.3f;
+                            }};
+
+                    shootSound = Sounds.shootSalvo;
+                    ammoPerShot = 2;
+                    maxAmmo = ammoPerShot * 3;
+                    targetAir = false;
+                    shake = 4f;
+                    recoil = 1f;
+                    reload = 60f * 2.5f / 4;
+                    shootY = 6f;
+                    rotateSpeed = 3f;
+                    range = 180f;
+                    outlineColor = XColors.outline;
+                }
+            };
+            zeus = new BattleTurret("zeus") {{
+                buildCostMultiplier = 0.5f;
+                requirements(Category.turret, ItemStack.with(XItems.guardianOre, 1200));
+                drawer = new DrawTurret(XilionJavaMod.TURRET_BASE) {{
+                }};
+                shootType = new BasicBulletType() {{
+                    smokeEffect = Fx.shootSmokeTitan;
+                    this.hitColor = Pal.techBlue;
+                    this.despawnSound = hitSound = Sounds.shootArc;
+                    ammoMultiplier = 1f;
+                    this.sprite = "large-orb";
+                    this.trailEffect = Fx.missileTrail;
+                    this.trailInterval = 6.0F;
+
+                    this.trailParam = 4.0F;
+                    this.speed = 8.0F;
+                    this.damage = 20F;
+                    splashDamage = 35f;
+                    splashDamageRadius = 18f;
+                    this.lifetime = 30.0F;
+                    this.width = this.height = 22.5F;
+                    this.backColor = Pal.techBlue;
+                    this.frontColor = Color.white;
+                    this.shrinkX = this.shrinkY = 0.0F;
+                    this.trailColor = Pal.techBlue;
+                    this.trailLength = 12;
+                    this.trailWidth = 3.3F;
+                    this.lightningDamage = 10.0F;
+                    this.lightning = 2;
+                    lightningLength = 16;
+                    this.knockback = 8f;
+                    this.lightningLength = 10;
+                    this.despawnEffect = this.hitEffect = new
+
+                            ExplosionEffect() {
+                                {
+                                    this.waveColor = Pal.techBlue;
+                                    this.smokeColor = Color.gray;
+                                    this.sparkColor = Color.white;
+                                    this.waveStroke = 4.0F;
+                                    this.waveRad = 20.0F;
+                                }
+                            };
+                }};
+                shoot = new ShootBarrel() {
+                    {
+                        this.barrels = new float[]{-10F, 0F, 0.0F, 0.0F, 0.0F, 0.0F, 10F, 0F, 0.0F};
+                        shots = 3;
+                        shotDelay = 3.3F;
+                    }
+                };
+                this.shootY = 10F;
+                reload = 10.0F;
+                inaccuracy = 5.0F;
+                range = 240.0F;
+                this.consumeAmmoOnce = false;
+                this.size = 5;
+                this.scaledHealth = 270f;
+                this.shootSound = Sounds.shootMissile;
+
+                coolant = consume(new ConsumeLiquid(Liquids.hydrogen, 10f / 60f));
+                coolant.optional = true;
+                coolantMultiplier = 2f;
+                squareSprite = false;
+                outlineColor = XColors.outline;
             }};
         }
     }
@@ -1155,7 +1617,7 @@ public class XBlocks {
                 generateEffect = Fx.turbinegenerate;
                 effectChance = 0.04f;
                 size = 2;
-                ambientSound = Sounds.hum;
+                ambientSound = Sounds.loopHum;
                 ambientSoundVolume = 0.04f;
 
                 drawer = new DrawMulti(new DrawDefault(), new DrawBlurSpin("-rotator", 1.1f * 9f) {{
@@ -1181,7 +1643,7 @@ public class XBlocks {
                 effectChance = 0.011f;
                 size = 2;
                 floating = false;
-                ambientSound = Sounds.hum;
+                ambientSound = Sounds.loopHum;
                 ambientSoundVolume = 0.07f;
                 drawer = new DrawMulti(new DrawDefault(), new DrawGlowRegion() {{
                     alpha = 1f;
@@ -1198,7 +1660,7 @@ public class XBlocks {
                 generateEffect = Fx.turbinegenerate;
                 effectChance = 0.01f;
                 size = 2;
-                ambientSound = Sounds.hum;
+                ambientSound = Sounds.loopHum;
                 ambientSoundVolume = 0.05f;
                 drawer = new DrawMulti(new DrawDefault(), new DrawBlurSpin("-rotator", 1.5f * 4f) {{
                     blurThresh = 0.01f;
@@ -1218,7 +1680,7 @@ public class XBlocks {
                 generateEffect = Fx.turbinegenerate;
                 effectChance = 0.06f;
                 size = 3;
-                ambientSound = Sounds.hum;
+                ambientSound = Sounds.loopHum;
                 ambientSoundVolume = 0.06f;
                 drawer = new DrawMulti(new DrawDefault(), new DrawBlurSpin("-rotator", 0.9f * 9f) {{
                     blurThresh = 0.01f;
@@ -1257,7 +1719,7 @@ public class XBlocks {
 
                 liquidCapacity = 60f;
 
-                ambientSound = Sounds.smelter;
+                ambientSound = Sounds.loopSmelter;
                 ambientSoundVolume = 0.12f;
 
             }};
@@ -1279,11 +1741,11 @@ public class XBlocks {
                 explosionRadius = 9;
                 explosionDamage = 2000;
                 explodeEffect = new MultiEffect(Fx.bigShockwave, new WrapEffect(Fx.titanSmoke, Liquids.ozone.color), Fx.massiveExplosion);
-                explodeSound = Sounds.largeExplosion;
+                explodeSound = Sounds.explosion;
 
                 powerProduction = 130f;
 
-                ambientSound = Sounds.bioLoop;
+                ambientSound = Sounds.loopBio;
                 ambientSoundVolume = 0.2f;
 
                 explosionPuddles = 80;
@@ -1350,7 +1812,7 @@ public class XBlocks {
                 itemCapacity = 30;
                 drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawArcSmelt(), new DrawDefault());
                 fogRadius = 3;
-                ambientSound = Sounds.smelter;
+                ambientSound = Sounds.loopSmelter;
                 ambientSoundVolume = 0.12f;
                 squareSprite = false;
                 consumeItems(with(XItems.erythrite, 6));
@@ -1370,7 +1832,7 @@ public class XBlocks {
                 itemCapacity = 30;
                 drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawArcSmelt(), new DrawDefault());
                 fogRadius = 3;
-                ambientSound = Sounds.smelter;
+                ambientSound = Sounds.loopSmelter;
                 ambientSoundVolume = 0.12f;
                 squareSprite = false;
                 consumeItems(with(XItems.carbon, 2, Items.sand, 5));
@@ -1390,7 +1852,7 @@ public class XBlocks {
                 itemCapacity = 30;
                 drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawArcSmelt(), new DrawDefault());
                 fogRadius = 3;
-                ambientSound = Sounds.smelter;
+                ambientSound = Sounds.loopSmelter;
                 ambientSoundVolume = 0.12f;
                 squareSprite = false;
                 consumeItems(with(XItems.malachite, 4));
@@ -1481,7 +1943,7 @@ public class XBlocks {
                         }}
                 );
 
-                ambientSound = Sounds.electricHum;
+                ambientSound = Sounds.loopElectricHum;
                 ambientSoundVolume = 0.06f;
 
                 regionRotated1 = 3;
@@ -1507,7 +1969,7 @@ public class XBlocks {
 
                 size = 3;
 
-                ambientSound = Sounds.extractLoop;
+                ambientSound = Sounds.loopExtract;
                 ambientSoundVolume = 0.08f;
                 squareSprite = false;
                 liquidCapacity = 80f;
@@ -1538,7 +2000,7 @@ public class XBlocks {
 
                 size = 3;
 
-                ambientSound = Sounds.hum;
+                ambientSound = Sounds.loopHum;
                 ambientSoundVolume = 0.08f;
                 squareSprite = false;
                 liquidCapacity = 80f;
@@ -1556,7 +2018,7 @@ public class XBlocks {
                 itemCapacity = 20;
                 craftTime = 60f * 3f;
 
-                ambientSound = Sounds.smelter;
+                ambientSound = Sounds.loopSmelter;
                 ambientSoundVolume = 0.9f;
 
                 outputItem = new ItemStack(Items.surgeAlloy, 2);
@@ -1600,7 +2062,7 @@ public class XBlocks {
                             glowScale = 6f;
                         }}
                 );
-                ambientSound = Sounds.electricHum;
+                ambientSound = Sounds.loopElectricHum;
                 ambientSoundVolume = 0.1f;
                 squareSprite = false;
                 regionRotated1 = 3;
@@ -1616,7 +2078,7 @@ public class XBlocks {
                 size = 2;
                 heatOutput = 8f;
                 craftTime = 60f;
-                ambientSound = Sounds.flux;
+                ambientSound = Sounds.loopFlux;
                 consumeLiquid(XItems.methane, 1f / 180f);
             }};
             haberProcessFacility = new HeatCrafter("haber-process-facility") {{
@@ -1638,7 +2100,7 @@ public class XBlocks {
 
                 size = 3;
 
-                ambientSound = Sounds.extractLoop;
+                ambientSound = Sounds.loopExtract;
                 ambientSoundVolume = 0.08f;
 
                 liquidCapacity = 80f;
@@ -1700,7 +2162,7 @@ public class XBlocks {
                 attribute2 = XAttributes.carbon;
                 output2 = XItems.carbon;
                 fogRadius = 2;
-                ambientSound = Sounds.drill;
+                ambientSound = Sounds.drillCharge;
                 ambientSoundVolume = 0.04f;
             }};
             oreDrill = new XBurstDrill("ore-drill") {{
@@ -1792,6 +2254,7 @@ public class XBlocks {
         Liquid.load();
         Walls.load();
         Turrets.load();
+        BattleTurrets.load();
         Power.load();
         Production.load();
         Drills.load();

@@ -3,12 +3,15 @@ package xilion.blockTypes;
 import arc.Core;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
+import arc.graphics.g2d.Fill;
+import arc.util.Log;
 import arc.util.Time;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
 import mindustry.Vars;
 import mindustry.gen.Building;
 import mindustry.gen.Bullet;
+import mindustry.graphics.BlockRenderer;
 import mindustry.type.Category;
 import mindustry.world.Block;
 import mindustry.world.Build;
@@ -16,6 +19,8 @@ import mindustry.world.Tile;
 import mindustry.world.meta.BuildVisibility;
 
 import java.beans.Visibility;
+
+import static mindustry.Vars.state;
 
 public class XTrap extends Block {
     public boolean canStopActivating = false;
@@ -67,6 +72,8 @@ public class XTrap extends Block {
         public void draw() {
            if(Vars.player != null &&(Vars.player.team() == team ||isActive())){
                Draw.rect(this.block.region, this.x, this.y, this.drawrot());
+               Draw.color((state.rules.fog && isVisible()) ? Color.white : BlockRenderer.blendShadowColor);
+               Log.info((state.rules.fog && isVisible()));
            }
 
         }

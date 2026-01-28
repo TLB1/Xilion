@@ -38,7 +38,7 @@ public class XPlanets {
 
             allowLaunchToNumbered = false;
             allowWaves = true;
-            allowWaveSimulation = true;
+            //allowWaveSimulation = true;
             allowSectorInvasion = true;
             allowLaunchSchematics = true;
             enemyCoreSpawnReplace = true;
@@ -56,8 +56,8 @@ public class XPlanets {
             landCloudColor = Color.valueOf("24b95a");
             //defaultEnv = Planets.erekir.defaultEnv;
             //itemWhitelist.addAll(Items.sand, Items.silicon, Items.tungsten, Items.surgeAlloy, Items.carbide, germanium, erythrite,cobaltPhosphate, carbon, cobalt, thermoplastic, boron, boronCarbide);
-            hiddenItems.addAll(Items.serpuloItems).addAll(Items.erekirOnlyItems).removeAll(allowedItems);
-            hiddenItems.removeAll(xilionItems);
+            //hiddenItems.addAll(Items.serpuloItems).addAll(Items.erekirOnlyItems).removeAll(allowedItems);
+            //hiddenItems.removeAll(xilionItems);
 
             ruleSetter = r -> {
                 r.waveTeam = Team.malis;

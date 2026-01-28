@@ -37,8 +37,6 @@ public class XActiveAbility {
                 XPacketHelper.Client.TryActiveAbilityUse(unit);
             }
         }else triggeredAbility(unit);
-
-
         //}
     }
     public void triggeredAbility(Unit unit){

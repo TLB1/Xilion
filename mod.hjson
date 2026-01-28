@@ -14,10 +14,10 @@ main: "xilion.XilionJavaMod"
 description: "A Mindustry Java mod that will add a new campaign."
 
 #the mod version
-version: pre-alpha build 24
+version: pre-alpha build 25
 
 #the minimum game build required to run this mod
-minGameVersion: 145
+minGameVersion: 154
 
 #this is a java mod
 java: true

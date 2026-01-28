@@ -35,7 +35,8 @@ public class XUltimateUnitFactories {
         groundFactoryNew = new UnitFactory("ground-factory-new") {{
             //Using data from
            size = Blocks.groundFactory.size;
-            buildCost = Blocks.groundFactory.buildCost;
+            //buildCost = Blocks.groundFactory.buildCost;
+
 
 
             //new Sequence for adding more than 4 units

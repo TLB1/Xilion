@@ -7,7 +7,7 @@ import mindustry.type.Liquid;
 
 public class XItems {
     public static Liquid ammonia, methane, phosphorus, synGas;
-    public static Item germanium, erythrite,cobaltPhosphate, carbon, cobalt, malachite, thermoplastic, boron, boronCarbide;
+    public static Item germanium, erythrite,cobaltPhosphate, carbon, cobalt, malachite, thermoplastic, boron, boronCarbide, guardianOre;
     public static Seq<Item> xilionItems = new Seq<>();
     public void load() {
 
@@ -49,6 +49,10 @@ public class XItems {
             hardness = 2;
             cost = 1.8f;
             healthScaling = 0.7f;
+        }};
+        guardianOre = new Item("guardian-ore", Color.valueOf("9a3a50")){{
+            hardness = 3;
+            cost = 1.2f;
         }};
         cobaltPhosphate = new Item("cobalt-phosphate", Color.valueOf("7457ce")){{
             hardness = 2;

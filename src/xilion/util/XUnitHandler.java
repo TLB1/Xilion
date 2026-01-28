@@ -129,7 +129,7 @@ public class XUnitHandler {
             uc.clearMax();
         }
         for (Tile tile : Vars.world.tiles) {
-         if(tile.build != null && tile.build.block() != null){
+         if(tile.build != null && tile.build.block != null){
 
            if(blockMap.get(tile.build.block) != null){
                if(knownCores.contains(tile.build)) break;

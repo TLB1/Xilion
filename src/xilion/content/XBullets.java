@@ -21,7 +21,7 @@ import static arc.graphics.g2d.Draw.color;
 import static arc.graphics.g2d.Lines.stroke;
 
 public class XBullets {
-    public static BulletType QuickTypeBullet, assaultTypeBullet, assaultTypeBulletBig, blastTypeBullet, emberBulletType;
+    public static BulletType QuickTypeBullet, assaultTypeBullet, assaultTypeBulletBig, guardianTerrorBlast, blastTypeBullet, emberBulletType;
  static {
     QuickTypeBullet = new LaserBoltBulletType(5f, 7){{
         lifetime = 25f;
@@ -174,7 +174,7 @@ public class XBullets {
          splashDamageRadius = 48f;
          splashDamage = 600f;
          //buildingDamageMultiplier = 0.2f;
-         hitSound = Sounds.largeExplosion;
+         hitSound = Sounds.explosion;
          hitEffect = new Effect(50f, 60f, e -> {
              float rad = 32f;
              e.scaled(7f, b -> {
@@ -290,6 +290,70 @@ public class XBullets {
              }
 
              Drawf.light(e.x, e.y, range * 1.5f, XColors.attackClassEC2, 0.8f);
+
+             Draw.reset();
+         });
+     }};
+     guardianTerrorBlast = new BulletType(5f, 2400){{
+         trailChance = 100f;
+         lifetime = 40f;
+         hitSize = 32;
+         drawSize = 120f;
+         splashDamageRadius = 96f;
+         splashDamage = 2400;
+         //buildingDamageMultiplier = 0.2f;
+         hitSound = Sounds.explosion;
+         hitEffect = new Effect(50f, 120f, e -> {
+             float rad = 64f;
+             e.scaled(7f, b -> {
+                 color(XColors.guardianFront, b.fout());
+                 Fill.circle(e.x, e.y, rad);
+             });
+
+             color(XColors.guardianFront);
+             stroke(e.fout() * 3f);
+             Lines.circle(e.x, e.y, rad);
+
+             int points = 8;
+             float offset = Mathf.randomSeed(e.id, 360f);
+             for(int i = 0; i < points; i++){
+                 float angle = i* 360f / points + offset;
+                 Drawf.tri(e.x + Angles.trnsx(angle, rad), e.y + Angles.trnsy(angle, rad), 3f, 12f * e.fout(), angle);
+             }
+             Fill.circle(e.x, e.y, 6f * e.fout());
+             color();
+             Fill.circle(e.x, e.y, 3f * e.fout());
+             Drawf.light(e.x, e.y, rad * 1.6f, XColors.guardianFront, e.fout());
+         });
+
+         trailEffect = new Effect(1f, 36f, e->{
+             float range = 4f;
+             float blinkScl = 20f;
+             int sectors = 8;
+             float effectRadius = 16f, blinkSize = 0.1f;
+             float rotateSpeed = 8f;
+             float sectorRad = 0.14f;
+             Draw.z(layer);
+             Draw.color(XColors.guardianBack);
+             float orbRadius = effectRadius * (1f + Mathf.absin(blinkScl, blinkSize));
+
+             Fill.circle(e.x, e.y, orbRadius);
+             Draw.color();
+             Fill.circle(e.x, e.y, orbRadius / 2f);
+
+             Lines.stroke((0.7f + Mathf.absin(blinkScl, 0.7f)), XColors.guardianBack);
+
+             for(int i = 0; i < sectors; i++){
+                 float rot = e.rotation + i * 360f/sectors - Time.time * rotateSpeed;
+                 Lines.arc(e.x, e.y, orbRadius + 3f, sectorRad, rot);
+             }
+
+             for(int i = 0; i < sectors; i++){
+                 float rot = e.rotation + i * 360f/sectors + Time.time * rotateSpeed;
+                 Lines.arc(e.x, e.y, range, sectorRad, rot);
+             }
+
+             Drawf.light(e.x, e.y, range * 1.5f, XColors.guardianBack, 0.8f);
 
              Draw.reset();
          });
