@@ -39,7 +39,6 @@ public class XilionJavaMod extends Mod{
            new XUnitTypes().load();
            XBlocks.load();
            new XUnitFactories().load();
-           new XUltimateUnitFactories().load();
            new XSchematics().load();
            new XPlanets().load();
            new XSectorPresets().load();
@@ -98,22 +97,6 @@ public class XilionJavaMod extends Mod{
             }
         });
 */
-        //replace Factories with new Factories
-        Events.on( BlockBuildEndEvent.class, event ->{
-            if (!event.breaking && event.unit.isPlayer()){
-                if ( event.tile.build.block == Blocks.groundFactory){
-                    event.tile.setBlock(XUltimateUnitFactories.groundFactoryNew, event.team, event.tile.build.rotation);
-                } else if (event.tile.build.block == Blocks.airFactory){
-                    event.tile.setBlock(XUltimateUnitFactories.airFactoryNew, event.team, event.tile.build.rotation);
-                }else  if (event.tile.build.block == Blocks.additiveReconstructor){
-                    event.tile.setBlock(XUltimateUnitFactories.additiveReconstructorNew, event.team, event.tile.build.rotation);
-                }else if (event.tile.build.block == Blocks.multiplicativeReconstructor){
-                  event.tile.setBlock(XUltimateUnitFactories.multiplicativeReconstructorNew, event.team, event.tile.build.rotation);
-                }else if(event.tile.build.block == Blocks.exponentialReconstructor){
-                    event.tile.setBlock(XUltimateUnitFactories.exponentialReconstructorNew, event.team, event.tile.build.rotation);
-                }
-            }
-        });
 /*
         //listen for game load event
         Events.on(ClientLoadEvent.class, e -> {
