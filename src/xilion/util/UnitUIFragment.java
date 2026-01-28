@@ -19,7 +19,7 @@ public class UnitUIFragment{
             cont.name = "xilion-unit-stats";
             cont.top().right().marginTop(6f);
             cont.update(() -> {
-                //TODO
+
             });
 
             cont.table(info -> {

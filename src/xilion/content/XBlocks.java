@@ -2242,7 +2242,7 @@ public class XBlocks {
                     this.armor = 2f;
                     this.alwaysUnlocked = true;
                     this.incinerateNonBuildable = true;
-                    this.unitCapModifier = 10;
+                    this.unitCapModifier = 1000;
                 }
             };
         }

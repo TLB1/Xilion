@@ -17,10 +17,9 @@ public class XUnitPayload extends UnitPayload {
     }
     @Override
     public boolean dump(){
-        //TODO should not happen
         if(unit.type == null) return true;
 
-
+        if(!XUnitHandler.isReady) return false;
         if(!XUnitHandler.getUnitCap(unit.team).canAddUnit(unit.type)){
             overlayTime = 1f;
             overlayRegion = null;

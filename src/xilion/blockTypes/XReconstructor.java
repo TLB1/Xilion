@@ -1,24 +1,21 @@
 package xilion.blockTypes;
 
 import arc.Core;
-import arc.Events;
 import arc.graphics.Color;
 import arc.math.Mathf;
 import arc.util.io.Reads;
-import mindustry.Vars;
 import mindustry.core.UI;
-import mindustry.game.EventType;
+import mindustry.entities.Units;
 import mindustry.gen.Iconc;
-import mindustry.gen.Unit;
 import mindustry.graphics.Pal;
 import mindustry.ui.Bar;
 import mindustry.ui.Fonts;
-import mindustry.world.blocks.units.UnitFactory;
+import mindustry.world.blocks.units.Reconstructor;
 import xilion.util.XUnitHandler;
 import xilion.util.XUnitPayload;
 
-public class XUnitFactory extends UnitFactory {
-    public XUnitFactory(String name) {
+public class XReconstructor extends Reconstructor {
+    public XReconstructor(String name) {
         super(name);
     }
 
@@ -37,8 +34,8 @@ public class XUnitFactory extends UnitFactory {
                     () -> Mathf.zero(consPower.requestedPower(entity)) && entity.power.graph.getPowerProduced() + entity.power.graph.getBatteryStored() > 0f ? 1f : entity.power.status)
             );
         }
-        addBar("progress", (XUnitFactoryBuild entity) -> new Bar("bar.progress", Pal.ammo, entity::fraction));
-        addBar("units", (XUnitFactoryBuild e) ->
+        addBar("progress", (XReconstructorBuild entity) -> new Bar("bar.progress", Pal.ammo, entity::fraction));
+        addBar("units", (XReconstructorBuild e) ->
                 new Bar(
                         () -> e.unit() == null ? "[lightgray]" + Iconc.cancel :
                                 Core.bundle.format("bar.unitcap",
@@ -51,54 +48,8 @@ public class XUnitFactory extends UnitFactory {
                 ));
     }
 
-    public class XUnitFactoryBuild extends UnitFactoryBuild {
-        @Override
-        public void updateTile() {
-            if (!configurable) {
-                currentPlan = 0;
-            }
+    public class XReconstructorBuild extends ReconstructorBuild {
 
-            if (currentPlan < 0 || currentPlan >= plans.size) {
-                currentPlan = -1;
-            }
-
-            if (efficiency > 0 && currentPlan != -1) {
-                time += edelta() * speedScl * Vars.state.rules.unitBuildSpeed(team);
-                progress += edelta() * Vars.state.rules.unitBuildSpeed(team);
-                speedScl = Mathf.lerpDelta(speedScl, 1f, 0.05f);
-            } else {
-                speedScl = Mathf.lerpDelta(speedScl, 0f, 0.05f);
-            }
-
-            moveOutPayload();
-
-            if (currentPlan != -1 && payload == null) {
-                UnitPlan plan = plans.get(currentPlan);
-
-                //make sure to reset plan when the unit got banned after placement
-                if (plan.unit.isBanned()) {
-                    currentPlan = -1;
-                    return;
-                }
-
-                if (progress >= plan.time) {
-                    progress %= 1f;
-
-                    Unit unit = plan.unit.create(team);
-                    if (commandPos != null && unit.isCommandable()) {
-                        unit.command().commandPosition(commandPos);
-                    }
-                    payload = new XUnitPayload(unit);
-                    payVector.setZero();
-                    consume();
-                    Events.fire(new EventType.UnitCreateEvent(payload.unit, this));
-                }
-
-                progress = Mathf.clamp(progress, 0, plan.time);
-            } else {
-                progress = 0f;
-            }
-        }
 
         @Override
         public void read(Reads read) {
