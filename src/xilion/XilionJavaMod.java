@@ -134,12 +134,6 @@ public class XilionJavaMod extends Mod{
     public void init(){
         Items.copper.uiIcon = Items.copper.fullIcon;
         unitUI.build(ui.hudGroup);
-       // UnitTypes.crawler.health = 250; //   +50HP
-      //  UnitTypes.fortress.health = 1000; //    +100HP
-      //  UnitTypes.arkyid.health = 7000; //  -1000HP
-       // UnitTypes.toxopid.health = 19000; //    - 1000HP
-       // UnitTypes.omura.health = 21000; //    -1000HP
-
     }
 
 
