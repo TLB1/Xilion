@@ -11,7 +11,7 @@ author: "TLB1"
 main: "xilion.XilionJavaMod"
 
 #the mod description as seen in the mod dialog
-description: "A Mindustry Java mod that will add a new campaign."
+description: "A Java Mindustry mod that adds a new campaign on the planet Xilion. Currently still in pre-alpha"
 
 #the mod version
 version: pre-alpha build 25
