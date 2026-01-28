@@ -2254,7 +2254,7 @@ public class XBlocks {
         Liquid.load();
         Walls.load();
         Turrets.load();
-        BattleTurrets.load();
+        //BattleTurrets.load();
         Power.load();
         Production.load();
         Drills.load();
