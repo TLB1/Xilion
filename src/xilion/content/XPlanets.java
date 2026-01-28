@@ -19,7 +19,7 @@ import static xilion.content.XItems.*;
 
 public class XPlanets {
     public static Planet xilion;
-    public static Seq<Item> allowedItems = new Seq<>().with( Items.sand, Items.silicon, Items.tungsten, Items.surgeAlloy, Items.carbide, Items.copper);
+    //public static Seq<Item> allowedItems = new Seq<>().with( Items.sand, Items.silicon, Items.tungsten, Items.surgeAlloy, Items.carbide, Items.copper);
     public static void load(){
         xilion = new Planet("xilion", Planets.sun, 0.8f, 2){{
             generator = new XilionPlanetGenerator();
@@ -34,7 +34,6 @@ public class XPlanets {
             orbitTime = 3 * 60f * 60f;
             rotateTime = 62f * 60f;
             orbitSpacing = 10;
-
 
             allowLaunchToNumbered = false;
             allowWaves = true;
