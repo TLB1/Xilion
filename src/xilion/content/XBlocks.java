@@ -2226,14 +2226,14 @@ public class XBlocks {
         }
     }
     public static class Base {
-        public static Block coreExplorer;
+        public static Block coreExplorer, corePathfinder, coreVanguard, coreOverseer;
         public static void load() {
             coreExplorer = new CoreBlock("core-explorer") {
                 {
 
                     this.requirements(Category.effect, ItemStack.with(XItems.germanium, 1000, Items.silicon, 500, XItems.cobalt, 800));
                     this.isFirstTier = true;
-                    squareSprite = false;
+                    this.squareSprite = false;
                     this.unitType = XUnitTypes.explorer;
                     this.health = 4500;
                     this.itemCapacity = 3000;
@@ -2241,6 +2241,57 @@ public class XBlocks {
                     this.thrusterLength = 8.5F;
                     this.armor = 2f;
                     this.alwaysUnlocked = true;
+                    this.incinerateNonBuildable = true;
+                    this.unitCapModifier = 1000;
+                }
+            };
+            corePathfinder = new CoreBlock("core-pathfinder") {
+                {
+
+                    this.requirements(Category.effect, ItemStack.with(XItems.germanium, 3000, Items.silicon, 2000, XItems.cobalt, 3000));
+                    this.isFirstTier = false;
+                    this.squareSprite = false;
+                    this.unitType = XUnitTypes.explorer;
+                    this.health = 8000;
+                    this.itemCapacity = 5000;
+                    this.size = 4;
+                    this.thrusterLength = 11F;
+                    this.armor = 4f;
+                    this.alwaysUnlocked = false;
+                    this.incinerateNonBuildable = true;
+                    this.unitCapModifier = 1000;
+                }
+            };
+            coreVanguard = new CoreBlock("core-vanguard") {
+                {
+
+                    this.requirements(Category.effect, ItemStack.with(XItems.germanium, 5000, Items.silicon, 4000, XItems.cobalt, 5000, Items.tungsten, 2000));
+                    this.isFirstTier = false;
+                    this.squareSprite = false;
+                    this.unitType = XUnitTypes.explorer;
+                    this.health = 12500;
+                    this.itemCapacity = 8000;
+                    this.size = 5;
+                    this.thrusterLength = 15F;
+                    this.armor = 6f;
+                    this.alwaysUnlocked = false;
+                    this.incinerateNonBuildable = true;
+                    this.unitCapModifier = 1000;
+                }
+            };
+            coreOverseer = new CoreBlock("core-overseer") {
+                {
+
+                    this.requirements(Category.effect, ItemStack.with(XItems.germanium, 8000, Items.silicon, 6000, XItems.cobalt, 8000, Items.tungsten, 3000, XItems.boronCarbide, 1500));
+                    this.isFirstTier = false;
+                    this.squareSprite = false;
+                    this.unitType = XUnitTypes.explorer;
+                    this.health = 18000;
+                    this.itemCapacity = 12000;
+                    this.size = 6;
+                    this.thrusterLength = 18F;
+                    this.armor = 6f;
+                    this.alwaysUnlocked = false;
                     this.incinerateNonBuildable = true;
                     this.unitCapModifier = 1000;
                 }

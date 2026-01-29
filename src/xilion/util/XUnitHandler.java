@@ -42,6 +42,9 @@ public class XUnitHandler {
 
     private static void initBlockMap() {
         blockMap.put(XBlocks.Base.coreExplorer, new MaxUnitModifier(25, 10, 5, 0));
+        blockMap.put(XBlocks.Base.corePathfinder, new MaxUnitModifier(40, 20, 10, 0));
+        blockMap.put(XBlocks.Base.coreVanguard, new MaxUnitModifier(60, 30, 15, 5));
+        blockMap.put(XBlocks.Base.coreOverseer, new MaxUnitModifier(80, 40, 20, 10));
     }
 
     public static void init() {
