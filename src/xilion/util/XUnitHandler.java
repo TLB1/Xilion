@@ -80,24 +80,22 @@ public class XUnitHandler {
         return unitCaps[team.id];
     }
 
-    public static void checkCores() {
-        List<Building> knownCores = new ArrayList<>();
-        for (UnitCap uc : unitCaps) {
+    public static void checkCores(){
+        for(UnitCap uc : unitCaps){
             uc.clearMax();
         }
-        for (Tile tile : Vars.world.tiles) {
-            if (tile.build != null && tile.build.block != null) {
 
-                if (blockMap.get(tile.build.block) != null) {
-                    if (knownCores.contains(tile.build)) break;
-                    knownCores.add(tile.build);
-                    getUnitCap(tile.build.team()).addMaxUnitModifier(blockMap.get(tile.build.block));
-                    Log.info(tile.build.team() + ": " + Arrays.toString(getUnitCap(tile.build.team()).maxUnits));
+        Groups.build.each(build -> {
+            if(blockMap.containsKey(build.block)){
+                getUnitCap(build.team)
+                        .addMaxUnitModifier(blockMap.get(build.block));
 
-                }
+                Log.info(build.team + ": " +
+                        Arrays.toString(getUnitCap(build.team).maxUnits));
             }
-        }
+        });
     }
+
     public static void registerExistingUnits() {
 
         // iterate all units currently in the world
