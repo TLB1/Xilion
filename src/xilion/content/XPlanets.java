@@ -5,6 +5,7 @@ import arc.struct.ObjectSet;
 import arc.struct.Seq;
 import mindustry.content.Blocks;
 import mindustry.content.Items;
+import mindustry.content.Liquids;
 import mindustry.content.Planets;
 import mindustry.game.Team;
 import mindustry.graphics.g3d.HexMesh;
@@ -72,6 +73,9 @@ public class XPlanets {
         whitelistItems(
                 ObjectSet.with(Items.copper, Items.carbide, Items.tungsten, Items.surgeAlloy),
                 xilion);
+
+        Liquids.hydrogen.shownPlanets.add(xilion);
+        Liquids.ozone.shownPlanets.add(xilion);
     }
 
     public static void whitelistItems(ObjectSet<Item> items, Planet planet) {
