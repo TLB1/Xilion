@@ -38,6 +38,12 @@ public class XUnitHandler {
         unitMap.put(XUnitTypes.acari, 1);
         unitMap.put(XUnitTypes.sanatick, 1);
         unitMap.put(XUnitTypes.quick, 1);
+
+        unitMap.put(XUnitTypes.spectra, 2);
+        unitMap.put(XUnitTypes.assault, 2);
+        unitMap.put(XUnitTypes.ember, 2);
+        unitMap.put(XUnitTypes.blastbeetle, 2);
+        unitMap.put(XUnitTypes.dash, 2);
     }
 
     private static void initBlockMap() {

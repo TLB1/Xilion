@@ -14,7 +14,7 @@ import xilion.blockTypes.XUnitFactory;
 import static mindustry.type.ItemStack.with;
 
 public class XUnitFactories {
-    public static Block prototypeFabricator, attackTransformer, supportTransformer, tankTransformer;
+    public static Block prototypeFabricator, attackTransformer, supportTransformer, tankTransformer, advancedRefabricator;
 
     public void load(){
         prototypeFabricator = new XUnitFactory("prototype-fabricator"){{
@@ -76,6 +76,26 @@ public class XUnitFactories {
             upgrades.addAll(
                     new UnitType[]{XUnitTypes.ship, XUnitTypes.blaze},
                     new UnitType[]{XUnitTypes.bug, XUnitTypes.acari}
+            );
+        }};
+        advancedRefabricator = new XReconstructor("advanced-refabricator"){{
+            researchCost = with(XItems.germanium, 500, XItems.cobalt, 300, Items.silicon, 300, Items.tungsten, 160);
+            requirements(Category.units, with(XItems.germanium, 120, XItems.cobalt, 80, Items.silicon, 80, Items.tungsten, 40));
+            regionSuffix = "-xilion";
+
+            size = 3;
+            consumePower(3f);
+            consumeItems(with(Items.silicon, 50, XItems.cobalt, 50, Items.tungsten, 20));
+            consumeLiquid(Liquids.hydrogen, 6 / 60f);
+            constructTime = 60f * 30f;
+            researchCostMultiplier = 0.75f;
+
+            upgrades.addAll(
+                    new UnitType[]{XUnitTypes.blaze, XUnitTypes.ember},
+                    new UnitType[]{XUnitTypes.acari, XUnitTypes.blastbeetle},
+                    new UnitType[]{XUnitTypes.aura, XUnitTypes.spectra},
+                    new UnitType[]{XUnitTypes.strike, XUnitTypes.assault},
+                    new UnitType[]{XUnitTypes.quick, XUnitTypes.dash}
             );
         }};
     }
