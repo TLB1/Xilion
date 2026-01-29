@@ -12,6 +12,7 @@ import mindustry.graphics.g3d.HexMesh;
 import mindustry.graphics.g3d.HexSkyMesh;
 import mindustry.graphics.g3d.MultiMesh;
 import mindustry.type.Item;
+import mindustry.type.ItemStack;
 import mindustry.type.Planet;
 import mindustry.world.meta.Attribute;
 import xilion.generation.XilionPlanetGenerator;
@@ -38,7 +39,7 @@ public class XPlanets {
             allowWaves = true;
             //allowWaveSimulation = true;
             allowSectorInvasion = true;
-            allowLaunchSchematics = true;
+            allowLaunchSchematics = false;
             enemyCoreSpawnReplace = true;
             allowLaunchLoadout = false;
             clearSectorOnLose = true;
@@ -67,6 +68,8 @@ public class XPlanets {
                         Blocks.blastDoor
                 );
                 r.hideBannedBlocks = true;
+                r.loadout = Seq.with(ItemStack.with(XItems.germanium, 500));
+
             };
         }};
 

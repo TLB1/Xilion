@@ -40,7 +40,6 @@ public class XilionJavaMod extends Mod{
            new XTechTree().load();
            XUnitHandler.init();
            XPacketHelper.init();
-           UnitTypes.merui.useUnitCap = false;
     }
 
     public XilionJavaMod(){
