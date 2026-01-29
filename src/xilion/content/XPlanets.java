@@ -15,13 +15,11 @@ import mindustry.type.Planet;
 import mindustry.world.meta.Attribute;
 import xilion.generation.XilionPlanetGenerator;
 
-import static xilion.content.XItems.*;
-
 public class XPlanets {
     public static Planet xilion;
-    //public static Seq<Item> allowedItems = new Seq<>().with( Items.sand, Items.silicon, Items.tungsten, Items.surgeAlloy, Items.carbide, Items.copper);
-    public static void load(){
-        xilion = new Planet("xilion", Planets.sun, 0.8f, 2){{
+
+    public static void load() {
+        xilion = new Planet("xilion", Planets.sun, 0.8f, 2) {{
             generator = new XilionPlanetGenerator();
             meshLoader = () -> new HexMesh(this, 6);
             cloudMeshLoader = () -> new MultiMesh(
@@ -53,16 +51,13 @@ public class XPlanets {
             alwaysUnlocked = true;
             this.defaultAttributes.set(Attribute.heat, 0.5f);
             landCloudColor = Color.valueOf("24b95a");
-            //defaultEnv = Planets.erekir.defaultEnv;
-            //itemWhitelist.addAll(Items.sand, Items.silicon, Items.tungsten, Items.surgeAlloy, Items.carbide, germanium, erythrite,cobaltPhosphate, carbon, cobalt, thermoplastic, boron, boronCarbide);
-            //hiddenItems.addAll(Items.serpuloItems).addAll(Items.erekirOnlyItems).removeAll(allowedItems);
-            //hiddenItems.removeAll(xilionItems);
 
             ruleSetter = r -> {
                 r.waveTeam = Team.malis;
                 r.placeRangeCheck = false;
                 r.showSpawns = true;
                 r.coreDestroyClear = false;
+                r.disableUnitCap = true;
                 r.bannedBlocks = ObjectSet.with(
                         Blocks.duo, Blocks.mechanicalDrill, Blocks.conveyor,
                         Blocks.junction, Blocks.router, Blocks.copperWall, Blocks.copperWallLarge,
@@ -73,5 +68,16 @@ public class XPlanets {
                 r.hideBannedBlocks = true;
             };
         }};
+
+        whitelistItems(
+                ObjectSet.with(Items.copper, Items.carbide, Items.tungsten, Items.surgeAlloy),
+                xilion);
     }
+
+    public static void whitelistItems(ObjectSet<Item> items, Planet planet) {
+        for (Item item : items) {
+            item.shownPlanets.add(planet);
+        }
+    }
+
 }
