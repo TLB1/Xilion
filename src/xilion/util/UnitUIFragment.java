@@ -5,9 +5,11 @@ import arc.graphics.Color;
 import arc.scene.Group;
 import arc.scene.event.Touchable;
 import arc.scene.ui.layout.Scl;
+import mindustry.Vars;
 import mindustry.ui.IntFormat;
 import mindustry.ui.Styles;
 import xilion.XilionJavaMod;
+import xilion.content.XPlanets;
 import xilion.content.XUnitTypes;
 
 import static mindustry.Vars.*;
@@ -18,12 +20,19 @@ public class UnitUIFragment{
         parent.fill(cont -> {
             cont.name = "xilion-unit-stats";
             cont.top().right().marginTop(6f);
+            cont.visible(() ->
+                    Vars.state.isGame() &&
+                            Vars.state.rules != null &&
+                            Vars.state.rules.planet == XPlanets.xilion
+            );
+
             cont.update(() -> {
 
             });
 
             cont.table(info -> {
-                info.name = "fps/ping";
+                info.name = "xilion-unit-stats";
+                info.visible = true;
                 info.touchable = Touchable.disabled;
                 info.top().right().marginTop(Scl.scl(160f)).marginRight(20f).visible(() -> Core.settings.getBool("fps"));
                 info.label(() -> XUnitHandler.getUnitCap(player.team()).getUnitCount(1) + " / " + XUnitHandler.getUnitCap(player.team()).getUnitCap(1)).color(Color.lightGray);
