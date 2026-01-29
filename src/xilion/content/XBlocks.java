@@ -67,7 +67,7 @@ public class XBlocks {
         slateKhakiStoneBoulder,  greenBubbleStoneBoulder,  blueBubbleStoneBoulder,
 
         /* --- TallBlocks --- */
-        turquoiseFlower, turquoiseFlowerBush, DarkRedCrystalBlocks, erythriteSpikes, corrodedPhaseSpikes;
+        turquoiseFlower, turquoiseFlowerBush, DarkRedCrystalBlocks, erythriteSpikes, corrodedPhaseSpikes, slateBlueCrystalCluster;
         private static void load(){
             loadOres();
             loadFloors();
@@ -306,6 +306,10 @@ public class XBlocks {
                 clipSize = 96f;
                 shadowAlpha = 0.5f;
                 shadowOffset = -2.5f;
+            }};
+            slateBlueCrystalCluster = new TallBlock("slate-blue-crystal-cluster"){{
+                variants = 3;
+                clipSize = 128f;
             }};
         }
     }
