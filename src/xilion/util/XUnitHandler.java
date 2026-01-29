@@ -71,6 +71,10 @@ public class XUnitHandler {
         Events.on(EventType.WorldLoadEndEvent.class, e -> {
             Time.run(1f, XUnitHandler::load);
         });
+
+        Events.on(EventType.CoreChangeEvent.class, e -> {
+            checkCores();
+        });
     }
 
     public static void load() {
