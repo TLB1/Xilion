@@ -293,7 +293,7 @@ public class XBlocks {
                 variants = 2;
                 clipSize = 128f;
                 shadowAlpha = 0.5f;
-                shadowOffset = -2.5f;
+                shadowOffset = -4f;
             }};
             corrodedPhaseSpikes = new TallBlock("corroded-phase-spikes") {{
                 variants = 3;
