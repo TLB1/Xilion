@@ -6,6 +6,8 @@ A Java Mindustry mod that adds a new capaign on the planet Xilion. Currently sti
 The repo and code are currently quite messy, all content will be improved as time goes on
 ## Gallary
 ![afbeelding](https://github.com/TLB1/Xilion/assets/105983271/731e00c2-a3da-4b9a-8a62-83d0fd0f4244)
+<img width="2556" height="1391" alt="image" src="https://github.com/user-attachments/assets/10070bc3-b83a-431c-90bd-2559760e0d83" />
+
 ![afbeelding](https://github.com/TLB1/Xilion/assets/105983271/4e7954b8-adf0-4d6c-bde6-97def13538f4)
 ![Schermafbeelding 2024-02-05 005709](https://github.com/TLB1/Xilion/assets/105983271/709e4a63-65f3-422b-ada6-dc7ab1908631)
 
