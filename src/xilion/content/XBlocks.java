@@ -2146,8 +2146,8 @@ public class XBlocks {
 
                 researchCostMultiplier = 0.5f;
 
-                drillMultipliers.put(XItems.erythrite, 3.5f);
-                drillMultipliers.put(XItems.cobaltPhosphate, 3.5f);
+                drillMultipliers.put(XItems.erythrite, 2.5f);
+                drillMultipliers.put(XItems.cobaltPhosphate, 2.5f);
 
                 fogRadius = 4;
 
@@ -2170,8 +2170,8 @@ public class XBlocks {
                 ambientSoundVolume = 0.04f;
             }};
             oreDrill = new XBurstDrill("ore-drill") {{
-                requirements(Category.production, with(XItems.cobalt, 80, Items.silicon, 40));
-                drillTime = 60f * 5f;
+                requirements(Category.production, with(XItems.cobalt, 80, Items.silicon, 60));
+                drillTime = 60f * 6f;
                 squareSprite = false;
                 size = 2;
                 hasPower = true;
@@ -2192,7 +2192,7 @@ public class XBlocks {
             }};
             superOreDrill = new XBurstDrill("super-ore-drill") {{
                 requirements(Category.production, with(Items.tungsten, 40, Items.silicon, 40, Items.surgeAlloy, 30));
-                drillTime = 60f * 5f;
+                drillTime = 60f * 6f;
                 squareSprite = false;
                 size = 2;
                 hasPower = true;
