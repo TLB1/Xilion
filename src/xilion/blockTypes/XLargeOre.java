@@ -12,6 +12,7 @@ import mindustry.graphics.MultiPacker;
 import mindustry.type.Item;
 import mindustry.world.Tile;
 import mindustry.world.blocks.environment.OverlayFloor;
+import xilion.XilionJavaMod;
 
 import static mindustry.Vars.tilesize;
 
@@ -23,6 +24,13 @@ public class XLargeOre extends OverlayFloor {
         mapColor.set(oreItem.color);
         hasShadow = true;
 
+
+    }
+
+    @Override
+    public void load() {
+        super.load();
+        localizedName = Core.bundle.get("tile." + name + ".name");
     }
 
     public static final Point2[] newOffsets = {

@@ -79,15 +79,15 @@ public class XUnitFactories {
             );
         }};
         advancedRefabricator = new XReconstructor("advanced-refabricator"){{
-            researchCost = with(XItems.germanium, 500, XItems.cobalt, 300, Items.silicon, 300, Items.tungsten, 160);
-            requirements(Category.units, with(XItems.germanium, 120, XItems.cobalt, 80, Items.silicon, 80, Items.tungsten, 40));
+            researchCost = with(XItems.germanium, 500, XItems.cobalt, 500, Items.silicon, 500, XItems.chromium, 160);
+            requirements(Category.units, with(XItems.germanium, 120, XItems.cobalt, 120, Items.silicon, 120, XItems.chromium, 40));
             regionSuffix = "-xilion";
 
             size = 3;
             consumePower(3f);
-            consumeItems(with(Items.silicon, 50, XItems.cobalt, 50, Items.tungsten, 20));
+            consumeItems(with(Items.silicon, 50, XItems.cobalt, 50, XItems.chromium, 30));
             consumeLiquid(Liquids.hydrogen, 6 / 60f);
-            constructTime = 60f * 30f;
+            constructTime = 60f * 40f;
             researchCostMultiplier = 0.75f;
 
             upgrades.addAll(

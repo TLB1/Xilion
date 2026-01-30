@@ -74,7 +74,7 @@ public class XPlanets {
         }};
 
         whitelistItems(
-                ObjectSet.with(Items.copper, Items.carbide, Items.tungsten, Items.surgeAlloy),
+                ObjectSet.with(Items.copper, Items.carbide, Items.surgeAlloy),
                 xilion);
 
         Liquids.hydrogen.shownPlanets.add(xilion);

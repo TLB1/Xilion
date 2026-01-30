@@ -49,7 +49,7 @@ public class XBlocks {
         public static Block
 
         /* --- Ores --- */
-        germaniumWallOre, malachiteWallOre, largeTungstenOre, largeBoronOre,
+        germaniumWallOre, malachiteWallOre, largeChromiumOre, largeBoronOre,
 
         /* --- Floors --- */
         corrodedPhase, concentratedCarbon, pureCarbon, darkRedStone, erythriteStone, cobaltPhosphateStone, pinkstone, darkPinkstone,
@@ -77,7 +77,7 @@ public class XBlocks {
             loadTallBlocks();
         }
         private static void loadOres() {
-            largeTungstenOre = new XLargeOre("large-tungsten-ore", Items.tungsten) {{
+            largeChromiumOre = new XLargeOre("large-chromium-ore", XItems.chromium) {{
                 variants = 2;
             }};
             largeBoronOre = new XLargeOre("large-boron-ore", XItems.boron) {{
@@ -366,25 +366,25 @@ public class XBlocks {
                 squareSprite = false;
             }};
             liquidDistributor = new XLiquidDistributor("liquid-distributor") {{
-                requirements(Category.liquid, with(Items.tungsten, 2, XItems.germanium, 4));
+                requirements(Category.liquid, with(XItems.chromium, 2, XItems.germanium, 4));
                 liquidCapacity = 30f;
                 underBullets = true;
                 solid = false;
                 squareSprite = false;
             }};
             liquidCollector = new XLiquidCollector("liquid-collector") {{
-                requirements(Category.liquid, with(Items.tungsten, 2, XItems.germanium, 4));
+                requirements(Category.liquid, with(XItems.chromium, 2, XItems.germanium, 4));
                 liquidCapacity = 30f;
                 underBullets = true;
                 solid = false;
                 squareSprite = false;
             }};
             liquidTunnel = new XLiquidTunnel("liquid-tunnel") {{
-                requirements(Category.liquid, with(Items.tungsten, 8, XItems.germanium, 15));
+                requirements(Category.liquid, with(XItems.chromium, 8, XItems.germanium, 15));
                 range = 5;
             }};
             basicPump = new Pump("basic-pump") {{
-                requirements(Category.liquid, with(XItems.cobalt, 40, Items.tungsten, 20, Items.silicon, 20));
+                requirements(Category.liquid, with(XItems.cobalt, 40, XItems.chromium, 20, Items.silicon, 20));
                 consumeLiquid(Liquids.hydrogen, 2f / 60f);
 
                 pumpAmount = 60f / 60f / 4f;
@@ -399,7 +399,7 @@ public class XBlocks {
 
         /* --- Normal Walls --- */
         germaniumWall, germaniumWallLarge, germaniumWallHuge, cobaltWall, cobaltWallLarge, cobaltWallHuge, reinforcedCopperWall,
-        reinforcedCopperWallLarge, reinforcedCopperWallHuge, reinforcedTungstenWall, reinforcedTungstenWallLarge, reinforcedTungstenWallHuge,
+        reinforcedCopperWallLarge, reinforcedCopperWallHuge, reinforcedChromiumWall, reinforcedChromiumWallLarge, reinforcedChromiumWallHuge,
         reinforcedCarbideWall, reinforcedCarbideWallLarge, reinforcedCarbideWallHuge, boronWall, boronWallLarge, boronWallHuge,
         boronCarbideWall, boronCarbideWallLarge, boronCarbideWallHuge,
 
@@ -480,21 +480,21 @@ public class XBlocks {
                 hasPower = true;
                 connectedPower = true;
             }};
-            reinforcedTungstenWall = new Wall("reinforced-tungsten-wall") {{
-                requirements(Category.defense, with(Items.tungsten, 4, Items.silicon, 2));
+            reinforcedChromiumWall = new Wall("reinforced-chromium-wall") {{
+                requirements(Category.defense, with(XItems.chromium, 4, Items.silicon, 2));
                 health = 180 * 4;
                 armor = 14f;
                 buildCostMultiplier = 10f;
             }};
-            reinforcedTungstenWallLarge = new Wall("reinforced-tungsten-wall-large") {{
-                requirements(Category.defense, with(Items.tungsten, 16, Items.silicon, 8));
+            reinforcedChromiumWallLarge = new Wall("reinforced-chromium-wall-large") {{
+                requirements(Category.defense, with(XItems.chromium, 16, Items.silicon, 8));
                 health = 180 * 4 * 4;
                 armor = 14f;
                 buildCostMultiplier = 10f;
                 size = 2;
             }};
-            reinforcedTungstenWallHuge = new Wall("reinforced-tungsten-wall-huge") {{
-                requirements(Category.defense, with(Items.tungsten, 36, Items.silicon, 18));
+            reinforcedChromiumWallHuge = new Wall("reinforced-chromium-wall-huge") {{
+                requirements(Category.defense, with(XItems.chromium, 36, Items.silicon, 18));
                 health = 180 * 4 * 9;
                 armor = 14f;
                 buildCostMultiplier = 10f;
@@ -615,7 +615,7 @@ public class XBlocks {
                 triggerRadius = 2 * 8f;
                 size = 2;
                 explosionDamage = 50f;
-                requirements = with(Items.silicon, 35, Items.tungsten, 20);
+                requirements = with(Items.silicon, 35, XItems.chromium, 20);
             }};
             shock = new PowerTurret("shock") {{
                 researchCost = with(Items.silicon, 60, XItems.germanium, 100, XItems.cobalt, 60);
@@ -922,10 +922,10 @@ public class XBlocks {
                 }};
 
             prevent = new ItemTurret("prevent") {{
-                requirements(Category.turret, with(Items.tungsten, 200, XItems.cobalt, 220, Items.silicon, 200));
+                requirements(Category.turret, with(XItems.chromium, 200, XItems.cobalt, 220, Items.silicon, 200));
                 buildCostMultiplier = 0.5f;
 
-                ammo(Items.tungsten, new BasicBulletType() {{
+                ammo(XItems.chromium, new BasicBulletType() {{
 
                     damage = 40;
                     speed = 5.5f;
@@ -1054,7 +1054,7 @@ public class XBlocks {
             }};
 
             aquila = new ItemTurret("aquila") {{
-                requirements(Category.turret, with(Items.silicon, 500, XItems.cobalt, 600, Items.tungsten, 500, XItems.boron, 300));
+                requirements(Category.turret, with(Items.silicon, 500, XItems.cobalt, 600, XItems.chromium, 500, XItems.boron, 300));
                 heatColor = Pal.turretHeat;
                 squareSprite = false;
                 cooldownTime = 360f;
@@ -1641,7 +1641,7 @@ public class XBlocks {
                 fillsTile = false;
             }};
             thermoelectricGenerator = new ThermalGenerator("thermoelectric-generator") {{
-                requirements(Category.power, with(XItems.cobalt, 50, Items.silicon, 45, Items.tungsten, 60));
+                requirements(Category.power, with(XItems.cobalt, 50, Items.silicon, 45, XItems.chromium, 60));
                 powerProduction = 2f;
                 generateEffect = Fx.redgeneratespark;
                 effectChance = 0.011f;
@@ -1658,7 +1658,7 @@ public class XBlocks {
             hybridTurbineGenerator = new ConsumeGenerator("hybrid-turbine-generator") {{
                 squareSprite = false;
                 fillsTile = false;
-                requirements(Category.power, with(Items.tungsten, 30, Items.copper, 50, Items.silicon, 30));
+                requirements(Category.power, with(XItems.chromium, 30, Items.copper, 50, Items.silicon, 30));
                 consumeLiquid(XItems.synGas, 1 / 60f);
                 powerProduction = 8.5f;
                 generateEffect = Fx.turbinegenerate;
@@ -1678,7 +1678,7 @@ public class XBlocks {
             ammoniaTurbineGenerator = new ConsumeGenerator("ammonia-turbine-generator") {{
                 squareSprite = false;
                 fillsTile = false;
-                requirements(Category.power, with(Items.tungsten, 70, XItems.cobalt, 100, Items.silicon, 50));
+                requirements(Category.power, with(XItems.chromium, 70, XItems.cobalt, 100, Items.silicon, 50));
                 consumeLiquid(XItems.ammonia, 2f / 60f);
                 powerProduction = 16f;
                 generateEffect = Fx.turbinegenerate;
@@ -1698,7 +1698,7 @@ public class XBlocks {
             biogasCombustionChamber = new ConsumeGenerator("biogas-combustion-chamber") {{
                 squareSprite = false;
                 fillsTile = false;
-                requirements(Category.power, with(XItems.cobalt, 180f, Items.tungsten, 200f, Items.copper, 50f, Items.silicon, 65));
+                requirements(Category.power, with(XItems.cobalt, 180f, XItems.chromium, 200f, Items.copper, 50f, Items.silicon, 65));
                 powerProduction = 50f;
                 consumeLiquid(XItems.methane, 6 / 60f);
                 size = 4;
@@ -1729,7 +1729,7 @@ public class XBlocks {
             }};
 
             nuclearFissionReactor = new XFissionReactor("nuclear-fission-reactor") {{
-                requirements(Category.power, with(Items.tungsten, 800, Items.carbide, 300, Items.oxide, 150, Items.silicon, 500, XItems.cobalt, 400, Items.surgeAlloy, 200));
+                requirements(Category.power, with(XItems.chromium, 800, Items.carbide, 300, Items.oxide, 150, Items.silicon, 500, XItems.cobalt, 400, Items.surgeAlloy, 200));
                 squareSprite = false;
                 size = 5;
                 liquidCapacity = 80f;
@@ -1864,7 +1864,7 @@ public class XBlocks {
             }};
             erythriteDissolver = new GenericCrafter("erythrite-dissolver") {
                 {
-                    requirements(Category.crafting, ItemStack.with(XItems.cobalt, 20, Items.copper, 20, Items.tungsten, 20, Items.silicon, 30));
+                    requirements(Category.crafting, ItemStack.with(XItems.cobalt, 20, Items.copper, 20, XItems.chromium, 20, Items.silicon, 30));
                     liquidCapacity = 30.0F;
                     craftTime = 120F;
                     squareSprite = false;
@@ -1889,7 +1889,7 @@ public class XBlocks {
             };
             malachiteDissolver = new GenericCrafter("malachite-dissolver") {
                 {
-                    requirements(Category.crafting, ItemStack.with(XItems.cobalt, 20, Items.copper, 20, Items.tungsten, 20, Items.silicon, 30));
+                    requirements(Category.crafting, ItemStack.with(XItems.cobalt, 20, Items.copper, 20, XItems.chromium, 20, Items.silicon, 30));
                     liquidCapacity = 30.0F;
                     craftTime = 60F;
                     squareSprite = false;
@@ -1913,7 +1913,7 @@ public class XBlocks {
                 }
             };
             compactElectrolyzer = new GenericCrafter("compact-electrolyzer") {{
-                requirements(Category.crafting, with(Items.silicon, 30, XItems.germanium, 60, Items.tungsten, 30));
+                requirements(Category.crafting, with(Items.silicon, 30, XItems.germanium, 60, XItems.chromium, 30));
                 size = 2;
 
                 researchCostMultiplier = 2f;
@@ -1955,7 +1955,7 @@ public class XBlocks {
                 liquidOutputDirections = new int[]{1, 3};
             }};
             biogasSynthesizer = new GenericCrafter("biogas-synthesizer") {{
-                requirements(Category.crafting, with(Items.tungsten, 100, Items.silicon, 80, XItems.germanium, 120));
+                requirements(Category.crafting, with(XItems.chromium, 100, Items.silicon, 80, XItems.germanium, 120));
 
                 drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(XItems.methane) {{
                     padding = 3f;
@@ -2016,7 +2016,7 @@ public class XBlocks {
                 consumePower(4f);
             }};
             surgeOven = new GenericCrafter("surge-oven") {{
-                requirements(Category.crafting, with(Items.silicon, 100, XItems.germanium, 200, Items.tungsten, 80));
+                requirements(Category.crafting, with(Items.silicon, 100, XItems.germanium, 200, XItems.chromium, 80));
 
                 size = 3;
                 itemCapacity = 20;
@@ -2038,11 +2038,11 @@ public class XBlocks {
                             color = Color.valueOf("ff6060ff");
                         }});
 
-                consumeItems(ItemStack.with(Items.silicon, 3, Items.tungsten, 4, XItems.erythrite, 4));
+                consumeItems(ItemStack.with(Items.silicon, 3, XItems.chromium, 4, XItems.erythrite, 4));
                 consumePower(8f);
             }};
             phosphateDebonder = new GenericCrafter("phosphate-debonder") {{
-                requirements(Category.crafting, with(Items.silicon, 70, XItems.cobalt, 50, XItems.germanium, 140, Items.tungsten, 80));
+                requirements(Category.crafting, with(Items.silicon, 70, XItems.cobalt, 50, XItems.germanium, 140, XItems.chromium, 80));
                 size = 3;
 
                 researchCostMultiplier = 1.2f;
@@ -2076,7 +2076,7 @@ public class XBlocks {
                 squareSprite = false;
             }};
             methaneHeater = new HeatProducer("methane-heater") {{
-                requirements(Category.crafting, with(Items.oxide, 30, Items.tungsten, 30, XItems.germanium, 30));
+                requirements(Category.crafting, with(Items.oxide, 30, XItems.chromium, 30, XItems.germanium, 30));
 
                 drawer = new DrawMulti(new DrawDefault(), new DrawHeatOutput());
                 size = 2;
@@ -2124,7 +2124,7 @@ public class XBlocks {
                 requirements(Category.production, with(XItems.germanium, 50));
                 consumePower(30 / 60f);
                 researchCost = with(XItems.germanium, 50);
-                drillTime = 120f;
+                drillTime = 100f;
                 tier = 3;
                 size = 2;
                 range = 4;
@@ -2191,7 +2191,7 @@ public class XBlocks {
                 consumePower(90f / 60f);
             }};
             superOreDrill = new XBurstDrill("super-ore-drill") {{
-                requirements(Category.production, with(Items.tungsten, 40, Items.silicon, 40, Items.surgeAlloy, 30));
+                requirements(Category.production, with(XItems.chromium, 40, Items.silicon, 40, Items.surgeAlloy, 30));
                 drillTime = 60f * 6f;
                 squareSprite = false;
                 size = 2;
@@ -2205,7 +2205,7 @@ public class XBlocks {
 
                 researchCostMultiplier = 2f;
 
-                drillMultipliers.put(Items.tungsten, 2f);
+                drillMultipliers.put(XItems.chromium, 2f);
                 fogRadius = 4;
 
                 consumePower(90f / 60f);
@@ -2213,7 +2213,7 @@ public class XBlocks {
             }};
 
             waterExtractionBore = new GenericCrafter("water-extraction-bore") {{
-                requirements(Category.production, with(Items.carbide, 15, Items.silicon, 80, Items.tungsten, 110));
+                requirements(Category.production, with(Items.carbide, 15, Items.silicon, 80, XItems.chromium, 110));
                 fillsTile = false;
                 liquidCapacity = 60f;
                 craftTime = 300f;
@@ -2269,7 +2269,7 @@ public class XBlocks {
             coreVanguard = new CoreBlock("core-vanguard") {
                 {
 
-                    this.requirements(Category.effect, ItemStack.with(XItems.germanium, 5000, Items.silicon, 4000, XItems.cobalt, 5000, Items.tungsten, 2000));
+                    this.requirements(Category.effect, ItemStack.with(XItems.germanium, 5000, Items.silicon, 4000, XItems.cobalt, 5000, XItems.chromium, 2000));
                     this.isFirstTier = false;
                     this.squareSprite = false;
                     this.unitType = XUnitTypes.explorer;
@@ -2286,7 +2286,7 @@ public class XBlocks {
             coreOverseer = new CoreBlock("core-overseer") {
                 {
 
-                    this.requirements(Category.effect, ItemStack.with(XItems.germanium, 8000, Items.silicon, 6000, XItems.cobalt, 8000, Items.tungsten, 3000, XItems.boronCarbide, 1500));
+                    this.requirements(Category.effect, ItemStack.with(XItems.germanium, 8000, Items.silicon, 6000, XItems.cobalt, 8000, XItems.chromium, 3000, XItems.boronCarbide, 1500));
                     this.isFirstTier = false;
                     this.squareSprite = false;
                     this.unitType = XUnitTypes.explorer;
