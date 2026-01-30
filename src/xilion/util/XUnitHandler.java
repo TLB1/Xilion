@@ -44,6 +44,7 @@ public class XUnitHandler {
         unitMap.put(XUnitTypes.ember, 2);
         unitMap.put(XUnitTypes.blastbeetle, 2);
         unitMap.put(XUnitTypes.dash, 2);
+        unitMap.put(XUnitTypes.sanamite, 2);
     }
 
     private static void initBlockMap() {
