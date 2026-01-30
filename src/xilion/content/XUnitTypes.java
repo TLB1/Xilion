@@ -27,6 +27,7 @@ import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
 import mindustry.type.*;
+import mindustry.type.weapons.BuildWeapon;
 import mindustry.type.weapons.RepairBeamWeapon;
 import xilion.XilionJavaMod;
 import xilion.activeAbilities.TurboAA;
@@ -57,7 +58,7 @@ public class XUnitTypes {
     explorer,
     //Quick class units:
     quick, dash, leap, sonic, leaptest,
-    acari, blastbeetle, sanatick,
+    acari, blastbeetle, sanatick, sanamite,
 
            blaze, ember, hellhound, cerberus,aura,spectra, refract, irradiate,
                    ship, bug;
@@ -878,6 +879,9 @@ public class XUnitTypes {
         dash = new XilionUnitType("dash"){{
             constructor = (Prov<Unit>) UnitEntity::create;
             aiController = FlyingAI::new;
+            defaultCommand = UnitCommand.rebuildCommand;
+            commands =  Seq.with(UnitCommand.moveCommand, UnitCommand.rebuildCommand);
+
             health = 600;
             armor =0;
             speed = 4f;
@@ -1112,11 +1116,8 @@ public class XUnitTypes {
         sanatick = new XilionUnitType("sanatick"){
             {
                 constructor = (Prov<Unit>) LegsUnit::create;
-                //defaultCommand = UnitCommand.rebuildCommand;
                 defaultCommand = UnitCommand.repairCommand;
                 commands =  Seq.with(UnitCommand.moveCommand, UnitCommand.repairCommand);
-                //commands = new UnitCommand[]{UnitCommand.moveCommand, UnitCommand.rebuildCommand, UnitCommand.assistCommand};
-                //aiController =  LegUnitFaceBuildingAI::new;
                 buildSpeed = 0.3f;
                 rotateToBuilding = true;
                 rotateMoveFirst = true;
@@ -1184,6 +1185,50 @@ public class XUnitTypes {
                     bullet = new BulletType(){{
                         maxRange =48f;
                     }};
+                }});
+            }};
+        sanamite = new XilionUnitType("sanamite"){
+            {
+                constructor = (Prov<Unit>) LegsUnit::create;
+                defaultCommand = UnitCommand.rebuildCommand;
+                commands =  Seq.with(UnitCommand.moveCommand, UnitCommand.rebuildCommand);
+                buildSpeed = 0.8f;
+                rotateToBuilding = true;
+                rotateMoveFirst = true;
+                buildRange = 50f;
+                faceTarget = true;
+                speed = 0.8f;
+                drag = 0.1f;
+                hitSize = 18f;
+                rotateSpeed = 3f;
+                health = 1500;
+                armor = 2f;
+                legStraightness = 0.4f;
+                stepShake = 0f;
+                legCount = 6;
+                legLength = 16f;
+                lockLegBase = false;
+                legContinuousMove = true;
+                legExtension = -1f;
+                legBaseOffset = 3f;
+                legMaxLength = 1.1f;
+                legMinLength = 0.2f;
+                legLengthScl = 0.96f;
+                legForwardScl = 1.1f;
+                legGroupSize = 3;
+                rippleScale = 0.2f;
+
+                legMoveSpace = 1f;
+                allowLegStep = true;
+                hovering = true;
+                legPhysicsLayer = false;
+
+                shadowElevation = 0.1f;
+                groundLayer = Layer.legUnit - 1f;
+                targetAir = false;
+                researchCostMultiplier = 0f;
+                weapons.add(new BuildWeapon(){{
+                    buildBeamOffset = 8f;
                 }});
             }};
 

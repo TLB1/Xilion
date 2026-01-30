@@ -95,7 +95,8 @@ public class XUnitFactories {
                     new UnitType[]{XUnitTypes.acari, XUnitTypes.blastbeetle},
                     new UnitType[]{XUnitTypes.aura, XUnitTypes.spectra},
                     new UnitType[]{XUnitTypes.strike, XUnitTypes.assault},
-                    new UnitType[]{XUnitTypes.quick, XUnitTypes.dash}
+                    new UnitType[]{XUnitTypes.quick, XUnitTypes.dash},
+                    new UnitType[]{XUnitTypes.sanatick, XUnitTypes.sanamite}
             );
         }};
     }
