@@ -2306,8 +2306,8 @@ public class XBlocks {
                 }
             };
 
-            networkForceField = new XNetworkForceFieldBlock("network-force-field"){{
-                requirements(Category.defense,
+            networkForceField = new XNetworkForceFieldBlock("force-field-node"){{
+                requirements(Category.effect,
                         with(
                                 XItems.germanium, 120,
                                 Items.silicon, 80,
@@ -2316,10 +2316,12 @@ public class XBlocks {
                 );
 
                 size = 2;
-                health = 420;
+                health = 800;
 
-                baseShieldHealth = 600;
-                regen = 1.5f;
+                baseShieldHealth = 450;
+                regen = 1f;
+                consumesPower = true;
+                consumePower(2f);
 
                 fieldColor = Color.valueOf("6ef2ff");
 

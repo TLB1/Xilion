@@ -10,6 +10,8 @@ import arc.math.Mathf;
 import arc.struct.FloatSeq;
 import arc.struct.Seq;
 import arc.util.Time;
+import arc.util.io.Reads;
+import arc.util.io.Writes;
 import mindustry.content.Fx;
 import mindustry.gen.Bullet;
 import mindustry.gen.Groups;
@@ -32,11 +34,12 @@ public class XNetworkForceFieldBlock extends Block {
 
     public float linkRange = 180f;           // search radius for other nodes
     public float padding = 24f;              // how far outside nodes the net should go
-    public float baseShieldHealth = 350f;    // baseline multiplier for shield HP
-    public float regen = 2.5f;               // shield regen per second
+    public float baseShieldHealth = 350f;
+    public float regen = 2.5f;
+    public float timeDisabledAfterDestroyed = 120f;
     public Color fieldColor = Color.cyan.cpy();
 
-    // --- static consumer state (ForceProjector pattern) ---
+    // --- static consumer state  ---
     protected static XNetworkForceFieldBlock paramBlock;
     protected static XNetworkForceFieldBuild paramEntity;
     protected static final Cons<Bullet> shieldConsumer = bullet -> {
@@ -67,7 +70,7 @@ public class XNetworkForceFieldBlock extends Block {
         update = true;
         solid = true;
         group = BlockGroup.projectors;
-        hasPower = false; // enable if you want power consumption
+        hasPower = true;
     }
 
     // Shared network container
@@ -78,6 +81,7 @@ public class XNetworkForceFieldBlock extends Block {
         float[] polyVerts = new float[0];
         float polyArea = 0f;
         float hit = 0f; // transient indicator for UI blink
+        float broken =  0f; // Countdown from when it broke
     }
 
     @Override
@@ -109,15 +113,21 @@ public class XNetworkForceFieldBlock extends Block {
 
         @Override
         public void updateTile(){
+
+            if( efficiency == 0) return;
+            // shared regen
+            if(network != null){
+                if(network.broken > 0){
+                    network.broken -= (efficiency * Time.delta / network.members.size);
+                    return;
+                }
+                network.shieldHealth = Mathf.approach(network.shieldHealth, network.maxShieldHealth, regen * Time.delta * efficiency);
+                network.hit = Mathf.approach(network.hit, 0f, Time.delta * 3f);
+            }
+
             // rebuild network sometimes (every 30 ticks)
             if(timer.get(0, 30)){
                 rebuildNetwork();
-            }
-
-            // shared regen
-            if(network != null){
-                network.shieldHealth = Mathf.approach(network.shieldHealth, network.maxShieldHealth, regen * Time.delta);
-                network.hit = Mathf.approach(network.hit, 0f, Time.delta * 3f);
             }
 
             // intercept bullets every tick while shield active
@@ -168,11 +178,14 @@ public class XNetworkForceFieldBlock extends Block {
 
         @Override
         public void damage(float amount){
-            if(network != null && network.shieldHealth > 0f){
+            if(network != null && network.shieldHealth > 0f && network.broken <= 0){
                 network.shieldHealth -= amount;
                 network.hit = 1f;
                 Fx.shieldApply.at(x, y, fieldColor);
-                if(network.shieldHealth <= 0f) Fx.shieldBreak.at(x, y, fieldColor);
+                if(network.shieldHealth <= 0f){
+                    Fx.shieldBreak.at(x, y, fieldColor);
+                    network.broken = timeDisabledAfterDestroyed;
+                }
                 return;
             }
             super.damage(amount);
@@ -180,14 +193,17 @@ public class XNetworkForceFieldBlock extends Block {
 
         @Override
         public boolean collision(Bullet bullet){
-            if(network == null || network.shieldHealth <= 0f || network.polyVerts.length < 6) return false;
+            if(network == null || network.shieldHealth <= 0f && network.broken > 0 || network.polyVerts.length < 6) return false;
 
             if(pointInPolygon(bullet.x, bullet.y, network.polyVerts)){
                 network.shieldHealth -= bullet.damage;
                 bullet.absorb();
                 network.hit = 1f;
                 Fx.shieldApply.at(bullet.x, bullet.y, fieldColor);
-                if(network.shieldHealth <= 0f) Fx.shieldBreak.at(bullet.x, bullet.y, fieldColor);
+                if(network.shieldHealth <= 0f){
+                    Fx.shieldBreak.at(bullet.x, bullet.y, fieldColor);
+                    network.broken = timeDisabledAfterDestroyed;
+                }
                 return true;
             }
             return false;
