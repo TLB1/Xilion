@@ -191,30 +191,35 @@ public class XBlocks {
             }};
             greenBubbleStoneWall = new XStaticWall("green-bubble-stone-wall") {{
                 greenBubbleStone.asFloor().wall = this;
+                greenBubbleStoneDark.asFloor().wall = this;
                 variants = 4;
                 largeVariants = 2;
                 attributes.set(Attribute.sand, 1.2f);
             }};
             blueBubbleStoneWall = new XStaticWall("blue-bubble-stone-wall") {{
                 greenBubbleStone.asFloor().wall = this;
+                greenBubbleStoneDark.asFloor().wall = this;
                 variants = 4;
                 largeVariants = 2;
                 attributes.set(Attribute.sand, 1.2f);
             }};
             purpurRockWall = new XStaticWall("purpur-rock-wall") {{
                 purpurRock.asFloor().wall = this;
+                purpurRockDark.asFloor().wall = this;
                 variants = 4;
                 largeVariants = 2;
                 attributes.set(Attribute.sand, 0.8f);
             }};
             slateBlueStoneWall = new XStaticWall("slate-blue-stone-wall") {{
                 slateBlueStone.asFloor().wall = this;
+                slateBlueStoneDark.asFloor().wall = this;
                 variants = 4;
                 largeVariants = 2;
                 attributes.set(Attribute.sand, 0.6f);
             }};
             slateKhakiStoneWall = new XStaticWall("slate-khaki-stone-wall") {{
                 slateKhakiStone.asFloor().wall = this;
+                slateKhakiStoneDark.asFloor().wall = this;
                 variants = 4;
                 largeVariants = 2;
                 attributes.set(Attribute.sand, 0.6f);
@@ -628,7 +633,7 @@ public class XBlocks {
                 requirements(Category.turret, with(Items.silicon, 60, XItems.germanium, 100, XItems.cobalt, 60));
                 buildCostMultiplier = 0.5f;
                 shootType = new LightningBulletType() {{
-                    damage = 20f;
+                    damage = 18f;
                     lightningLength = 25;
                     collidesAir = true;
                     ammoMultiplier = 1f;
@@ -655,7 +660,7 @@ public class XBlocks {
                 shootCone = 10f;
                 rotateSpeed = 8f;
                 targetAir = true;
-                range = 144f;
+                range = 128f;
                 shootEffect = Fx.lightningShoot;
                 heatColor = Color.red;
                 recoil = 1f;
@@ -2230,7 +2235,7 @@ public class XBlocks {
         }
     }
     public static class Base {
-        public static Block coreExplorer, corePathfinder, coreVanguard, coreOverseer;
+        public static Block coreExplorer, corePathfinder, coreVanguard, coreOverseer, networkForceField;
         public static void load() {
             coreExplorer = new CoreBlock("core-explorer") {
                 {
@@ -2300,6 +2305,29 @@ public class XBlocks {
                     this.unitCapModifier = 1000;
                 }
             };
+
+            networkForceField = new XNetworkForceFieldBlock("network-force-field"){{
+                requirements(Category.defense,
+                        with(
+                                XItems.germanium, 120,
+                                Items.silicon, 80,
+                                XItems.chromium, 30
+                        )
+                );
+
+                size = 2;
+                health = 420;
+
+                baseShieldHealth = 600;
+                regen = 1.5f;
+
+                fieldColor = Color.valueOf("6ef2ff");
+
+                // optional polish
+                ambientSound = Sounds.shieldWave;
+                ambientSoundVolume = 0.08f;
+            }};
+
         }
     }
     public static void load(){
