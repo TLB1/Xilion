@@ -48,8 +48,12 @@ public class XilionJavaMod extends Mod{
 
     @Override
     public void init(){
-        Items.copper.uiIcon = Items.copper.fullIcon;
-        unitUI.build(ui.hudGroup);
+        Events.on(ClientLoadEvent.class, event -> {
+            XilionUpdater.checkUpdates();
+
+            Items.copper.uiIcon = Items.copper.fullIcon;
+            unitUI.build(ui.hudGroup);
+        });
     }
 
     @Override
