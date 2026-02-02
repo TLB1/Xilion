@@ -1,7 +1,7 @@
 package xilion.util;
 
 import arc.Core;
-import arc.files.Fi;
+import arc.graphics.Pixmap;
 import arc.graphics.Texture;
 import arc.graphics.g2d.TextureRegion;
 import arc.scene.style.TextureRegionDrawable;
@@ -11,7 +11,6 @@ import arc.scene.ui.layout.Table;
 import arc.util.Http;
 import arc.util.Log;
 import arc.util.Scaling;
-import mindustry.Vars;
 import mindustry.gen.Tex;
 import mindustry.graphics.Pal;
 import mindustry.ui.Styles;
@@ -79,27 +78,29 @@ public class ChangelogConverter {
         Http.get(url)
                 .error(err -> Log.err("Failed to load image: @", err))
                 .submit(response -> {
-                    try {
-                        byte[] bytes = response.getResult();
+                    byte[] bytes = response.getResult();
 
-                        // Write image bytes cross‑platform
-                        String fileName = "changelog_image_" + (imgCounter++) + ".png";
-                        Fi tmp = Vars.tmpDirectory.child(fileName);
-                        tmp.writeBytes(bytes, false); // Arc supported write method
-                        Core.assets.load(tmp.name(), Texture.class).loaded = (texture) -> {
-                                image.setDrawable(new TextureRegionDrawable(new TextureRegion(texture)));
-                                image.visible = true;
-                                image.invalidateHierarchy();
-                            };
+                    Core.app.post(() -> {
+                        try {
+                            Pixmap pixmap = new Pixmap(bytes, 0, bytes.length);
+                            Texture texture = new Texture(pixmap);
+                            pixmap.dispose();
 
-                    } catch (Throwable t) {
-                        Log.err("Error loading remote image: @", t);
-                    }
+                            image.setDrawable(
+                                    new TextureRegionDrawable(new TextureRegion(texture))
+                            );
+                            image.visible = true;
+                            image.invalidateHierarchy();
+
+                        } catch (Throwable t) {
+                            Log.err("Error loading remote image: @", t);
+                        }
+                    });
                 });
     }
 
 
-    private static String extractImageSrc(String imgTag) {
+        private static String extractImageSrc(String imgTag) {
         int i = imgTag.indexOf("src=\"");
         if (i == -1) return null;
 
