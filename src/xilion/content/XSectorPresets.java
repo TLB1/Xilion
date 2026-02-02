@@ -21,6 +21,7 @@ public class XSectorPresets {
         }};
         inferno = new SectorPreset("inferno", XPlanets.xilion, 38){{
             difficulty = 3;
+            attackAfterWaves = true;
         }};
         ashes = new SectorPreset("ashes", XPlanets.xilion, 43){{
             difficulty = 5;
