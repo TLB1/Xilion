@@ -22,7 +22,9 @@ public class XTechTree {
             node(pipe, () -> {
                 node(basicConduit, () -> {
                     node(basicLiquidRouter, () -> {
+                        node(compactElectrolyzer, Seq.with(new Objectives.OnSector(XSectorPresets.ashes)), () -> {
 
+                        });
                     });
                 });
 
@@ -66,7 +68,11 @@ public class XTechTree {
             node(shock, () -> {
                 node(heavy, () -> {
                     node(regularity, () -> {
+                        node(charred, Seq.with(new Objectives.OnSector(XSectorPresets.cinderpath)), () -> {
+                            node(prevent, Seq.with(new Objectives.OnSector(XSectorPresets.ashes)), () -> {
 
+                            });
+                        });
                     });
                 });
             });
@@ -92,28 +98,39 @@ public class XTechTree {
             node(ventTurbine, () -> {
                 node(wireNode, () -> {
                     node(beamWireNode, () -> {
-                        node(batteryCell, Seq.with(new Objectives.OnSector(XSectorPresets.inferno)), ()->{
+                        node(batteryCell, Seq.with(new Objectives.OnSector(XSectorPresets.inferno)), () -> {
+
+                        });
+                        node(solarCell, Seq.with(new Objectives.OnSector(XSectorPresets.helios)), () -> {
 
                         });
                     });
                 });
             });
             //Units
-            node(XUnitFactories.prototypeFabricator, Seq.with(new Objectives.OnSector(XSectorPresets.inferno)), ()->{
-                node(XUnitFactories.attackTransformer, ()->{
+            node(XUnitFactories.prototypeFabricator, Seq.with(new Objectives.OnSector(XSectorPresets.inferno)), () -> {
+                node(XUnitFactories.attackTransformer, () -> {
 
                 });
-                node(XUnitFactories.supportTransformer, ()->{
+                node(XUnitFactories.supportTransformer, () -> {
 
                 });
-                node(XUnitFactories.tankTransformer, ()->{
+                node(XUnitFactories.tankTransformer, () -> {
+
+                });
+                node(XUnitFactories.advancedRefabricator, Seq.with(new Objectives.OnSector(XSectorPresets.ashes)), () -> {
 
                 });
             });
             //Sectors
             node(XSectorPresets.horizon, () -> {
-                node(XSectorPresets.inferno, ()->{
-                    node(XSectorPresets.ashes, () ->{
+                node(XSectorPresets.cinderpath, () -> {
+                    node(XSectorPresets.inferno, () -> {
+                        node(XSectorPresets.ashes, () -> {
+
+                        });
+                    });
+                    node(XSectorPresets.helios, () -> {
 
                     });
                 });
