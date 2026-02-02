@@ -55,9 +55,9 @@ public class XTechTree {
 
                     });
                 });
-                node(cobaltWall, () -> {
+                node(cobaltWall, Seq.with(new Objectives.OnSector(XSectorPresets.cinderpath)), () -> {
                     node(cobaltWallLarge, () -> {
-                        node(cobaltWallHuge, Seq.with(new Objectives.OnSector(XSectorPresets.inferno)), () -> {
+                        node(cobaltWallHuge, Seq.with(new Objectives.OnSector(XSectorPresets.helios)), () -> {
 
                         });
                     });
