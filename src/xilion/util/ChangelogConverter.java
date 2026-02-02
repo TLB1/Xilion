@@ -11,7 +11,6 @@ import arc.scene.ui.layout.Table;
 import arc.util.Http;
 import arc.util.Log;
 import arc.util.Scaling;
-import arc.util.Timer;
 import mindustry.Vars;
 import mindustry.gen.Tex;
 import mindustry.graphics.Pal;
@@ -87,17 +86,11 @@ public class ChangelogConverter {
                         String fileName = "changelog_image_" + (imgCounter++) + ".png";
                         Fi tmp = Vars.tmpDirectory.child(fileName);
                         tmp.writeBytes(bytes, false); // Arc supported write method
-                        Timer.schedule(()-> {
-                            Log.info("Begin loading changelog image to " + tmp);
-                            Core.assets.load(tmp.absolutePath(), Texture.class).loaded = (texture) -> {
+                        Core.assets.load(tmp.name(), Texture.class).loaded = (texture) -> {
                                 image.setDrawable(new TextureRegionDrawable(new TextureRegion(texture)));
                                 image.visible = true;
                                 image.invalidateHierarchy();
-                                Log.info("Loaded changelog image");
                             };
-                        }, 0.5f);
-
-
 
                     } catch (Throwable t) {
                         Log.err("Error loading remote image: @", t);
