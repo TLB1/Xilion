@@ -3,9 +3,11 @@ package xilion.content;
 import arc.Core;
 import arc.graphics.Blending;
 import arc.graphics.Color;
+import arc.graphics.g2d.Fill;
 import arc.math.Interp;
 import arc.math.Mathf;
 import mindustry.content.*;
+import mindustry.entities.Effect;
 import mindustry.entities.UnitSorts;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.*;
@@ -42,6 +44,8 @@ import xilion.entities.XMirrorShootAlternate;
 
 import java.util.function.Supplier;
 
+import static arc.graphics.g2d.Draw.color;
+import static arc.math.Angles.randLenVectors;
 import static mindustry.type.ItemStack.with;
 
 public class XBlocks {
@@ -599,7 +603,7 @@ public class XBlocks {
         }
     }
     public static class Turrets {
-        public static Block giantBomb, tarMine, shock, heavy, regularity, prevent, discharge, isolate, divide, focus, aquila;
+        public static Block giantBomb, tarMine, shock, heavy, charred, regularity, prevent, discharge, isolate, divide, focus, aquila;
         private static void load() {
             giantBomb = new XBomb("giant-bomb") {{
                 explosionRadius = 5 * 8f;
@@ -764,6 +768,48 @@ public class XBlocks {
                     outlineColor = XColors.outline;
                 }
             };
+            charred = new ItemTurret("charred"){{
+                researchCost = with(Items.silicon, 500, XItems.germanium, 800, XItems.cobalt, 800);
+                requirements(Category.turret, with(Items.silicon, 50, XItems.germanium, 80, XItems.cobalt, 80));
+                buildCostMultiplier = 0.5f;
+                health = 800;
+                size = 2;
+                squareSprite = false;
+                drawer = new DrawTurret(XilionJavaMod.TURRET_BASE) {{
+
+                }};
+                ammo(
+                        XItems.carbon, new BulletType(4f, 30f){{
+                            ammoMultiplier = 4f;
+                            hitSize = 9f;
+                            lifetime = 25f;
+                            pierce = true;
+                            pierceDamageFactor = 0.6f;
+                            collidesAir = false;
+                            statusDuration = 60f * 4;
+                            shootEffect = new Effect(32f, 80f, e -> {
+                                color(Pal.lightFlame, Pal.darkFlame, Color.gray, e.fin());
+
+                                randLenVectors(e.id, 12, e.finpow() * 100f, e.rotation, 10f, (x, y) -> {
+                                    Fill.circle(e.x + x, e.y + y, 1f + e.fout() * 1.5f);
+                                });
+                            });
+                            hitEffect = Fx.hitFlameSmall;
+                            despawnEffect = Fx.none;
+                            status = StatusEffects.burning;
+                            keepVelocity = false;
+                            hittable = false;
+                        }}
+                );
+                //recoil = 2f;
+                reload = 5f;
+                range = 100f;
+                shootY = 5;
+                shootCone = 50f;
+                targetAir = false;
+                ammoUseEffect = Fx.none;
+                shootSound = Sounds.shootFlame;
+            }};
             regularity = new ItemTurret("regularity") {{
                 researchCost = with(XItems.germanium, 250, XItems.cobalt, 200, Items.silicon, 180);
                 requirements(Category.turret, with(XItems.germanium, 250, XItems.cobalt, 200, Items.silicon, 180));
