@@ -18,7 +18,7 @@ public class XUnitFactories {
 
     public void load(){
         prototypeFabricator = new XUnitFactory("prototype-fabricator"){{
-            researchCost = with(XItems.germanium, 120, XItems.cobalt, 80, Items.silicon, 250);
+            researchCost = with(XItems.germanium, 1200, XItems.cobalt, 800, Items.silicon, 2500);
             requirements(Category.units, with(XItems.germanium, 60, XItems.cobalt, 40, Items.silicon, 120));
             regionSuffix = "-xilion";
             size = 3;
@@ -28,7 +28,7 @@ public class XUnitFactories {
             researchCostMultiplier = 0.75f;
         }};
         attackTransformer = new XReconstructor("attack-transformer"){{
-            researchCost = with(XItems.germanium, 250, XItems.cobalt, 150, Items.silicon, 150);
+            researchCost = with(XItems.germanium, 2500, XItems.cobalt, 1500, Items.silicon, 1500);
             requirements(Category.units, with(XItems.germanium, 120, XItems.cobalt, 80, Items.silicon, 80));
             regionSuffix = "-xilion";
 
@@ -45,7 +45,7 @@ public class XUnitFactories {
             );
         }};
         supportTransformer = new XReconstructor("support-transformer"){{
-            researchCost = with(XItems.germanium, 250, XItems.cobalt, 150, Items.silicon, 150);
+            researchCost = with(XItems.germanium, 2500, XItems.cobalt, 1500, Items.silicon, 1500);
             requirements(Category.units, with(XItems.germanium, 120, XItems.cobalt, 80, Items.silicon, 80));
             regionSuffix = "-xilion";
 
@@ -62,7 +62,7 @@ public class XUnitFactories {
             );
         }};
         tankTransformer = new XReconstructor("tank-transformer"){{
-            researchCost = with(XItems.germanium, 250, XItems.cobalt, 150, Items.silicon, 150);
+            researchCost = with(XItems.germanium, 2500, XItems.cobalt, 1500, Items.silicon, 1500);
             requirements(Category.units, with(XItems.germanium, 120, XItems.cobalt, 80, Items.silicon, 80));
             regionSuffix = "-xilion";
 
