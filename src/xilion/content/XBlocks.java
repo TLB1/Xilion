@@ -834,6 +834,7 @@ public class XBlocks {
                         }}
                 );
 
+                squareSprite = false;
                 drawer = new DrawTurret(XilionJavaMod.TURRET_BASE) {{
                 }};
 
