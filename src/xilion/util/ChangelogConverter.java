@@ -87,12 +87,10 @@ public class ChangelogConverter {
                         String fileName = "changelog_image_" + (imgCounter++) + ".png";
                         Fi tmp = Vars.tmpDirectory.child(fileName);
                         tmp.writeBytes(bytes, false); // Arc supported write method
-                        Core.assets.load(tmp.path(), Texture.class).loaded = (texture) -> {
-                            Timer.schedule(()->{
-                                image.setDrawable(new TextureRegionDrawable(new TextureRegion(texture)));
-                                image.visible = true;
-                                image.invalidateHierarchy();
-                            }, 0.3f);
+                        Core.assets.load(tmp.absolutePath(), Texture.class).loaded = (texture) -> {
+                            image.setDrawable(new TextureRegionDrawable(new TextureRegion(texture)));
+                            image.visible = true;
+                            image.invalidateHierarchy();
                         };
 
 
@@ -101,7 +99,6 @@ public class ChangelogConverter {
                     }
                 });
     }
-
 
 
     private static String extractImageSrc(String imgTag) {
