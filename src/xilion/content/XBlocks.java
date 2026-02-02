@@ -2305,7 +2305,7 @@ public class XBlocks {
             };
             corePathfinder = new CoreBlock("core-pathfinder") {
                 {
-
+                    researchCostMultiplier = 3f;
                     this.requirements(Category.effect, ItemStack.with(XItems.germanium, 3000, Items.silicon, 2000, XItems.cobalt, 3000));
                     this.isFirstTier = false;
                     this.squareSprite = false;

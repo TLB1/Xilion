@@ -13,11 +13,14 @@ import static xilion.content.XBlocks.Turrets.*;
 import static xilion.content.XBlocks.Production.*;
 import static xilion.content.XBlocks.Walls.*;
 import static xilion.content.XBlocks.Power.*;
+import static xilion.content.XBlocks.Base.*;
 import static xilion.content.XItems.*;
 
 public class XTechTree {
     public static void load() {
         XPlanets.xilion.techTree = nodeRoot("xilion", XBlocks.Base.coreExplorer, () -> {
+            node(corePathfinder, Seq.with(new Objectives.OnSector(XSectorPresets.helios)), () -> {
+            });
             //Pipes
             node(pipe, () -> {
                 node(basicConduit, () -> {
