@@ -11,6 +11,7 @@ import arc.scene.ui.layout.Table;
 import arc.util.Http;
 import arc.util.Log;
 import arc.util.Scaling;
+import arc.util.Timer;
 import mindustry.Vars;
 import mindustry.gen.Tex;
 import mindustry.graphics.Pal;
@@ -86,24 +87,13 @@ public class ChangelogConverter {
                         String fileName = "changelog_image_" + (imgCounter++) + ".png";
                         Fi tmp = Vars.tmpDirectory.child(fileName);
                         tmp.writeBytes(bytes, false); // Arc supported write method
-                        String path = tmp.path();
-
-                        Core.assets.load(path, Texture.class);
-                        Core.assets.finishLoadingAsset(path);
-
-                        Texture tex = Core.assets.get(path, Texture.class);
-                        TextureRegion region = new TextureRegion(tex);
-
-                        Core.app.post(() -> {
-                            image.setDrawable(new TextureRegionDrawable(region));
-
-                            float width = 480f;
-                            float height = width * (region.height / (float) region.width);
-                            image.setSize(width, height);
-
-                            image.visible = true;
-                            image.invalidateHierarchy();
-                        });
+                        Core.assets.load(tmp.path(), Texture.class).loaded = (texture) -> {
+                            Timer.schedule(()->{
+                                image.setDrawable(new TextureRegionDrawable(new TextureRegion(texture)));
+                                image.visible = true;
+                                image.invalidateHierarchy();
+                            }, 0.3f);
+                        };
 
 
                     } catch (Throwable t) {
