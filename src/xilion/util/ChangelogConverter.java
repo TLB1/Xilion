@@ -15,7 +15,7 @@ import mindustry.gen.Tex;
 import mindustry.graphics.Pal;
 import mindustry.ui.Styles;
 
-import java.io.FileOutputStream;
+import java.io.OutputStream;
 
 public class ChangelogConverter {
 
@@ -83,13 +83,13 @@ public class ChangelogConverter {
                     try {
                         byte[] bytes = response.getResult();
 
-                        Fi tmp = Core.files.local("changelog_image_"+ (imgCounter++) + ".png");
-                        try (FileOutputStream out = new FileOutputStream(tmp.file())) {
+                        Fi tmp = Core.files.local("changelog_image_" + (imgCounter++) + ".png");
+
+                        try (OutputStream out = tmp.write(false)) {
                             out.write(bytes);
                         }
 
-                        // Use Runnable for loaded callback
-                        Core.assets.load(tmp.absolutePath(), Texture.class).loaded = (texture) -> {
+                        Core.assets.load(tmp.path(), Texture.class).loaded = (texture) -> {
                             image.setDrawable(new TextureRegionDrawable(new TextureRegion(texture)));
                             image.visible = true;
                             image.invalidateHierarchy();
