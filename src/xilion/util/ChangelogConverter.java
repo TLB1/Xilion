@@ -11,11 +11,10 @@ import arc.scene.ui.layout.Table;
 import arc.util.Http;
 import arc.util.Log;
 import arc.util.Scaling;
+import mindustry.Vars;
 import mindustry.gen.Tex;
 import mindustry.graphics.Pal;
 import mindustry.ui.Styles;
-
-import java.io.OutputStream;
 
 public class ChangelogConverter {
 
@@ -85,7 +84,7 @@ public class ChangelogConverter {
 
                         // Write image bytes cross‑platform
                         String fileName = "changelog_image_" + (imgCounter++) + ".png";
-                        Fi tmp = Core.files.local(fileName);
+                        Fi tmp = Vars.tmpDirectory.child(fileName);
                         tmp.writeBytes(bytes, false); // Arc supported write method
                         image.visible = true;
                         Core.assets.load(tmp.path(), Texture.class).loaded = (texture) -> {
