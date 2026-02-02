@@ -433,6 +433,7 @@ public class XBlocks {
                 size = 2;
             }};
             germaniumWallHuge = new Wall("germanium-wall-huge") {{
+                researchCostMultiplier = 100;
                 requirements(Category.defense, with(XItems.germanium, 36));
                 health = 110 * 4 * 9;
                 armor = 2f;
@@ -454,6 +455,7 @@ public class XBlocks {
                 size = 2;
             }};
             cobaltWallHuge = new Wall("cobalt-wall-huge") {{
+                researchCostMultiplier = 100;
                 requirements(Category.defense, with(XItems.cobalt, 36));
                 health = 150 * 4 * 9;
                 armor = 3f;
