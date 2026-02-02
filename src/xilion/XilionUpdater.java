@@ -56,7 +56,7 @@ public class XilionUpdater {
         Table table = new Table();
         table.defaults().left();
         table.add("Xilion Update Available!").width(460).row();
-        table.add(String.format("Release %s", releaseName), Pal.accent).padBottom(32).row();
+        table.add(String.format("Release %s", releaseName), Pal.accent).padBottom(16).row();
         Log.info(releaseDescription);
         table.add(ChangelogConverter.fromMarkdown(releaseDescription)).pad(10f).grow();
         dialog.cont.add(table);
