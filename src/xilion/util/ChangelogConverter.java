@@ -83,12 +83,11 @@ public class ChangelogConverter {
                     try {
                         byte[] bytes = response.getResult();
 
-                        Fi tmp = Core.files.local("changelog_image_" + (imgCounter++) + ".png");
-
-                        try (OutputStream out = tmp.write(false)) {
-                            out.write(bytes);
-                        }
-
+                        // Write image bytes cross‑platform
+                        String fileName = "changelog_image_" + (imgCounter++) + ".png";
+                        Fi tmp = Core.files.local(fileName);
+                        tmp.writeBytes(bytes, false); // Arc supported write method
+                        image.visible = true;
                         Core.assets.load(tmp.path(), Texture.class).loaded = (texture) -> {
                             image.setDrawable(new TextureRegionDrawable(new TextureRegion(texture)));
                             image.visible = true;
