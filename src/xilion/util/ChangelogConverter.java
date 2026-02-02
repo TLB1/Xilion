@@ -71,7 +71,6 @@ public class ChangelogConverter {
         Image image = new Image();
         image.setScaling(Scaling.fit);
         image.setFillParent(false);
-        image.setSize(480, 220);
         image.visible = false;
         table.add(image).width(480).height(240).row();
 
