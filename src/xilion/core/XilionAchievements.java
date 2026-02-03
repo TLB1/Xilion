@@ -10,6 +10,7 @@ import mindustry.game.EventType;
 import mindustry.gen.Icon;
 import mindustry.world.blocks.defense.turrets.Turret;
 import xilion.XilionJavaMod;
+import xilion.content.XBlocks;
 import xilion.content.XPlanets;
 import xilion.ui.AchievementDialog;
 
@@ -25,6 +26,14 @@ public class XilionAchievements {
                         if (isNotXilion() || !event.unit.getPlayer().equals(Vars.player)) return;
                         a.progress(Mathf.pow(event.tile.build.block.size, 2));
                     })
+                ),
+                new Achievement("routers-placed", Seq.with(500, 1_000, 2_500, 5_000, 10_000),
+                        (a) ->
+                                Events.on(EventType.BlockBuildEndEvent.class, event -> {
+                                    if (isNotXilion() || !event.unit.getPlayer().equals(Vars.player)) return;
+                                    if(event.tile.build.block != XBlocks.Distribution.pipeRouter) return;
+                                    a.progress(1);
+                                })
                 ),
                 new Achievement("units-made", Seq.with(100, 200, 500, 1_000, 2_000),
                         (a) ->
