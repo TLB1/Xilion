@@ -16,7 +16,7 @@ public class XilionUpdater {
     public static final String GET_LATEST_RELEASE_DETAILS = "https://raw.githubusercontent.com/TLB1/Xilion/%s/mod.hjson";
 
 
-        public static void checkUpdates() {
+    public static void checkUpdates() {
         Http.get(GET_LATEST_RELEASE).error(error -> {
             Log.err("Could not fetch latest release");
         }).submit(response -> {
@@ -25,7 +25,7 @@ public class XilionUpdater {
             String releaseTag = json.getString("tag_name");
             String releaseDescription = json.getString("body");
 
-            if(Objects.equals(Vars.mods.getMod(XilionJavaMod.class).meta.version.toLowerCase(), releaseName.toLowerCase())){
+            if (Objects.equals(Vars.mods.getMod(XilionJavaMod.class).meta.version.toLowerCase(), releaseName.toLowerCase())) {
                 Log.info("Xilion is up to date");
                 return;
             }
@@ -33,7 +33,7 @@ public class XilionUpdater {
                     (error) -> Log.err("Could not fetch latest release details for @: @", releaseTag, error),
                     (releaseVersion) -> {
                         if (Vars.minJavaModGameVersion == releaseVersion) {
-                           ChangelogDialog.show(releaseName, releaseTag, releaseDescription);
+                            ChangelogDialog.show(releaseName, releaseTag, releaseDescription);
                         } else Log.info("Latest mod version uses a different game version");
                     });
         });
