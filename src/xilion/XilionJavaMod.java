@@ -4,9 +4,11 @@ import arc.*;
 import arc.util.*;
 import mindustry.content.Items;
 import mindustry.game.EventType.*;
+import mindustry.gen.Icon;
 import mindustry.mod.*;
 
 import xilion.content.*;
+import xilion.core.XilionAchievements;
 import xilion.core.XilionUpdater;
 import xilion.util.UnitUIFragment;
 import xilion.util.XPacketHelper;
@@ -48,6 +50,7 @@ public class XilionJavaMod extends Mod{
     public void init(){
         Events.on(ClientLoadEvent.class, event -> {
             XilionUpdater.checkUpdates();
+            XilionAchievements.init();
 
             Items.copper.uiIcon = Items.copper.fullIcon;
             unitUI.build(ui.hudGroup);
