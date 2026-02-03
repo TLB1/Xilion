@@ -2,6 +2,8 @@ package xilion.core;
 
 import arc.func.Cons;
 import arc.func.Intc;
+import arc.scene.ui.layout.Table;
+import arc.struct.Seq;
 import arc.util.Http;
 import arc.util.Log;
 import arc.util.serialization.Jval;
@@ -14,7 +16,7 @@ import java.util.Objects;
 public class XilionUpdater {
     public static final String GET_LATEST_RELEASE = "https://api.github.com/repos/TLB1/Xilion/releases/latest";
     public static final String GET_LATEST_RELEASE_DETAILS = "https://raw.githubusercontent.com/TLB1/Xilion/%s/mod.hjson";
-
+    public static final String GET_RELEASES = "https://api.github.com/repos/TLB1/Xilion/releases";
 
     public static void checkUpdates() {
         Http.get(GET_LATEST_RELEASE).error(error -> {
@@ -33,10 +35,27 @@ public class XilionUpdater {
                     (error) -> Log.err("Could not fetch latest release details for @: @", releaseTag, error),
                     (releaseVersion) -> {
                         if (Vars.minJavaModGameVersion == releaseVersion) {
-                            ChangelogDialog.show(releaseName, releaseTag, releaseDescription);
+                            ChangelogDialog.showUpdate(releaseName, releaseDescription);
                         } else Log.info("Latest mod version uses a different game version");
                     });
         });
+    }
+
+    public static void getChangelog() {
+        Http.get(GET_RELEASES).error(error -> {
+            Log.err("Could not fetch latest releases");
+        }).submit(response -> {
+                    Jval json = Jval.read(response.getResultAsString());
+                    Seq<Table> changelogs = new Seq<>(5);
+                    for (Jval version : json.asArray()) {
+                        if (changelogs.size == 5) break;
+                        String releaseName = version.getString("name");
+                        String releaseDescription = version.getString("body");
+                        changelogs.add(ChangelogDialog.createChangeLogTable(releaseName, releaseDescription));
+                    }
+                    ChangelogDialog.showChangelog(changelogs);
+                }
+        );
     }
 
     private static void getMinGameVersion(String releaseTag, Cons<Throwable> error, Intc callback) {

@@ -4,11 +4,11 @@ import arc.Core;
 import arc.graphics.Pixmap;
 import arc.graphics.Texture;
 import arc.graphics.g2d.TextureRegion;
-import arc.scene.style.TextureRegionDrawable;
 import arc.scene.ui.Image;
 import arc.scene.ui.ScrollPane;
 import arc.scene.ui.layout.Scl;
 import arc.scene.ui.layout.Table;
+import arc.struct.Seq;
 import arc.util.Http;
 import arc.util.Log;
 import arc.util.Scaling;
@@ -20,17 +20,41 @@ import mindustry.ui.Styles;
 import mindustry.ui.dialogs.BaseDialog;
 
 public class ChangelogDialog {
-    public  static void show(String releaseName, String releaseTag, String releaseDescription){
+    public static void showChangelog(Seq<Table> changelogs){
+        BaseDialog dialog = new BaseDialog("Xilion Changelog");
+        dialog.addCloseButton();
+
+        Table content = new Table();
+        content.center();
+        ScrollPane pane = new ScrollPane(content);
+        changelogs.forEach(table -> content.add(table).row());
+        dialog.cont.add(pane).row();
+        dialog.pack();
+        dialog.center();
+        Core.app.post(dialog::show);
+    }
+    public static Table createChangeLogTable(String releaseName, String releaseDescription){
+        Table table = new Table();
+        table.defaults().left();
+        table.add(String.format("Release %s", releaseName), Pal.accent).padTop(32).padBottom(16).row();
+        table.add(ChangelogDialog.fromMarkdown(releaseDescription));
+        table.add().pad(10f).grow();
+        return table;
+    }
+
+    public  static void showUpdate(String releaseName, String releaseDescription){
         BaseDialog dialog = new BaseDialog("New Update Available");
         Table table = new Table();
         table.defaults().left();
         table.add("Xilion Update Available!").width(getOptimalDisplayWidth()).row();
         table.add(String.format("Release %s", releaseName), Pal.accent).padBottom(16).row();
-        Log.info(releaseDescription);
-        table.add(ChangelogDialog.fromMarkdown(releaseDescription)).pad(10f).grow();
+        Table changes = ChangelogDialog.fromMarkdown(releaseDescription);
+        ScrollPane pane = new ScrollPane(changes, Styles.smallPane);
+        pane.setFadeScrollBars(true);
+        table.add().pad(10f).grow();
         dialog.cont.add(table);
 
-        dialog.buttons.button("Disregard", dialog::remove).size(150f, 50f);
+        dialog.buttons.button("Disregard", dialog::remove);
         dialog.buttons.button("Update now", () -> {
             try {
                 dialog.remove();
@@ -41,7 +65,7 @@ public class ChangelogDialog {
             } catch (Throwable e) {
                 Log.err(e);
             }
-        }).size(150f, 50f);
+        });
 
         dialog.pack();
         dialog.center();
@@ -53,7 +77,7 @@ public class ChangelogDialog {
         return Math.max(480, Core.graphics.getWidth() / Scl.scl(480) * 480 * 0.4f);
     }
 
-    public static ScrollPane fromMarkdown(String markdown) {
+    public static Table fromMarkdown(String markdown) {
         Table content = new Table();
         content.left();
         content.defaults().left().padBottom(4);
@@ -95,13 +119,8 @@ public class ChangelogDialog {
             }
         }
 
-        ScrollPane pane = new ScrollPane(content, Styles.smallPane);
-        pane.setFadeScrollBars(true);
-        return pane;
+        return content;
     }
-
-
-    private static int imgCounter = 0;
 
     private static void addRemoteImage(Table table, String url) {
         Image image = new Image();

@@ -3,6 +3,7 @@ package xilion;
 import arc.*;
 import arc.files.Fi;
 import arc.util.*;
+import mindustry.Vars;
 import mindustry.content.Items;
 import mindustry.game.EventType.*;
 import mindustry.mod.*;
@@ -18,7 +19,8 @@ import static mindustry.Vars.*;
 
 
 public class XilionJavaMod extends Mod{
-    public static Fi achievementsFile = dataDirectory.child(name("achievements.json"));
+    public static Fi dataDirectory = Vars.dataDirectory.child("xilion");
+    public static Fi achievementsFile = dataDirectory.child("achievements.json");
     public UnitUIFragment unitUI = new UnitUIFragment();
     public static final String MOD_NAME = "xilion";
     public static final String TURRET_BASE = MOD_NAME + "-";

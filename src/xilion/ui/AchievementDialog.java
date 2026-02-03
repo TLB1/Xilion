@@ -10,18 +10,19 @@ import mindustry.ui.BorderImage;
 import mindustry.ui.Styles;
 import mindustry.ui.dialogs.BaseDialog;
 import xilion.core.Achievement;
+import xilion.core.XilionUpdater;
 
-public class AchievementDialog extends BaseDialog
-{
+public class AchievementDialog extends BaseDialog {
     private final Seq<Achievement> achievements;
     private final Table achievementTable;
 
     public AchievementDialog(Seq<Achievement> achievements) {
-        super("Achievements");
+        super("Xilion Achievements");
         addCloseButton();
         this.achievements = achievements;
         achievementTable = new Table();
         cont.add(achievementTable);
+        buttons.button("View changelog", XilionUpdater::getChangelog);
     }
 
     @Override
@@ -30,17 +31,16 @@ public class AchievementDialog extends BaseDialog
         return super.show();
     }
 
-    public void rebuildAchievements(){
+    public void rebuildAchievements() {
         achievementTable.clear();
 
         int i = 0;
-        int cols = (int)Math.max(Core.graphics.getWidth() / Scl.scl(360), 1);
-
-        for(Achievement achievement : achievements){
-            achievementTable.button(button->{
+        int cols = (int) Math.max(Core.graphics.getWidth() / Scl.scl(360), 1);
+        for (Achievement achievement : achievements) {
+            achievementTable.button(button -> {
                 button.margin(0f);
                 button.left();
-                button.add(new BorderImage(){
+                button.add(new BorderImage() {
                     @Override
                     public void draw() {
                         super.draw();
@@ -61,11 +61,11 @@ public class AchievementDialog extends BaseDialog
                         achievement.getGoal()
                 );
                 button.add(infoText).width(280).wrap().grow().pad(4f, 2f, 4f, 6f).top().left().labelAlign(Align.topLeft);
-            }, Styles.flatBordert, ()->{
+            }, Styles.flatBordert, () -> {
 
             });
 
-            if(++i % cols == 0) achievementTable.row();
+            if (++i % cols == 0) achievementTable.row();
         }
     }
 }
