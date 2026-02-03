@@ -113,16 +113,15 @@ public class ChangelogDialog {
         Http.get(url)
                 .error(err -> Log.err("Failed to load image: @", err))
                 .submit(response -> {
-                    byte[] bytes = response.getResult();
-
+                    Pixmap pixmap = new Pixmap(response.getResult());
                     Core.app.post(() -> {
                         try {
-                            Pixmap pixmap = new Pixmap(bytes, 0, bytes.length);
                             Texture texture = new Texture(pixmap);
+                            texture.setFilter(Texture.TextureFilter.linear);
                             pixmap.dispose();
 
                             image.setDrawable(
-                                    new TextureRegionDrawable(new TextureRegion(texture))
+                                    new TextureRegion(texture)
                             );
                             image.visible = true;
                             image.invalidateHierarchy();
