@@ -35,6 +35,10 @@ public class Achievement {
         progress += amount;
     }
 
+    public void setProgress(int progress) {
+        this.progress = progress;
+    }
+
     public int getProgress() {
         return progress;
     }
@@ -60,6 +64,10 @@ public class Achievement {
 
     public String getDisplayName() {
         return displayName;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public String getDescription() {

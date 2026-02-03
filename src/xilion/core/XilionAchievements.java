@@ -4,9 +4,12 @@ import arc.Events;
 import arc.math.Mathf;
 import arc.struct.Seq;
 import arc.util.Log;
+import arc.util.serialization.Jval;
 import mindustry.Vars;
 import mindustry.game.EventType;
 import mindustry.gen.Icon;
+import mindustry.world.blocks.defense.turrets.Turret;
+import xilion.XilionJavaMod;
 import xilion.content.XPlanets;
 import xilion.ui.AchievementDialog;
 
@@ -29,6 +32,21 @@ public class XilionAchievements {
                                     if (isNotXilion() || !event.spawner.team.equals(Vars.player.team())) return;
                                     a.progress(1);
                                 })
+                ),
+                new Achievement("turrets-placed", Seq.with(50, 200, 500),
+                        (a) ->
+                                Events.on(EventType.BlockBuildEndEvent.class, event -> {
+                                    if (isNotXilion() || !event.unit.getPlayer().equals(Vars.player)) return;
+                                    if(!(event.tile.build.block instanceof Turret)) return;
+                                    a.progress(1);
+                                })
+                ),
+                new Achievement("sector-completed", Seq.with(3, 10, 20),
+                        (a) ->
+                                Events.on(EventType.SectorCaptureEvent.class, event -> {
+                                    if(!event.sector.planet.equals(XPlanets.xilion)) return;
+                                    a.progress(1);
+                                })
                 )
         );
 
@@ -39,6 +57,22 @@ public class XilionAchievements {
         } catch (Exception e) {
             Log.err(e);
         }
+        if(XilionJavaMod.achievementsFile.exists()){
+            Jval json = Jval.read(XilionJavaMod.achievementsFile.readString());
+            achievements.forEach(achievement -> {
+                int progress = 0;
+                try{
+                    progress = Integer.parseInt(json.getString(achievement.getName()));
+                }catch (Exception ignored){}
+                achievement.setProgress(progress);
+            });
+        }
+
+        Events.on(EventType.SaveWriteEvent.class, event -> {
+            Jval json = Jval.newObject();
+            achievements.forEach(achievement -> json.add(achievement.getName(), achievement.getProgress()+""));
+            XilionJavaMod.achievementsFile.writeString(json.toString(), false);
+        });
     }
 
     private static boolean isNotXilion() {
