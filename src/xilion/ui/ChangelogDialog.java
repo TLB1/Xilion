@@ -1,4 +1,4 @@
-package xilion.util;
+package xilion.ui;
 
 import arc.Core;
 import arc.graphics.Pixmap;
@@ -7,15 +7,51 @@ import arc.graphics.g2d.TextureRegion;
 import arc.scene.style.TextureRegionDrawable;
 import arc.scene.ui.Image;
 import arc.scene.ui.ScrollPane;
+import arc.scene.ui.layout.Scl;
 import arc.scene.ui.layout.Table;
 import arc.util.Http;
 import arc.util.Log;
 import arc.util.Scaling;
+import arc.util.Timer;
+import mindustry.Vars;
 import mindustry.gen.Tex;
 import mindustry.graphics.Pal;
 import mindustry.ui.Styles;
+import mindustry.ui.dialogs.BaseDialog;
 
-public class ChangelogConverter {
+public class ChangelogDialog {
+    public  static void show(String releaseName, String releaseTag, String releaseDescription){
+        BaseDialog dialog = new BaseDialog("New Update Available");
+        Table table = new Table();
+        table.defaults().left();
+        table.add("Xilion Update Available!").width(getOptimalDisplayWidth()).row();
+        table.add(String.format("Release %s", releaseName), Pal.accent).padBottom(16).row();
+        Log.info(releaseDescription);
+        table.add(ChangelogDialog.fromMarkdown(releaseDescription)).pad(10f).grow();
+        dialog.cont.add(table);
+
+        dialog.buttons.button("Disregard", dialog::remove).size(150f, 50f);
+        dialog.buttons.button("Update now", () -> {
+            try {
+                dialog.remove();
+                Vars.ui.mods.show();
+                Vars.ui.mods.githubImportMod("TLB1/Xilion", true);
+                Vars.ui.mods.toFront();
+                Timer.schedule(() -> Vars.ui.loadfrag.toFront(), 0.2f);
+            } catch (Throwable e) {
+                Log.err(e);
+            }
+        }).size(150f, 50f);
+
+        dialog.pack();
+        dialog.center();
+
+        Core.app.post(dialog::show);
+    }
+
+    public static float getOptimalDisplayWidth(){
+        return Math.max(480, Core.graphics.getWidth() / Scl.scl(480) * 480 * 0.4f);
+    }
 
     public static ScrollPane fromMarkdown(String markdown) {
         Table content = new Table();
@@ -43,7 +79,7 @@ public class ChangelogConverter {
             if (line.startsWith("- ")) {
                 content.add("• " + line.substring(2).trim())
                         .wrap()
-                        .width(460f)
+                        .width(getOptimalDisplayWidth() - 20)
                         .padLeft(10)
                         .row();
                 continue;
@@ -72,7 +108,7 @@ public class ChangelogConverter {
         image.setScaling(Scaling.fit);
         image.setFillParent(false);
         image.visible = false;
-        table.add(image).width(480).height(240).row();
+        table.add(image).width(getOptimalDisplayWidth()).height(getOptimalDisplayWidth()/2).row();
 
         Http.get(url)
                 .error(err -> Log.err("Failed to load image: @", err))

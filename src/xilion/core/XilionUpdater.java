@@ -1,17 +1,13 @@
-package xilion;
+package xilion.core;
 
-import arc.Core;
 import arc.func.Cons;
 import arc.func.Intc;
-import arc.scene.ui.layout.Table;
 import arc.util.Http;
 import arc.util.Log;
-import arc.util.Timer;
 import arc.util.serialization.Jval;
 import mindustry.Vars;
-import mindustry.graphics.Pal;
-import mindustry.ui.dialogs.BaseDialog;
-import xilion.util.ChangelogConverter;
+import xilion.XilionJavaMod;
+import xilion.ui.ChangelogDialog;
 
 import java.util.Objects;
 
@@ -37,7 +33,7 @@ public class XilionUpdater {
                     (error) -> Log.err("Could not fetch latest release details for @: @", releaseTag, error),
                     (releaseVersion) -> {
                         if (Vars.minJavaModGameVersion == releaseVersion) {
-                           show(releaseName, releaseTag, releaseDescription);
+                           ChangelogDialog.show(releaseName, releaseTag, releaseDescription);
                         } else Log.info("Latest mod version uses a different game version");
                     });
         });
@@ -50,33 +46,5 @@ public class XilionUpdater {
                     Jval json = Jval.read(response.getResultAsString());
                     callback.get(json.getInt("minGameVersion", -1));
                 });
-    }
-    private static void show(String releaseName, String releaseTag, String releaseDescription){
-        BaseDialog dialog = new BaseDialog("New Update Available");
-        Table table = new Table();
-        table.defaults().left();
-        table.add("Xilion Update Available!").width(460).row();
-        table.add(String.format("Release %s", releaseName), Pal.accent).padBottom(16).row();
-        Log.info(releaseDescription);
-        table.add(ChangelogConverter.fromMarkdown(releaseDescription)).pad(10f).grow();
-        dialog.cont.add(table);
-
-        dialog.buttons.button("Disregard", dialog::remove).size(150f, 50f);
-        dialog.buttons.button("Update now", () -> {
-            try {
-                dialog.remove();
-                Vars.ui.mods.show();
-                Vars.ui.mods.githubImportMod("TLB1/Xilion", true);
-                Vars.ui.mods.toFront();
-                Timer.schedule(() -> Vars.ui.loadfrag.toFront(), 0.2f);
-            } catch (Throwable e) {
-                Log.err(e);
-            }
-        }).size(150f, 50f);
-
-        dialog.pack();
-        dialog.center();
-
-        Core.app.post(dialog::show);
     }
 }

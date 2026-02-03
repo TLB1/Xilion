@@ -2,18 +2,16 @@ package xilion;
 
 import arc.*;
 import arc.util.*;
-import mindustry.content.Blocks;
 import mindustry.content.Items;
-import mindustry.content.UnitTypes;
 import mindustry.game.EventType.*;
 import mindustry.mod.*;
 
 import xilion.content.*;
+import xilion.core.XilionUpdater;
 import xilion.util.UnitUIFragment;
 import xilion.util.XPacketHelper;
 import xilion.util.XUnitHandler;
 
-import static arc.Core.*;
 import static mindustry.Vars.*;
 
 
