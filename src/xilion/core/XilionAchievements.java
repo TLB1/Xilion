@@ -19,21 +19,21 @@ public class XilionAchievements {
 
     public static void init() {
         achievements.addAll(
-                new Achievement("blocks-placed", Seq.with(5_000, 20_000, 50_000),
+                new Achievement("blocks-placed", Seq.with(5_000, 10_000, 25_000, 50_000, 100_000),
                 (a) ->
                     Events.on(EventType.BlockBuildEndEvent.class, event -> {
                         if (isNotXilion() || !event.unit.getPlayer().equals(Vars.player)) return;
                         a.progress(Mathf.pow(event.tile.build.block.size, 2));
                     })
                 ),
-                new Achievement("units-made", Seq.with(100, 400, 1_000),
+                new Achievement("units-made", Seq.with(100, 200, 500, 1_000, 2_000),
                         (a) ->
                                 Events.on(EventType.UnitCreateEvent.class, event -> {
                                     if (isNotXilion() || !event.spawner.team.equals(Vars.player.team())) return;
                                     a.progress(1);
                                 })
                 ),
-                new Achievement("turrets-placed", Seq.with(50, 200, 500),
+                new Achievement("turrets-placed", Seq.with(50, 100, 250, 500, 1000),
                         (a) ->
                                 Events.on(EventType.BlockBuildEndEvent.class, event -> {
                                     if (isNotXilion() || !event.unit.getPlayer().equals(Vars.player)) return;
@@ -41,7 +41,7 @@ public class XilionAchievements {
                                     a.progress(1);
                                 })
                 ),
-                new Achievement("sector-completed", Seq.with(3, 10, 20),
+                new Achievement("sector-completed", Seq.with(3, 5, 10, 15, 20),
                         (a) ->
                                 Events.on(EventType.SectorCaptureEvent.class, event -> {
                                     if(!event.sector.planet.equals(XPlanets.xilion)) return;
