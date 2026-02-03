@@ -4,13 +4,12 @@ import arc.*;
 import arc.util.*;
 import mindustry.content.Items;
 import mindustry.game.EventType.*;
-import mindustry.gen.Icon;
 import mindustry.mod.*;
 
 import xilion.content.*;
 import xilion.core.XilionAchievements;
 import xilion.core.XilionUpdater;
-import xilion.util.UnitUIFragment;
+import xilion.ui.UnitUIFragment;
 import xilion.util.XPacketHelper;
 import xilion.util.XUnitHandler;
 

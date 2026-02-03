@@ -1,7 +1,6 @@
 package xilion.ui;
 
 import arc.Core;
-import arc.scene.Element;
 import arc.scene.ui.Dialog;
 import arc.scene.ui.layout.Scl;
 import arc.scene.ui.layout.Table;
@@ -10,6 +9,7 @@ import arc.util.Align;
 import mindustry.ui.BorderImage;
 import mindustry.ui.Styles;
 import mindustry.ui.dialogs.BaseDialog;
+import xilion.core.Achievement;
 
 public class AchievementDialog extends BaseDialog
 {

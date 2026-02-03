@@ -1,4 +1,4 @@
-package xilion.util;
+package xilion.ui;
 
 import arc.Core;
 import arc.graphics.Color;
@@ -6,11 +6,9 @@ import arc.scene.Group;
 import arc.scene.event.Touchable;
 import arc.scene.ui.layout.Scl;
 import mindustry.Vars;
-import mindustry.ui.IntFormat;
-import mindustry.ui.Styles;
 import xilion.XilionJavaMod;
 import xilion.content.XPlanets;
-import xilion.content.XUnitTypes;
+import xilion.util.XUnitHandler;
 
 import static mindustry.Vars.*;
 

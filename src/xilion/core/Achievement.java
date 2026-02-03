@@ -1,4 +1,4 @@
-package xilion.ui;
+package xilion.core;
 
 import arc.Core;
 import arc.func.Cons;

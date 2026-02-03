@@ -8,7 +8,6 @@ import mindustry.Vars;
 import mindustry.game.EventType;
 import mindustry.gen.Icon;
 import xilion.content.XPlanets;
-import xilion.ui.Achievement;
 import xilion.ui.AchievementDialog;
 
 public class XilionAchievements {
