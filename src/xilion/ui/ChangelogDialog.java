@@ -51,10 +51,11 @@ public class ChangelogDialog {
         Table changes = ChangelogDialog.fromMarkdown(releaseDescription);
         ScrollPane pane = new ScrollPane(changes, Styles.smallPane);
         pane.setFadeScrollBars(true);
-        table.add().pad(10f).grow();
+        table.add(pane).pad(10f).grow();
         dialog.cont.add(table);
 
-        dialog.buttons.button("Disregard", dialog::remove);
+
+        dialog.buttons.button("Disregard", dialog::remove).width(getOptimalDisplayWidth()/2).height(50);
         dialog.buttons.button("Update now", () -> {
             try {
                 dialog.remove();
@@ -65,11 +66,10 @@ public class ChangelogDialog {
             } catch (Throwable e) {
                 Log.err(e);
             }
-        });
+        }).width(getOptimalDisplayWidth()/2).height(50);
 
         dialog.pack();
         dialog.center();
-
         Core.app.post(dialog::show);
     }
 
