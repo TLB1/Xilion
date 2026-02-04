@@ -4,6 +4,7 @@ import arc.Core;
 import arc.graphics.Blending;
 import arc.graphics.Color;
 import arc.graphics.g2d.Fill;
+import arc.graphics.g2d.Lines;
 import arc.math.Interp;
 import arc.math.Mathf;
 import mindustry.content.*;
@@ -12,9 +13,11 @@ import mindustry.entities.UnitSorts;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.*;
 import mindustry.entities.part.DrawPart;
+import mindustry.entities.part.FlarePart;
 import mindustry.entities.part.RegionPart;
 import mindustry.entities.pattern.ShootBarrel;
 import mindustry.gen.Sounds;
+import mindustry.graphics.Drawf;
 import mindustry.graphics.Pal;
 import mindustry.type.Category;
 import mindustry.type.ItemStack;
@@ -45,6 +48,7 @@ import xilion.entities.XMirrorShootAlternate;
 import java.util.function.Supplier;
 
 import static arc.graphics.g2d.Draw.color;
+import static arc.graphics.g2d.Lines.stroke;
 import static arc.math.Angles.randLenVectors;
 import static mindustry.type.ItemStack.with;
 
@@ -605,7 +609,7 @@ public class XBlocks {
         }
     }
     public static class Turrets {
-        public static Block giantBomb, tarMine, shock, heavy, charred, regularity, prevent, discharge, isolate, divide, focus, aquila;
+        public static Block giantBomb, tarMine, shock, heavy, charred, astra, regularity, prevent, discharge, isolate, divide, focus, aquila;
         private static void load() {
             giantBomb = new XBomb("giant-bomb") {{
                 explosionRadius = 5 * 8f;
@@ -811,6 +815,85 @@ public class XBlocks {
                 targetAir = false;
                 ammoUseEffect = Fx.none;
                 shootSound = Sounds.shootFlame;
+            }};
+            astra = new ItemTurret("astra"){{
+                researchCost = with(Items.silicon, 500, XItems.germanium, 800, XItems.cobalt, 800);
+                requirements(Category.turret, with(Items.silicon, 60, XItems.germanium, 80, XItems.cobalt, 80));
+                buildCostMultiplier = 0.5f;
+                health = 800;
+                size = 2;
+                squareSprite = false;
+                drawer = new DrawTurret(XilionJavaMod.TURRET_BASE) {{
+
+                }};
+                ammo(
+                        XItems.germanium, new BasicBulletType(3.8f, 90, "shell") {{
+                            //hitEffect = new MultiEffect(Fx.titanExplosion, Fx.titanSmoke);
+                            despawnEffect = hitEffect = new MultiEffect(Fx.massiveExplosion, new WrapEffect(Fx.dynamicSpikes, Color.white, 24f), new WaveEffect(){{
+                                colorFrom = colorTo = Color.white;
+                                sizeTo = 24f;
+                                lifetime = 12f;
+                                strokeFrom = 4f;
+                            }});
+                            shootEffect = new MultiEffect(Fx.shootBigColor, new Effect(9, e -> {
+                                color(Color.white);
+                                stroke(0.7f + e.fout());
+                                Lines.square(e.x, e.y, e.fin() * 5f, e.rotation + 45f);
+
+                                Drawf.light(e.x, e.y, 15f, e.color, e.fout() * 0.7f);
+                            }), new WaveEffect(){{
+                                colorFrom = colorTo = Color.white;
+                                sizeTo = 10f;
+                                lifetime = 12f;
+                                strokeFrom = 3f;
+                            }});
+                            parts.add(new FlarePart(){{
+                                progress = PartProgress.life.slope().curve(Interp.pow2In);
+                                color1 = color2 = Color.white;
+                                radius = 0f;
+                                radiusTo = 24f;
+                                stroke = 3f;
+                                rotation = 45f;
+                                y = -5f;
+                                followRotation = true;
+                            }});
+                            smokeEffect = Fx.shootBigSmoke2;
+                            lifetime = 40f;
+                            height = 6f;
+                            width = 6f;
+                            collidesAir = true;
+                            splashDamageRadius = 24f;
+                            splashDamage = 40f;
+                            scaledSplashDamage = true;
+                            backColor = hitColor = trailColor = Color.white;
+                            frontColor = Color.white;
+                            ammoMultiplier = 1f;
+                            hitSound = Sounds.explosionMissile;
+                            shootSound = Sounds.shootMissileLarge;
+
+                            trailLength = 16;
+                            trailWidth = 2.35f;
+                            trailSinScl = 2.5f;
+                            trailSinMag = 0.5f;
+                            trailEffect = Fx.none;
+                            despawnShake = 7f;
+
+                            trailInterp = v -> Math.max(Mathf.slope(v), 0.8f);
+                            shrinkX = 0.2f;
+                            shrinkY = 0.1f;
+                            buildingDamageMultiplier = 0.3f;
+                        }}
+                );
+                ammoPerShot = 1;
+                //recoil = 2f;
+                reload = 70f;
+                range = 160f;
+                shootY = 5;
+                shootCone = 3f;
+                targetAir = true;
+                ammoUseEffect = Fx.none;
+                shootSound = Sounds.shootFlame;
+                rotateSpeed = 3f;
             }};
             regularity = new ItemTurret("regularity") {{
                 researchCost = with(XItems.germanium, 250, XItems.cobalt, 200, Items.silicon, 180);
