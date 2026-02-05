@@ -815,6 +815,7 @@ public class XBlocks {
                 targetAir = false;
                 ammoUseEffect = Fx.none;
                 shootSound = Sounds.shootFlame;
+                outlineColor = XColors.outline;
             }};
             astra = new ItemTurret("astra"){{
                 researchCost = with(Items.silicon, 500, XItems.germanium, 800, XItems.cobalt, 800);
@@ -882,18 +883,79 @@ public class XBlocks {
                             shrinkX = 0.2f;
                             shrinkY = 0.1f;
                             buildingDamageMultiplier = 0.3f;
+                        }},
+                        XItems.chromium, new BasicBulletType(3.8f, 110, "shell") {{
+                            //hitEffect = new MultiEffect(Fx.titanExplosion, Fx.titanSmoke);
+                            reloadMultiplier = 1.25f;
+                            despawnEffect = hitEffect = new MultiEffect(Fx.massiveExplosion, new WrapEffect(Fx.dynamicSpikes, Color.white, 24f), new WaveEffect(){{
+                                colorFrom = Color.white;
+                                colorTo = XItems.chromium.color;
+                                sizeTo = 24f;
+                                lifetime = 12f;
+                                strokeFrom = 4f;
+                            }});
+                            shootEffect = new MultiEffect(Fx.shootBigColor, new Effect(9, e -> {
+                                color(Color.white, XItems.chromium.color, e.fin());
+                                stroke(0.7f + e.fout());
+                                Lines.square(e.x, e.y, e.fin() * 5f, e.rotation + 45f);
+
+                                Drawf.light(e.x, e.y, 15f, XItems.chromium.color, e.fout() * 0.7f);
+                            }), new WaveEffect(){{
+                                colorFrom = XItems.chromium.color;
+                                colorTo = XItems.chromium.color;
+                                sizeTo = 10f;
+                                lifetime = 12f;
+                                strokeFrom = 3f;
+                            }});
+                            parts.add(new FlarePart(){{
+                                progress = PartProgress.life.slope().curve(Interp.pow2In);
+                                color1 = XItems.chromium.color;
+                                color2 = Color.white;
+                                radius = 0f;
+                                radiusTo = 24f;
+                                stroke = 3f;
+                                rotation = 45f;
+                                y = -5f;
+                                followRotation = true;
+                            }});
+                            smokeEffect = Fx.shootBigSmoke2;
+                            lifetime = 40f;
+                            height = 6f;
+                            width = 6f;
+                            collidesAir = true;
+                            splashDamageRadius = 24f;
+                            splashDamage = 40f;
+                            scaledSplashDamage = true;
+                            backColor = hitColor = trailColor = XItems.chromium.color;
+                            frontColor = Color.white;
+                            ammoMultiplier = 1f;
+                            hitSound = Sounds.explosionMissile;
+                            shootSound = Sounds.shootMissileLarge;
+
+                            trailLength = 16;
+                            trailWidth = 2.35f;
+                            trailSinScl = 2.5f;
+                            trailSinMag = 0.5f;
+                            trailEffect = Fx.none;
+                            despawnShake = 7f;
+
+                            trailInterp = v -> Math.max(Mathf.slope(v), 0.8f);
+                            shrinkX = 0.2f;
+                            shrinkY = 0.1f;
+                            buildingDamageMultiplier = 0.3f;
                         }}
                 );
-                ammoPerShot = 1;
-                //recoil = 2f;
+                ammoPerShot = 2;
+                recoil = 4f;
                 reload = 70f;
                 range = 160f;
-                shootY = 5;
+                shootY = 3.5f;
                 shootCone = 3f;
                 targetAir = true;
                 ammoUseEffect = Fx.none;
                 shootSound = Sounds.shootFlame;
                 rotateSpeed = 3f;
+                outlineColor = XColors.outline;
             }};
             regularity = new ItemTurret("regularity") {{
                 researchCost = with(XItems.germanium, 250, XItems.cobalt, 200, Items.silicon, 180);
