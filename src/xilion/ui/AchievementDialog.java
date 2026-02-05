@@ -26,7 +26,7 @@ public class AchievementDialog extends BaseDialog {
         achievementTable = new Table();
         ScrollPane scrollPane = new ScrollPane(achievementTable);
         cont.add(scrollPane);
-        buttons.button("View changelog", XilionUpdater::getChangelog); //TODO: Fix for Android
+        buttons.button("View changelog", XilionUpdater::getChangelog);
     }
 
     @Override
