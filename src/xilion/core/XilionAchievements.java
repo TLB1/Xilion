@@ -89,7 +89,7 @@ public class XilionAchievements {
                                     a.progress(1);
                                 })
                 ),
-                new Achievement("power-blocks-placed", Seq.with(50, 150, 400, 800, 1_500),
+                new Achievement("power-blocks-placed", Seq.with(250, 500, 1250, 2500, 5_000),
                         (a) ->
                                 Events.on(EventType.BlockBuildEndEvent.class, event -> {
                                     if(Vars.state.rules.mode().equals(Gamemode.sandbox)) return;
