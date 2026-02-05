@@ -437,7 +437,7 @@ public class XBlocks {
                 size = 2;
             }};
             germaniumWallHuge = new Wall("germanium-wall-huge") {{
-                researchCostMultiplier = 100;
+                researchCostMultiplier = 10;
                 requirements(Category.defense, with(XItems.germanium, 36));
                 health = 110 * 4 * 9;
                 armor = 2f;
@@ -459,7 +459,7 @@ public class XBlocks {
                 size = 2;
             }};
             cobaltWallHuge = new Wall("cobalt-wall-huge") {{
-                researchCostMultiplier = 100;
+                researchCostMultiplier = 10;
                 requirements(Category.defense, with(XItems.cobalt, 36));
                 health = 150 * 4 * 9;
                 armor = 3f;
@@ -818,7 +818,7 @@ public class XBlocks {
                 outlineColor = XColors.outline;
             }};
             astra = new ItemTurret("astra"){{
-                researchCost = with(Items.silicon, 500, XItems.germanium, 800, XItems.cobalt, 800);
+                researchCost = with(Items.silicon, 1500, XItems.germanium, 2000, XItems.cobalt, 2000);
                 requirements(Category.turret, with(Items.silicon, 60, XItems.germanium, 80, XItems.cobalt, 80));
                 buildCostMultiplier = 0.5f;
                 health = 800;
@@ -956,6 +956,7 @@ public class XBlocks {
                 shootSound = Sounds.shootFlame;
                 rotateSpeed = 3f;
                 outlineColor = XColors.outline;
+                itemCapacity = 10;
             }};
             regularity = new ItemTurret("regularity") {{
                 researchCost = with(XItems.germanium, 250, XItems.cobalt, 200, Items.silicon, 180);

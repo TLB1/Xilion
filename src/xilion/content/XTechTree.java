@@ -70,12 +70,15 @@ public class XTechTree {
             //Turrets
             node(shock, () -> {
                 node(heavy, () -> {
-                    node(regularity, () -> {
-                        node(charred, Seq.with(new Objectives.OnSector(XSectorPresets.cinderpath)), () -> {
-                            node(prevent, Seq.with(new Objectives.OnSector(XSectorPresets.ashes)), () -> {
+                    node(charred, Seq.with(new Objectives.OnSector(XSectorPresets.cinderpath)), () -> {
+                        node(astra, Seq.with(new Objectives.OnSector(XSectorPresets.helios)), () -> {
 
-                            });
                         });
+                    });
+                });
+                node(regularity, () -> {
+                    node(prevent, Seq.with(new Objectives.OnSector(XSectorPresets.ashes)), () -> {
+
                     });
                 });
             });
