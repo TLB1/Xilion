@@ -15,7 +15,7 @@ public class XSectorPresets {
             difficulty = 3;
             captureWave = 16;
         }};
-        helios = new SectorPreset("helios", XPlanets.xilion, 44){{
+        helios = new SectorPreset("helios", XPlanets.xilion, 36){{
             difficulty = 3;
             captureWave = 18;
         }};

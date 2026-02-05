@@ -2451,7 +2451,7 @@ public class XBlocks {
             };
             corePathfinder = new CoreBlock("core-pathfinder") {
                 {
-                    researchCostMultiplier = 3f;
+                    researchCost = ItemStack.with(XItems.germanium, 15000, Items.silicon, 10000, XItems.cobalt, 15000);
                     this.requirements(Category.effect, ItemStack.with(XItems.germanium, 3000, Items.silicon, 2000, XItems.cobalt, 3000));
                     this.isFirstTier = false;
                     this.squareSprite = false;
@@ -2520,7 +2520,6 @@ public class XBlocks {
 
                 fieldColor = Color.valueOf("6ef2ff");
 
-                // optional polish
                 ambientSound = Sounds.shieldWave;
                 ambientSoundVolume = 0.08f;
             }};
@@ -2534,7 +2533,6 @@ public class XBlocks {
         Liquid.load();
         Walls.load();
         Turrets.load();
-        //BattleTurrets.load();
         Power.load();
         Production.load();
         Drills.load();
