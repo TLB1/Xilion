@@ -149,7 +149,9 @@ public class XilionAchievements {
 
         );
 
-        achievements.forEach(Achievement::init);
+        for (Achievement achievement : achievements) {
+            achievement.init();
+        }
 
         try {
             Vars.ui.menufrag.addButton("Achievements", Icon.star, achievementDialog::show);
@@ -158,18 +160,20 @@ public class XilionAchievements {
         }
         if(XilionJavaMod.achievementsFile.exists()){
             Jval json = Jval.read(XilionJavaMod.achievementsFile.readString());
-            achievements.forEach(achievement -> {
+            for (Achievement achievement : achievements) {
                 int progress = 0;
                 try{
                     progress = Integer.parseInt(json.getString(achievement.getName()));
                 }catch (Exception ignored){}
                 achievement.setProgress(progress);
-            });
+            }
         }
 
         Events.on(EventType.SaveWriteEvent.class, event -> {
             Jval json = Jval.newObject();
-            achievements.forEach(achievement -> json.add(achievement.getName(), achievement.getProgress()+""));
+            for (Achievement achievement : achievements) {
+                json.add(achievement.getName(), achievement.getProgress()+"");
+            }
             XilionJavaMod.achievementsFile.writeString(json.toString(), false);
         });
     }
