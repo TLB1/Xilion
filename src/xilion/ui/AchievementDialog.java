@@ -2,6 +2,7 @@ package xilion.ui;
 
 import arc.Core;
 import arc.scene.ui.Dialog;
+import arc.scene.ui.ScrollPane;
 import arc.scene.ui.layout.Scl;
 import arc.scene.ui.layout.Table;
 import arc.struct.Seq;
@@ -12,6 +13,8 @@ import mindustry.ui.dialogs.BaseDialog;
 import xilion.core.Achievement;
 import xilion.core.XilionUpdater;
 
+import java.awt.*;
+
 public class AchievementDialog extends BaseDialog {
     private final Seq<Achievement> achievements;
     private final Table achievementTable;
@@ -21,8 +24,9 @@ public class AchievementDialog extends BaseDialog {
         addCloseButton();
         this.achievements = achievements;
         achievementTable = new Table();
-        cont.add(achievementTable);
-        buttons.button("View changelog", XilionUpdater::getChangelog);
+        ScrollPane scrollPane = new ScrollPane(achievementTable);
+        cont.add(scrollPane);
+        buttons.button("View changelog", XilionUpdater::getChangelog); //TODO: Fix for Android
     }
 
     @Override
@@ -31,6 +35,7 @@ public class AchievementDialog extends BaseDialog {
         return super.show();
     }
 
+    // TODO: Make sure stuff doesn't get double highlighted on some Android versions
     public void rebuildAchievements() {
         achievementTable.clear();
 
