@@ -27,7 +27,9 @@ public class ChangelogDialog {
         Table content = new Table();
         content.center();
         ScrollPane pane = new ScrollPane(content);
-        changelogs.forEach(table -> content.add(table).row());
+        for(Table table : changelogs){
+            content.add(table).row();
+        }
         dialog.cont.add(pane).row();
         dialog.pack();
         dialog.center();
