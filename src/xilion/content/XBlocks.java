@@ -814,7 +814,7 @@ public class XBlocks {
                 shootCone = 50f;
                 targetAir = false;
                 ammoUseEffect = Fx.none;
-                shootSound = Sounds.shootFlame;
+                shootSound = XSounds.shootBigFlame;
                 outlineColor = XColors.outline;
             }};
             astra = new ItemTurret("astra"){{
@@ -829,7 +829,6 @@ public class XBlocks {
                 }};
                 ammo(
                         XItems.germanium, new BasicBulletType(3.8f, 90, "shell") {{
-                            //hitEffect = new MultiEffect(Fx.titanExplosion, Fx.titanSmoke);
                             despawnEffect = hitEffect = new MultiEffect(Fx.massiveExplosion, new WrapEffect(Fx.dynamicSpikes, Color.white, 24f), new WaveEffect(){{
                                 colorFrom = colorTo = Color.white;
                                 sizeTo = 24f;
@@ -885,7 +884,6 @@ public class XBlocks {
                             buildingDamageMultiplier = 0.3f;
                         }},
                         XItems.chromium, new BasicBulletType(3.8f, 110, "shell") {{
-                            //hitEffect = new MultiEffect(Fx.titanExplosion, Fx.titanSmoke);
                             reloadMultiplier = 1.25f;
                             despawnEffect = hitEffect = new MultiEffect(Fx.massiveExplosion, new WrapEffect(Fx.dynamicSpikes, Color.white, 24f), new WaveEffect(){{
                                 colorFrom = Color.white;
@@ -929,8 +927,8 @@ public class XBlocks {
                             backColor = hitColor = trailColor = XItems.chromium.color;
                             frontColor = Color.white;
                             ammoMultiplier = 1f;
-                            hitSound = Sounds.explosionMissile;
-                            shootSound = Sounds.shootMissileLarge;
+                            hitSound = XSounds.explosionMissileLight;
+                            shootSound = XSounds.shootMissileLight;
 
                             trailLength = 16;
                             trailWidth = 2.35f;
@@ -1434,7 +1432,7 @@ public class XBlocks {
                 heatColor = Color.red;
                 recoil = 1f;
                 health = 800;
-                shootSound = Sounds.shootArc;
+                shootSound = XSounds.shootShock;
                 //consumePower(4f);
                 //coolant = consumeCoolant(0.1f);
                 outlineColor = XColors.outline;
