@@ -42,6 +42,7 @@ public class XilionAchievements {
                                     if(Vars.state.rules.mode().equals(Gamemode.sandbox)) return;
                                     if(Vars.state.rules.mode().equals(Gamemode.editor)) return;
                                     if (isNotXilion() || !event.unit.getPlayer().equals(Vars.player)) return;
+                                    if(event.tile.build == null) return;
                                     if(event.tile.build.block != XBlocks.Distribution.pipeRouter) return;
                                     a.progress(1);
                                 })
@@ -61,6 +62,7 @@ public class XilionAchievements {
                                     if(Vars.state.rules.mode().equals(Gamemode.sandbox)) return;
                                     if(Vars.state.rules.mode().equals(Gamemode.editor)) return;
                                     if (isNotXilion() || !event.unit.getPlayer().equals(Vars.player)) return;
+                                    if(event.tile.build == null) return;
                                     if(!(event.tile.build.block instanceof Turret)) return;
                                     a.progress(1);
                                 })
@@ -71,6 +73,7 @@ public class XilionAchievements {
                                     if(Vars.state.rules.mode().equals(Gamemode.sandbox)) return;
                                     if(Vars.state.rules.mode().equals(Gamemode.editor)) return;
                                     if (isNotXilion() || !event.unit.getPlayer().equals(Vars.player)) return;
+                                    if(event.tile.build == null) return;
                                     if(!(event.tile.build.block.equals(XBlocks.Power.ventTurbine))) return;
                                     a.progress(1);
                                 })
@@ -95,6 +98,7 @@ public class XilionAchievements {
                                     if(Vars.state.rules.mode().equals(Gamemode.sandbox)) return;
                                     if(Vars.state.rules.mode().equals(Gamemode.editor)) return;
                                     if (isNotXilion() || !event.unit.getPlayer().equals(Vars.player)) return;
+                                    if(event.tile.build == null) return;
                                     if (!(event.tile.build.block instanceof PowerBlock)) return;
                                     a.progress(1);
                                 })
@@ -106,6 +110,7 @@ public class XilionAchievements {
                                     if(Vars.state.rules.mode().equals(Gamemode.sandbox)) return;
                                     if(Vars.state.rules.mode().equals(Gamemode.editor)) return;
                                     if (isNotXilion() || !event.unit.getPlayer().equals(Vars.player)) return;
+                                    if(event.tile.build == null) return;
                                     if (!(event.tile.build.block instanceof BeamDrill)
                                             && !(event.tile.build.block instanceof XWallCrafter)
                                             && !(event.tile.build.block instanceof Drill)) return;
@@ -119,6 +124,7 @@ public class XilionAchievements {
                                     if(Vars.state.rules.mode().equals(Gamemode.sandbox)) return;
                                     if(Vars.state.rules.mode().equals(Gamemode.editor)) return;
                                     if (isNotXilion() || !event.unit.getPlayer().equals(Vars.player)) return;
+                                    if(event.tile.build == null) return;
                                     if (!(event.tile.build.block.equals(XBlocks.Distribution.pipe))
                                             && !(event.tile.build.block.equals(XBlocks.Distribution.pipeBridge))
                                             && !(event.tile.build.block.equals(XBlocks.Distribution.pipeRouter))) return;
@@ -132,6 +138,7 @@ public class XilionAchievements {
                                     if(Vars.state.rules.mode().equals(Gamemode.sandbox)) return;
                                     if(Vars.state.rules.mode().equals(Gamemode.editor)) return;
                                     if (isNotXilion() || !event.unit.getPlayer().equals(Vars.player)) return;
+                                    if(event.tile.build == null) return;
                                     if (!(event.tile.build.block instanceof GenericCrafter)) return;
                                     a.progress(1);
                                 })
