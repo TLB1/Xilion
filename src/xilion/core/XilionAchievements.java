@@ -33,6 +33,7 @@ public class XilionAchievements {
                         if(Vars.state.rules.mode().equals(Gamemode.sandbox)) return;
                         if(Vars.state.rules.mode().equals(Gamemode.editor)) return;
                         if (isNotXilion() || !event.unit.getPlayer().equals(Vars.player)) return;
+                        if(event.tile.build == null) return;
                         a.progress(Mathf.pow(event.tile.build.block.size, 2));
                     })
                 ),
