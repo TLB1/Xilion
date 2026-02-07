@@ -14,7 +14,7 @@ main: "xilion.XilionJavaMod"
 description: "A Java Mindustry mod that adds a new campaign on the planet Xilion. Currently still in pre-alpha"
 
 #the mod version
-version: pre-alpha build 31
+version: pre-alpha build 31 hotfix
 
 #the minimum game build required to run this mod
 minGameVersion: 154
