@@ -1067,7 +1067,7 @@ public class XUnitTypes {
                 drag = 0.11f;
                 hitSize = 16f;
                 rotateSpeed = 3f;
-                health = 2250;
+                health = 2200;
                 armor = 12f;
                 legStraightness = 0.3f;
                 stepShake = 0f;
